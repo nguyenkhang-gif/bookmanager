@@ -7,20 +7,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.DataAccess
 {
-    public class Repository<T> : IRepository<T> where T: class, new()
-    {   
+    public class Repository<T> : IRepository<T> where T : class, new()
+    {
         //inject 
         private readonly BookDbContext dbcontext;
-        
+
 
         // public IRepository<T> bookRepository {get; set;}
-        public Repository(BookDbContext dbcontext){
-            this.dbcontext=dbcontext;
+        public Repository(BookDbContext dbcontext)
+        {
+            this.dbcontext = dbcontext;
             // bookRepository = new Repository<T>(dbcontext);
         }
 
-        public async Task<IEnumerable<T>> GetAsync(){
+        public async Task<IEnumerable<T>> GetAsync()
+        {
             return await dbcontext.Set<T>().ToListAsync();
+        }
+        public async Task<T> getSingleAsync(object id)
+        {
+            return await dbcontext.Set<T>().FindAsync(id);
+        }
+
+        //insert lag đó thêm T nó bát return val :
+
+        public async Task InsertAsync(T temp)
+        {
+            await dbcontext.Set<T>().AddAsync(temp);
         }
     }
 }

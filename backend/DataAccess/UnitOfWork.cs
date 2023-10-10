@@ -16,7 +16,21 @@ namespace backend.DataAccess
             bookCards = new Repository<BookCard>(ctx);
         }     
 
-        
+         public Task BeginTransactionAsync(){
+            return ctx.Database.BeginTransactionAsync();
+        }
+
+        public Task CommitAsync(){
+            return ctx.Database.CommitTransactionAsync();
+        }
+
+        public Task RollbackAsync(){
+            return ctx.Database.RollbackTransactionAsync();
+        }
+
+        public Task<int> SaveChangesAsync(){
+            return ctx.SaveChangesAsync();
+        }
            
     }
 }

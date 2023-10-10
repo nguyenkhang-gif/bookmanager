@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DbContext,BookDbContext>(option=>{
+builder.Services.AddDbContext<DbContext, BookDbContext>(option =>
+{
     option.UseSqlServer("Data Source=DESKTOP-NQ9064U\\SQLEXPRESS;Initial Catalog=bookDB;Trusted_Connection=Yes;TrustServerCertificate=True;");
 });
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
