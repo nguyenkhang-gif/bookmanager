@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "E:\\apps\\công nghệ web\\final project\\backend\\backend.csproj": {}
+    "/Users/nguyenkhang/Desktop/apps/web project/final-project/web final/backend/backend.csproj": {}
   },
   "projects": {
-    "E:\\apps\\công nghệ web\\final project\\backend\\backend.csproj": {
+    "/Users/nguyenkhang/Desktop/apps/web project/final-project/web final/backend/backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\apps\\công nghệ web\\final project\\backend\\backend.csproj",
+        "projectUniqueName": "/Users/nguyenkhang/Desktop/apps/web project/final-project/web final/backend/backend.csproj",
         "projectName": "backend",
-        "projectPath": "E:\\apps\\công nghệ web\\final project\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "E:\\apps\\công nghệ web\\final project\\backend\\obj\\",
+        "projectPath": "/Users/nguyenkhang/Desktop/apps/web project/final-project/web final/backend/backend.csproj",
+        "packagesPath": "/Users/nguyenkhang/.nuget/packages/",
+        "outputPath": "/Users/nguyenkhang/Desktop/apps/web project/final-project/web final/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/nguyenkhang/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,23 +44,23 @@
             },
             "Microsoft.EntityFrameWorkCore": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.12, )"
             },
             "Microsoft.EntityFrameWorkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.12, )"
             },
             "Microsoft.EntityFrameWorkCore.SqlServer": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.12, )"
             },
             "Microsoft.EntityFrameWorkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.12, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -88,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.402/RuntimeIdentifierGraph.json"
         }
       }
     }
