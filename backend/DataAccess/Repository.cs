@@ -10,11 +10,11 @@ namespace backend.DataAccess
     public class Repository<T> : IRepository<T> where T : class, new()
     {
         //inject 
-        private readonly BookDbContext dbcontext;
+        private readonly LibraryContext dbcontext;
 
 
         // public IRepository<T> bookRepository {get; set;}
-        public Repository(BookDbContext dbcontext)
+        public Repository(LibraryContext dbcontext)
         {
             this.dbcontext = dbcontext;
             // bookRepository = new Repository<T>(dbcontext);

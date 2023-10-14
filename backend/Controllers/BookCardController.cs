@@ -22,13 +22,13 @@ namespace backend.Controllers
 
         [HttpGet("[action]")]
 
-        public async Task<IEnumerable<BookCard>> get()
+        public async Task<IEnumerable<Book>> get()
         {
             return await context.bookCards.GetAsync();
         }
         [HttpPost("[action]")]
 
-        public async Task<IActionResult> insertBook([FromBody] BookCard temp)
+        public async Task<IActionResult> insertBook([FromBody] Book temp)
         {
             try
             {
