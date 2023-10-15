@@ -1,0 +1,143 @@
+*{
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.header{
+    display: block;
+    // background-image: url("../../assets/backgroudLibra.png");
+    /* background-position: center; */
+    background: url("../../../assets/backgroudLibra2.png");
+    width: 100%;
+    height: 200px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 0px;
+}
+
+.button-signin a{
+    display: inline-block;
+    position: relative;
+    /* left: 1300px; */
+    left: 1340px;
+    top: 35px;
+    padding: 15px;
+    border: rgb(235, 230, 205);
+    background-color: rgb(235, 230, 205);
+    color: black;
+    border-radius: 30px;
+}
+
+.logo-Text{
+    color: aliceblue;
+    display: flex;
+}
+
+.nav{
+    background-color: rgba(139, 65, 65, 1);
+    height: 50px;
+    display: block;
+    margin: 0px 0px 10px 0px;
+}
+.nav ul{
+    height: 50px;
+}
+.nav ul li, a{
+    text-decoration: none;
+    color: rgb(255, 248, 78);
+    list-style-type: none;
+    display: inline-block;
+    position: relative;
+}
+.nav-hot{
+    padding: 15px 35px 15px 50px;
+    margin-left: 200px;
+}
+.nav-lichsu, .nav-theloai{
+    padding: 15px 35px 15px 50px;
+}
+.nav .search-box{
+    
+    display: inline-block;
+    position: flex;
+    margin-left: 250px;
+
+}
+.nav #search{
+    
+    padding: 8px;
+    width: 300px;
+    border-radius:30px ;
+}
+
+li.nav-hot:hover{
+    background-color: rgb(144, 78, 78);
+}
+li.nav-lichsu:hover{
+    background-color: rgb(144, 78, 78);
+}
+li.nav-theloai:hover{
+    background-color: rgb(144, 78, 78);
+}
+
+.button-signup:hover{
+    background-color: rgb(232, 220, 155);
+    color: rgb(149, 20, 20);
+}
+
+.list-books{
+    
+    display: flex;  
+    flex-direction: row;  
+    flex-wrap: wrap;
+    width: 1200px;
+    height: 800px;
+    margin-left: 150px;
+}
+
+.books-item{
+    border: 1px solid;
+    width: 210px;
+    height: 350px;
+    margin-right: 25px;
+    margin-bottom: 20px;
+}
+
+.biasachs{
+    display: inline-block;
+    width: auto;
+    height: 200px ;
+}
+#biasach1{
+    width: 208px;
+    height: 270px;
+}
+.tinhtrangsach p{
+    color:rgb(144, 78, 78);
+    display: block;
+    margin-top: 0px;
+    text-align: center;
+}
+.tensach .item-ten{
+    color: black;
+    border: 1px solid;
+    padding: 9px;
+    background-color: rgb(236, 236, 191);
+}
+.page-nummber{
+    width: 350px;
+}
+.page-nummber ul{
+    list-style-type: none;
+    display:flex;
+    position: relative;
+    left: 550px;
+}
+.page-nummber li a{
+    color: black;
+    display: inline-block;
+    border: 1px solid black;
+    padding: 10px;
+}
+

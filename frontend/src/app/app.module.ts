@@ -6,17 +6,23 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DetailComponent } from './pages/detail/detail.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
-
+import { TopNavbarComponent } from './component/top-navbar/top-navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatMenuModule} from '@angular/material/menu'
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DetailComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    TopNavbarComponent,
+    
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

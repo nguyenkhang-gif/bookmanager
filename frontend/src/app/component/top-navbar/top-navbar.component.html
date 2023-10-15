@@ -1,0 +1,22 @@
+<div class="header">
+  <div class="button-signin">
+    <a class="button-signup" href="">Sign in/Logn in</a>
+  </div>
+</div>
+<div class="nav">
+  <!-- <ul class="nav-task">
+        <li class="nav-hot"><a href="">HOT!!</a></li>
+        <li class="nav-lichsu"><a href="">LỊCH SỬ</a></li>
+        <li class="nav-theloai"><a href="">THỂ LOẠI</a></li>
+
+        <div class="search-box">
+            <input type="search" placeholder="Tìm sách..." id="search">
+        </div>
+    </ul>   -->
+
+  <button mat-button [matMenuTriggerFor]="menu">Menu</button> 
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+</div>
