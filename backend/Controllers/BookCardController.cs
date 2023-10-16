@@ -2,6 +2,7 @@
 using System.Net;
 using backend.DataAccess;
 using backend.models;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -26,6 +27,15 @@ namespace backend.Controllers
         {
             return await context.bookCards.GetAsync();
         }
+
+
+        [HttpGet("[action]/{id}")]
+        public async Task<Book> getBookWithId([FromRoute] int id)
+        {
+            return await context.bookCards.getSingleAsync(id);
+        }
+
+        
         [HttpPost("[action]")]
 
         public async Task<IActionResult> insertBook([FromBody] Book temp)
@@ -39,10 +49,13 @@ namespace backend.Controllers
             catch (Exception e)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
-
             }
         }
 
 
+
+       
+
     }
+
 }

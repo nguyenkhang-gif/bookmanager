@@ -8,8 +8,9 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { TopNavbarComponent } from './component/top-navbar/top-navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatMenuModule} from '@angular/material/menu';
-import { OrderPagesComponent } from './pages/order-pages/order-pages.component'
+import {MatMenuModule} from '@angular/material/menu'
+import { MaterialModule } from './material/material.module';
+import {  HttpClient, HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,14 +18,14 @@ import { OrderPagesComponent } from './pages/order-pages/order-pages.component'
     DetailComponent,
     NotfoundComponent,
     TopNavbarComponent,
-    OrderPagesComponent,
-    
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatMenuModule
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,20 @@
+<div *ngIf="list.length > 0">
+<div class="home-container">
+    <div
+      *ngFor="let item of list"
+      class="card"
+      [routerLink]="['/detail', item.id]"
+    >
+      <img src="../../../assets/biasach.png" alt="Avatar" style="width: 100%" />
+      <div class="container">
+        <h4>
+          <b>{{ item.title }}</b>
+        </h4>
+        <p>{{ item.author }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf = "list.length == 0" class="spinner-home"><mat-spinner></mat-spinner></div>
+
 
