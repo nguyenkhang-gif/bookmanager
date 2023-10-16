@@ -41,14 +41,14 @@ export class HomeComponent implements OnInit {
 
   constructor(private service: BookServiceService) {}
   ngOnInit(): void {
-    // this.service.getBookWithId(5).subscribe({
+    // this.service.getBooks().subscribe({
     //   next:(item)=>{
-    //     console.log(item)
+    //     this.list = item
     //   },
     //   error:(e)=>{
     //     console.log("error",e)
     //   }
     // })
-    console.log(this.list)
+    // console.log(this.list.length)
   }
 }
