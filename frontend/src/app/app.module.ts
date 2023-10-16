@@ -8,7 +8,8 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { TopNavbarComponent } from './component/top-navbar/top-navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatMenuModule} from '@angular/material/menu'
+import {MatMenuModule} from '@angular/material/menu';
+import { OrderPagesComponent } from './pages/order-pages/order-pages.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,6 +17,7 @@ import {MatMenuModule} from '@angular/material/menu'
     DetailComponent,
     NotfoundComponent,
     TopNavbarComponent,
+    OrderPagesComponent,
     
   ],
   imports: [
