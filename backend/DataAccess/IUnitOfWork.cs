@@ -9,6 +9,7 @@ namespace backend.DataAccess
     public interface IUnitOfWork
     {
         public IRepository<Book> bookCards { get; set; }
+        public IRepository<Review> Reviews{get;set;}
         Task BeginTransactionAsync();
         Task CommitAsync();
         Task RollbackAsync();

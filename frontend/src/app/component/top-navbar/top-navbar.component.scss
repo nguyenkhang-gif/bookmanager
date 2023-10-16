@@ -5,6 +5,7 @@
 }
 
 .header{
+    // position: relative;
     display: block;
     // background-image: url("../../assets/backgroudLibra.png");
     /* background-position: center; */
@@ -139,5 +140,78 @@ li.nav-theloai:hover{
     display: inline-block;
     border: 1px solid black;
     padding: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.button-menu{
+    font-weight: 700;
+    font-size: 16px;
+    // margin-left: 30px ;
+    height: 100%;
+    outline: none;
+    border: none;
+    padding:0 50px;
+    
+}
+.button-hot{
+    font-weight: 700;
+    font-size: 16px;
+    margin-left: 30px ;
+    height: 100%;
+    outline: none;
+    border: none;
+    padding:0 50px;
+}
+
+
+.mat-button {
+    outline: none;
+  }
+  
+
+
+.button-hot:hover,
+.button-hot:focus,
+.button-menu:hover,
+.button-menu:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+
+.button-hot:hover,.button-menu:hover {
+  transform: translateY(-1px);
+}
+
+.button-hot:active,.button-menu:active {
+  background-color: white;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+.nav{
+    position: relative;
+}
+
+//search bar
+.search-form-field{
+    width: 400px;
+    
+    position: absolute;
+    right: 10%;
+    top:7px;
+    // background-color: red;
 }
 

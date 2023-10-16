@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using backend.models;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace backend.DataAccess
     {
         //inject 
         private readonly LibraryContext dbcontext;
-
+        
 
         // public IRepository<T> bookRepository {get; set;}
         public Repository(LibraryContext dbcontext)
@@ -27,6 +28,11 @@ namespace backend.DataAccess
         public async Task<T> getSingleAsync(object id)
         {
             return await dbcontext.Set<T>().FindAsync(id);
+        }
+
+        public async Task<T> getSingleAsync(Expression<Func<T,bool>> predecate){
+
+            return await dbcontext.Set<T>().FirstOrDefaultAsync(predecate);
         }
 
         //insert lag đó thêm T nó bát return val :

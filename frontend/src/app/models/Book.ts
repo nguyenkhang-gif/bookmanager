@@ -2,8 +2,8 @@ export interface Book{
     id: number
     title:string
     author:string
-    Genre:string
+    genre:string
     publisher:string
-    publishdate:Date
+    publishDate:Date
     price:number
 }

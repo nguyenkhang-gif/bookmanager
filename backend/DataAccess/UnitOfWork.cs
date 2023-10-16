@@ -8,12 +8,19 @@ namespace backend.DataAccess
 {
     public class UnitOfWork : IUnitOfWork
     {
+
         private readonly LibraryContext ctx;
 
         public IRepository<Book> bookCards{get;set;}
+        public IRepository<Review> Reviews{get;set;}
+        public IRepository<BorrowHistory> BorrowHistory{get;set;}
+        public IRepository<User> User{get;set;}
+
+         
         public UnitOfWork(LibraryContext ctx){
             this.ctx=ctx;
             bookCards = new Repository<Book>(ctx);
+            Reviews = new Repository<Review>(ctx);
         }     
 
          public Task BeginTransactionAsync(){
