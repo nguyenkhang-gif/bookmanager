@@ -1,3 +1,5 @@
 <router-outlet>
-   <app-top-navbar></app-top-navbar>
+  <div *ngIf="!isSpecificUrl('register')">
+    <app-top-navbar></app-top-navbar>
+  </div>
 </router-outlet>

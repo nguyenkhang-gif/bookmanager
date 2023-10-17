@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import {NgIf} from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-top-navbar',
@@ -7,6 +9,7 @@ import {NgIf} from '@angular/common';
   styleUrls: ['./top-navbar.component.scss']
 })
 export class TopNavbarComponent {
+
   value = '';
   submit(){
     console.log("sumib!!!!!!!!!!!")
