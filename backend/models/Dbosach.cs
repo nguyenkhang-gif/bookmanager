@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend;
-
+[Table("Dbosach")]
 public partial class Dbosach
 {
     public int Id { get; set; }
@@ -11,6 +13,7 @@ public partial class Dbosach
 
     public int? Chieurong { get; set; }
 
+    
     public int? Chudeid { get; set; }
 
     public string? Dinhdang { get; set; }

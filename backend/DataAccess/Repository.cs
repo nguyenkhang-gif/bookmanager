@@ -12,7 +12,7 @@ namespace backend.DataAccess
     {
         //inject 
         private readonly LibraryContext dbcontext;
-        
+
 
         // public IRepository<T> bookRepository {get; set;}
         public Repository(LibraryContext dbcontext)
@@ -25,12 +25,19 @@ namespace backend.DataAccess
         {
             return await dbcontext.Set<T>().ToListAsync();
         }
+        //hỗ trợ lấy theo cột
+
+
+
+
+
         public async Task<T> getSingleAsync(object id)
         {
             return await dbcontext.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> getSingleAsync(Expression<Func<T,bool>> predecate){
+        public async Task<T> getSingleAsync(Expression<Func<T, bool>> predecate)
+        {
 
             return await dbcontext.Set<T>().FirstOrDefaultAsync(predecate);
         }
@@ -39,7 +46,12 @@ namespace backend.DataAccess
 
         public async Task InsertAsync(T temp)
         {
+            
             await dbcontext.Set<T>().AddAsync(temp);
+        }
+        public async Task Update(T item)
+        {
+            dbcontext.Set<T>().Update(item);
         }
     }
 }

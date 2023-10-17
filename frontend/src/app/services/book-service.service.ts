@@ -7,9 +7,9 @@ import { Book } from '../models/Book';
 export class BookServiceService {
   constructor(private httpClient: HttpClient) {}
   getBooks(){
-    return this.httpClient.get<Book[]>("http://localhost:5280/BookCard/get");
+    return this.httpClient.get<Book[]>("http://localhost:5280/Dbosach/get");
   }
   getBookWithId(id:number){
-    return this.httpClient.get<Book>("http://localhost:5280/BookCard/getBookWithId/"+id);
+    return this.httpClient.get<Book>("http://localhost:5280/Dbosach/getById/"+id);
   }
 }
