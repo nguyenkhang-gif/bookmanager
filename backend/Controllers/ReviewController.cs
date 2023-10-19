@@ -27,15 +27,15 @@
 //         }
         
 //         [HttpGet("[action]/{id}")]
-//         public async Task<Review> getReviewWithBookId([FromRoute] int id)
-//         {
-//             return await dbcontext.Reviews.getSingleAsync(item => item.BookId==id); 
-//         }
-//         [HttpGet("[action]/{id}")]
-//         public async Task<Review> getReviewWithUserId([FromRoute] int id)
-//         {
-//             return await dbcontext.Reviews.getSingleAsync(item => item.UserId==id); 
-//         }
+        // public async Task<Review> getReviewWithBookId([FromRoute] int id)
+        // {
+        //     // return await dbcontext.Reviews.getSingleAsync(item => item.BookId==id); 
+        // }
+        // [HttpGet("[action]/{id}")]
+        // public async Task<Review> getReviewWithUserId([FromRoute] int id)
+        // {
+        //     return await dbcontext.Reviews.getSingleAsync(item => item.UserId==id); 
+        // }
 
 //     }
 // }

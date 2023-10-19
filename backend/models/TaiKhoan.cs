@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend;
-
+[Table("TaiKhoan")]
 public partial class TaiKhoan
 {
+    [Key]
     public string Id { get; set; } = null!;
 
     public string? Username { get; set; }
@@ -19,9 +22,9 @@ public partial class TaiKhoan
 
     public int? Quyen { get; set; }
 
-    public virtual ICollection<NhanXet> NhanXets { get; set; } = new List<NhanXet>();
+    // public virtual ICollection<NhanXet> NhanXets { get; set; } = new List<NhanXet>();
 
-    public virtual ICollection<PhieuMuon> PhieuMuons { get; set; } = new List<PhieuMuon>();
+    // public virtual ICollection<PhieuMuon> PhieuMuons { get; set; } = new List<PhieuMuon>();
 
-    public virtual ICollection<YeuThich> YeuThiches { get; set; } = new List<YeuThich>();
+    // public virtual ICollection<YeuThich> YeuThiches { get; set; } = new List<YeuThich>();
 }

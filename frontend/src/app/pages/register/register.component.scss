@@ -1,63 +1,63 @@
 body {
-    background-image: url('../../../assets/img/book.png');
-    background-size: cover;
-    background-attachment: fixed;
+  background-image: url("../../../assets/img/book.png");
+  background-size: cover;
+  background-attachment: fixed;
 }
 
-.wrapper{
-    display: flex;
-    /* justify-content: center; */
-    padding: 100px;
-    height: 100vh;
-    align-items: center;
-    flex-direction: column;
+.wrapper {
+  display: flex;
+  /* justify-content: center; */
+  padding: 100px;
+  height: 100vh;
+  align-items: center;
+  flex-direction: column;
 }
 
-.content{
-    position: relative;
-    background-color: rgba(255, 255, 255, 0.89);
-    width: 800px;
-    height: 500px;
-    border-radius: 30px;
-    padding-top: 15px;
-    display: flex;
+.content {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.89);
+  width: 800px;
+  height: 500px;
+  border-radius: 30px;
+  padding-top: 15px;
+  display: flex;
 }
 
-.left{
-    border-right: 1px solid black;
-    /* padding-left: 15px; */
+.left {
+  border-right: 1px solid black;
+  /* padding-left: 15px; */
 }
 
-.left, .right {
-    width: 47%;
-    margin-left: 19px;
+.left,
+.right {
+  width: 47%;
+  margin-left: 19px;
 }
 
-.circle{
-    border: 2px solid rgba(206, 56, 56, 0.84);
-    border-radius: 50%;
-    margin-left: 23%;
+.circle {
+  border: 2px solid rgba(206, 56, 56, 0.84);
+  border-radius: 50%;
+  margin-left: 23%;
 }
 
-.border{
-    border-radius: 15px;
+.border {
+  border-radius: 15px;
 }
 
-.form{
-    padding-left: 50px;
-    padding-top: 50px;
+.form {
+  padding-left: 50px;
+  padding-top: 50px;
 }
 
-.btn{
-    background-color: rgba(200, 68, 68, 0.84);
-    border: none;
-    padding: 12px 40px;
-    border-radius: 20px;
-    color: white;
-    font-size: 16px;
-    margin-left: 100px;
-    cursor: pointer;
-
+.btn {
+  background-color: rgba(200, 68, 68, 0.84);
+  border: none;
+  padding: 12px 40px;
+  border-radius: 20px;
+  color: white;
+  font-size: 16px;
+  margin-left: 100px;
+  cursor: pointer;
 }
 
 // <!-- HTML !-->
@@ -65,25 +65,25 @@ body {
 
 /* CSS */
 .btn {
-    
   align-items: center;
   background-clip: padding-box;
   background-color: rgba(200, 68, 68, 0.84);
   border: 1px solid transparent;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
   justify-content: center;
   line-height: 1.25;
   margin: 0;
   min-height: 3rem;
-  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
   position: relative;
   text-decoration: none;
   transition: all 250ms;
@@ -92,7 +92,7 @@ body {
   touch-action: manipulation;
   vertical-align: baseline;
   width: auto;
-//   margin-left: 120px;
+  //   margin-left: 120px;
 }
 
 .btn:hover,
@@ -107,21 +107,33 @@ body {
 
 .btn:active {
   background-color: #c85000;
-  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   transform: translateY(0);
 }
 
-
-input{
-    width: 270px;
-    height: 30px;
-    /* background-color: rgba(246, 187, 187, 0.84); */
+input {
+  width: 270px;
+  height: 30px;
+  /* background-color: rgba(246, 187, 187, 0.84); */
 }
 
+.container-btn-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-.container-btn-author{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+// .option-1 {
+//   background-color: #c85000;
+// }/* styles.css */
+// styles.scss
+// .custom-option.mat-mdc-radio-button.mat-warn {
+//   background-color:  blue;
+.custom-radio.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #008000; /* Green color */
+}
+
+.custom-radio.mat-radio-checked .mat-radio-inner-circle {
+  background-color: #008000; /* Green color */
 }

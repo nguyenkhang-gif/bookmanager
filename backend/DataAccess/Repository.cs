@@ -14,11 +14,11 @@ namespace backend.DataAccess
         private readonly LibraryContext dbcontext;
 
 
-        // public IRepository<T> bookRepository {get; set;}
+ 
         public Repository(LibraryContext dbcontext)
         {
             this.dbcontext = dbcontext;
-            // bookRepository = new Repository<T>(dbcontext);
+           
         }
 
         public async Task<IEnumerable<T>> GetAsync()
@@ -38,7 +38,6 @@ namespace backend.DataAccess
 
         public async Task<T> getSingleAsync(Expression<Func<T, bool>> predecate)
         {
-
             return await dbcontext.Set<T>().FirstOrDefaultAsync(predecate);
         }
 
@@ -46,12 +45,15 @@ namespace backend.DataAccess
 
         public async Task InsertAsync(T temp)
         {
-            
             await dbcontext.Set<T>().AddAsync(temp);
         }
         public async Task Update(T item)
         {
             dbcontext.Set<T>().Update(item);
+        }
+
+        public async Task DeleteAsync(T item){
+            
         }
     }
 }

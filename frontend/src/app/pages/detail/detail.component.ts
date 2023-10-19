@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class DetailComponent implements OnInit {
   constructor(private route:Router){}
+  imgurl:string = "../../../assets/img/book.png"
   ngOnInit(): void {
     console.log(this.route.url)
   }

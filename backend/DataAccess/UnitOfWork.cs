@@ -28,9 +28,7 @@ namespace backend.DataAccess
         public IRepository <TaiKhoan> TaiKhoans { get; set; }
 
         public IRepository <YeuThich> YeuThiches { get; set; }
-        // public IRepository<Review> Reviews{get;set;}
-        // public IRepository<BorrowHistory> BorrowHistory{get;set;}
-        // public IRepository<User> User{get;set;}
+    
 
          
         public UnitOfWork(LibraryContext ctx){
