@@ -46,13 +46,13 @@ namespace backend.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult> Update([FromBody] TacGium item)
         {
-            byte[] encodedBytes = Encoding.UTF8.GetBytes(item.Tentacgia);
+            // byte[] encodedBytes = Encoding.UTF8.GetBytes(item.Tentacgia);
 
-            // Chuyển mảng byte thành chuỗi dạng Base64 (hoặc một phương thức mã hóa khác tùy chọn)
-            string encodedString = Convert.ToBase64String(encodedBytes);
+            // // Chuyển mảng byte thành chuỗi dạng Base64 (hoặc một phương thức mã hóa khác tùy chọn)
+            // string encodedString = Convert.ToBase64String(encodedBytes);
 
-            // Lưu vào cơ sở dữ liệu
-            item.Tentacgia = encodedString;
+            // // Lưu vào cơ sở dữ liệu
+            // item.Tentacgia = encodedString;
             try
             {
                 context.TacGia.Update(item);

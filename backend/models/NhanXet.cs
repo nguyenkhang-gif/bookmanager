@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend;
 
+[Table("NhanXet")]
 public partial class NhanXet
 {
+    [Key]
     public int Id { get; set; }
 
     public int? Sachid { get; set; }
@@ -12,6 +16,7 @@ public partial class NhanXet
     public string? Tieude { get; set; }
 
     public string? Userid { get; set; }
+    public int? rating { get; set; }
 
     public DateTime? Ngaydang { get; set; }
 

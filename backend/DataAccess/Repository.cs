@@ -14,19 +14,22 @@ namespace backend.DataAccess
         private readonly LibraryContext dbcontext;
 
 
- 
+
         public Repository(LibraryContext dbcontext)
         {
             this.dbcontext = dbcontext;
-           
+
         }
 
         public async Task<IEnumerable<T>> GetAsync()
         {
             return await dbcontext.Set<T>().ToListAsync();
         }
-        //hỗ trợ lấy theo cột
-
+        //hỗ trợ lấy theo điều kiện 
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predecate)
+        {
+            return await dbcontext.Set<T>().Where(predecate).ToListAsync();
+        }
 
 
 
@@ -51,9 +54,10 @@ namespace backend.DataAccess
         {
             dbcontext.Set<T>().Update(item);
         }
-
-        public async Task DeleteAsync(T item){
-            
+        public async Task DeleteAsync(object id)
+        {
+            var entity = await getSingleAsync(id);
+            dbcontext.Set<T>().Remove(entity);
         }
     }
 }

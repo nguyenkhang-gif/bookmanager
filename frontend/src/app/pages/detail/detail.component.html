@@ -1,5 +1,64 @@
-<div class="container-item">
-    <div class="cotainer-main">
-        <img [src]="imgurl" alt="">
+<div *ngIf = "!(bookInfo != null)" class="spinner-home"><mat-spinner></mat-spinner></div>
+<div *ngIf="bookInfo != null&&category!=null" class="container-item">
+  <!-- <div class="colorfill-1"></div>
+    <div class="colorfill-2"></div> -->
+  <div class="container-main">
+    <img [src]="imgurl" alt="" />
+    <div class="container-book-info">
+      <p class="book-name">{{bookInfo.tensach}}</p>
+      <p class="author-name">tác giả : {{bookInfo.tensach}}</p>
+      <div class="catergory-container">
+        <p class="catergory-1">thể loại:</p>
+        <p class="catergory">{{category.tenchude}}</p>
+      </div>
+      <div class="available-container">
+        <p class="available-1">tình trạng sách:</p>
+        <p class="available">có thể mượn</p>
+      </div>
+      <button class="borow-btn">Mượn ngay</button>
+      <button class="follow-btn">theo dõi</button>
     </div>
+  </div>
+
+  <div class="container-main">
+    <p class="comment-title">Chi tiết</p>
+  </div>
+
+  <div class="container-main comment">
+
+    <p class="comment-title">Đánh giá</p>
+    <div class="comment-form">
+
+        <textarea class="comment-add-box">Type your comment here.</textarea>
+        <!-- <mat-icon class="star-icon">star</mat-icon> -->
+        <mat-icon class="star-icon">star_border</mat-icon>
+        <div class="containter-star" >
+            <div *ngFor="let i of itemsToRepeat; let index = index">
+                <mat-icon  *ngIf="index+1 <= rating " (click)="handleUdateRating(index)">star</mat-icon>
+                <mat-icon *ngIf="index+1 > rating" (click)="handleUdateRating(index)">star_border</mat-icon>   
+            </div>
+        </div>
+    </div>
+    <div class="" *ngIf="comment.length==0"><p>No comment yet!!!</p></div>
+    <div class="container-all-comment" *ngIf="comment.length>0">
+      <div class="container-single-comment" *ngFor="let item of comment">
+        <div class="container-user-comment">
+          <img [src]="imguserurl" alt="" />
+          <p>@User111</p>
+        </div>
+        <div class="containter-star">
+            <!-- <div *ngFor="let i of itemsToRepeat; let index = index" >
+              <mat-icon  *ngIf="index+1 <= item.rating && index+1 <= RoundFunc(item.rating)" >star</mat-icon>
+              <mat-icon  *ngIf="index+1 >= item.rating && index <= RoundFunc(item.rating) " >star_half</mat-icon>
+              <mat-icon *ngIf="index+1 > item.rating && index != RoundFunc(item.rating)" >star_border</mat-icon> 
+            </div> ;làm phần tổng kết-->
+            <div *ngFor="let i of itemsToRepeat; let index = index" >
+              <mat-icon  *ngIf="index+1 <= item.rating " >star</mat-icon>
+              <mat-icon *ngIf="index+1 > item.rating" >star_border</mat-icon> 
+            </div>
+        </div>
+        <p class="comment-content">{{item.tieude}}</p>
+      </div>
+    </div>
+  </div>
 </div>
