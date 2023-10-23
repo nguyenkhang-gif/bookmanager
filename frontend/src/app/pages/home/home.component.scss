@@ -33,3 +33,92 @@
   justify-content: center;
   align-items: center;
 }
+
+
+.container-pagination{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  min-height: 100px;
+  // background-color: blue;
+}
+
+.container-main-pagination{
+  display: flex;
+  
+}
+.container-pagination-item p{
+  font-size: 14px;
+  // margin: 10px;
+  font-weight: 800;
+}
+.container-pagination-item{
+  cursor: pointer;
+  height: fit-content;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  // background-color: #261C15;
+  border-radius: 5px;
+  // color: aliceblue;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+
+}
+.container-pagination-item:hover{
+  // transition: 1s ease;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+// =============================================start==================================
+
+
+
+/* CSS */
+.pagination-btn{
+  
+  max-height: 50px;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 10px;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.pagination-btn:hover,
+.pagination-btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.pagination-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}

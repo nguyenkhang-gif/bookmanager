@@ -58,5 +58,24 @@ namespace backend.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
             }
         }
+
+
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                
+                await context.NhanXets.DeleteAsync(id);
+                await context.SaveChangesAsync();
+                return Ok("delete thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
+
     }
 }

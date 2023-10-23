@@ -1,3 +1,6 @@
+<app-top-navbar *ngIf="!isSpecificUrl('register')" [(category)]="cate" (categoryChange)="handleChildSearchchange()"></app-top-navbar>
+
+
 <div *ngIf="list.length > 0">
 <div class="home-container">
     <div
@@ -14,7 +17,22 @@
       </div>
     </div>
   </div>
+
+  <div class="container-pagination">
+    <div class="container-main-pagination">
+      <!-- <div class="container-pagination-item"><p>1</p></div>
+      <div class="container-pagination-item"><p>1</p></div>
+      <div class="container-pagination-item"><p>1</p></div> -->
+      <button class="pagination-btn" *ngFor="let i of itemsToRepeat; let index = index" (click)="handleClickOnIndex(index+1)">{{index+1}}</button>
+      <!-- <button class="pagination-btn">1</button>
+      <button class="pagination-btn">1</button>
+      <button class="pagination-btn active">1</button> -->
+      
+    </div>
+  </div>
 </div>
 <div *ngIf = "list.length == 0" class="spinner-home"><mat-spinner></mat-spinner></div>
+
+
 
 

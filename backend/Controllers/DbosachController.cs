@@ -22,6 +22,12 @@ namespace backend.Controllers
             this.context = context;
         }
 
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndex([FromRoute] int pageIndex, [FromRoute] int pageSize)
+        {
+            return await context.Dbosaches.GetAsync(pageIndex, pageSize);
+        }
+
         [HttpGet("[action]")]
 
         public async Task<IEnumerable<Dbosach>> get()
@@ -33,6 +39,14 @@ namespace backend.Controllers
         public async Task<Dbosach> getById([FromRoute] int id)
         {
             return await context.Dbosaches.getSingleAsync(id);
+        }
+
+
+        [HttpGet("[action]/{id}")]
+
+        public async Task<IEnumerable<Dbosach>> getByChuDeId([FromRoute] int id)
+        {
+            return await context.Dbosaches.GetAsync(item => item.Chudeid == id);
         }
 
 
@@ -54,7 +68,7 @@ namespace backend.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult> Update([FromBody] Dbosach item)
         {
-            
+
             try
             {
                 context.Dbosaches.Update(item);
@@ -70,7 +84,7 @@ namespace backend.Controllers
 
 
 
-        
+
 
     }
 }

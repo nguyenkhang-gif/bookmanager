@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend;
-
+[Table("NhaXuatBan")]
 public partial class NhaXuatBan
 {
     public int Id { get; set; }

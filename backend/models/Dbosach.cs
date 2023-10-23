@@ -34,6 +34,8 @@ public partial class Dbosach
 
     public string? Tensach { get; set; }
 
+    public int? DuocMuon{get;set;}
+
     public virtual ChuDe? Chude { get; set; }
 
     public virtual ICollection<NhanXet> NhanXets { get; set; } = new List<NhanXet>();

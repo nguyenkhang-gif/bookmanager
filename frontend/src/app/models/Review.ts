@@ -1,5 +1,5 @@
 export interface Review {
-  id: number;
+  id?: number;
   sachid: number;
   tieude: string;
   userid: string;

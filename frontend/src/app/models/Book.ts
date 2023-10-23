@@ -10,6 +10,7 @@ export interface Book {
     soluong: number;
     sotrang: number;
     tacgiaid: number;
+    duocMuon:number
     tensach: string;
     chude: any | null;  // Kiểu dữ liệu của chude chưa rõ
     nhanXets: any[];    // Kiểu dữ liệu của nhanXets chưa rõ
