@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     public class DbosachController : ControllerBase
@@ -49,6 +50,12 @@ namespace backend.Controllers
             return await context.Dbosaches.GetAsync(item => item.Chudeid == id);
         }
 
+        [HttpPost("[action]/{id}/{searchcontent}")]
+
+        public async Task<IEnumerable<Dbosach>> getByChuDeIdAndString([FromRoute] int id, string searchcontent)
+        {
+            return await context.Dbosaches.GetAsync(item => item.Chudeid == id && item.Tensach.Contains(searchcontent));
+        }
 
         [HttpPost("[action]")]
         public async Task<ActionResult> Insert([FromBody] Dbosach item)
@@ -83,8 +90,7 @@ namespace backend.Controllers
 
 
 
-
-
+       
 
     }
 }

@@ -39,6 +39,15 @@ namespace backend.DataAccess
                 .Take(pageSize)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> filter = null)
+        {
+            return await dbcontext
+                .Set<T>()
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .Where(filter)
+                .ToListAsync();
+        }
 
 
         public async Task<T> getSingleAsync(object id)

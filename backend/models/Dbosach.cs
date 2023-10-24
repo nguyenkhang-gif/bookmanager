@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend;
-[Table("Dbosach")]
+[Table("dbosach")]
 public partial class Dbosach
 {
     [Key]
