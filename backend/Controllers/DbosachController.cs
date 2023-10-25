@@ -28,6 +28,34 @@ namespace backend.Controllers
         {
             return await context.Dbosaches.GetAsync(pageIndex, pageSize);
         }
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid, [FromQuery] string content)
+        {
+            return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>
+                (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content))
+            );
+        }
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateId([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid)
+        {
+            return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>!catid.HasValue || item.Chudeid == catid);
+            
+        }
+
+        // [HttpGet("[action]/{pageIndex}/{pageSize}/{catid}/{content}")]
+        // public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, int? catid, string content)
+        // {
+        //     return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>
+        //         (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content))
+        //     );
+        // }
+        // public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, int catid, string content)
+        // {
+
+
+        //     return await context.Dbosaches.GetAsync(pageIndex, pageSize, item => item.Chudeid == catid && item.Tensach.Contains(content));
+        // }
+
 
         [HttpGet("[action]")]
 
@@ -52,9 +80,15 @@ namespace backend.Controllers
 
         [HttpPost("[action]/{id}/{searchcontent}")]
 
-        public async Task<IEnumerable<Dbosach>> getByChuDeIdAndString([FromRoute] int id, string searchcontent)
+        public async Task<IEnumerable<Dbosach>> getByChuDeIdAndString([FromRoute] int? id, string searchcontent)
         {
-            return await context.Dbosaches.GetAsync(item => item.Chudeid == id && item.Tensach.Contains(searchcontent));
+            return await context.Dbosaches.GetAsync(item=>(!id.HasValue || item.Chudeid == id)&& item.Tensach.Contains(searchcontent));
+        }
+        [HttpPost("[action]/{searchcontent}")]
+
+        public async Task<IEnumerable<Dbosach>> getByString([FromRoute]  string searchcontent)
+        {
+            return await context.Dbosaches.GetAsync(item=> item.Tensach.Contains(searchcontent));
         }
 
         [HttpPost("[action]")]
@@ -75,7 +109,6 @@ namespace backend.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult> Update([FromBody] Dbosach item)
         {
-
             try
             {
                 context.Dbosaches.Update(item);
@@ -90,7 +123,7 @@ namespace backend.Controllers
 
 
 
-       
+
 
     }
 }

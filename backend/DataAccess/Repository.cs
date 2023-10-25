@@ -43,9 +43,9 @@ namespace backend.DataAccess
         {
             return await dbcontext
                 .Set<T>()
+                .Where(filter)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .Where(filter)
                 .ToListAsync();
         }
 

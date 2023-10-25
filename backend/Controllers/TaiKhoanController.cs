@@ -39,19 +39,7 @@ namespace backend.Controllers
         [HttpPost("[action]")]
         public async Task<TaiKhoan> Login([FromBody] TaiKhoan temp)
         {
-            // try
-            // {
-            //     var checkLogin = await context.TaiKhoans.getSingleAsync(item => item.Username == temp.Username && item.Password == temp.Password);
-            //     if (checkLogin != null)
-            //     {
-            //         return Ok();
-            //     }
-            //     return StatusCode(404);
-            // }
-            // catch (Exception e)
-            // {
-            //     return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
-            // }
+            
             return await context.TaiKhoans.getSingleAsync(item => item.Username == temp.Username && item.Password == temp.Password);
         }
 

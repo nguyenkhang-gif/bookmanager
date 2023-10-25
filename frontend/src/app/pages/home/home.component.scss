@@ -15,7 +15,12 @@
 .container {
   padding: 2px 16px;
 }
+.outsite-container{
+  min-height: 1000px;
+}
 .home-container {
+  // background-color: aqua;
+
   margin: auto;
   margin-top: 50px;
   max-width: 80vw;
@@ -27,7 +32,7 @@
 
 
 .spinner-home{
-  min-height: 500px;
+  min-height: 1000px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -39,6 +44,7 @@
   display: flex;
   justify-content: center;
   margin-top: 10px;
+  margin-bottom: 200px;
   min-height: 100px;
   // background-color: blue;
 }
@@ -54,10 +60,10 @@
 }
 .container-pagination-item{
   cursor: pointer;
-  height: fit-content;
+  // max-height: 500px;
   margin-left: 10px;
   margin-right: 10px;
-  padding: 10px;
+  // padding: 10px;
   // background-color: #261C15;
   border-radius: 5px;
   // color: aliceblue;

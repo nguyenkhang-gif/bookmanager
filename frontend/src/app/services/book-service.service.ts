@@ -48,9 +48,23 @@ export class BookServiceService {
       id
     );
   }
-
-
+  getBookWithCatIdAndContent(id: number,searchcontent:string) {
+    return this.httpClient.post<Book[]>(`http://localhost:5280/Dbosach/getByChuDeIdAndString/${id}/${searchcontent}`,{});
+  }
   getBookWithIndexPageAndPageSize(pageIndex:number,pageSize:number){
     return this.httpClient.get<Book[]>(`http://localhost:5280/Dbosach/GetAllWithSizeAndIndex/${pageIndex}/${pageSize}`)
   }
+
+
+  getBookWithPageIndexPageSizeCatIdContent(pageIndex: number, pageSize: number, catid: number, content: string) {
+    let url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?catid=${catid}&content=${content}`
+    if(catid==0)url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?content=${content}`
+    console.log(url)
+    return this.httpClient.get<Book[]>(url);
+  }
+  getBookWithPageIndexPageSizeCatId(pageIndex: number, pageSize: number, catid: number) {
+    const url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateId/${pageIndex}/${pageSize}?catid=${catid}`;
+    return this.httpClient.get<Book[]>(url);
+  }
+  
 }

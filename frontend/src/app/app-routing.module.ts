@@ -13,6 +13,10 @@ const routes: Routes = [
     pathMatch:"full"
   },
   {
+    path:'search',
+    component:HomeComponent
+  },
+  {
     path:"detail/:id",
     component:DetailComponent
   },

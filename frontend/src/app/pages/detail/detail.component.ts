@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 })
 export class DetailComponent implements OnInit {
   constructor(private route: Router, private service: BookServiceService) {}
-  imgurl: string = '../../../assets/biasach.png';
+  imgurl: string = '';
   imguserurl: string = '../../../assets/149071.png';
 
   rating: number = 1;
@@ -43,8 +43,8 @@ export class DetailComponent implements OnInit {
     this.service.getBookWithId(url).subscribe({
       next: (book) => {
         this.bookInfo=book
-        console.log('book:', book);
-
+        console.log('book:', book)
+        this.imgurl=`../../../assets/books/${book.hinhanh}`
         // console.log('bookid:', book.id);
 
         this.service.getComment(book.id).subscribe({
