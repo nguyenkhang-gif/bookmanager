@@ -1,0 +1,79 @@
+<div class="header">
+  <div class="button-signin">
+    <a class="button-signup" routerLink="/register">Sign in/Logn in</a>
+  </div>
+</div>
+<div class="nav">
+  <!-- <ul class="nav-task">
+        <li class="nav-hot"><a href="">HOT!!</a></li>
+        <li class="nav-lichsu"><a href="">LỊCH SỬ</a></li>
+        <li class="nav-theloai"><a href="">THỂ LOẠI</a></li>
+
+        <div class="search-box">
+            <input type="search" placeholder="Tìm sách..." id="search">
+        </div>
+    </ul>   -->
+
+  <mat-toolbar>
+    <span class="title" routerLink="/">#ReadingIsHard</span>
+    <button class="button-hot" mat-button>HOT!!!!!!</button>
+    <button class="button-menu" mat-button [matMenuTriggerFor]="menu">
+      Thể loại
+    </button>
+    <mat-menu #menu="matMenu" class="menu-btn">
+      <button
+        *ngFor="let item of CategoryList"
+        (click)="setCat(item.id)"
+        mat-menu-item
+      >
+        {{ item.tenchude }}
+      </button>
+    </mat-menu>
+    <!-- start of input -->
+    <mat-form-field class="search-form-field">
+      <mat-label>Find your books</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="value"
+        (keyup.enter)="submit()"
+      />
+      <button
+        *ngIf="value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="value = ''"
+      >
+        <mat-icon>x</mat-icon>
+      </button>
+    </mat-form-field>
+    <!-- end of input -->
+  </mat-toolbar>
+</div>
+<div class="container-outer-search-result">
+  <div
+    class="container-handle-search"
+    *ngIf="onSubmitString != '' && isSpecificUrl('search')"
+  >
+    <!--  *ngIf="onSubmitString != '' && isSpecificUrl('search')" -->
+    <p>this is the result for your search :</p>
+    <p class="content">
+      {{ onSubmitString }}
+      <!-- sthng cool -->
+    </p>
+  </div>
+  <div
+    class="container-handle-search"
+    *ngIf="category != null && CategoryList.length && isSpecificUrl('search')"
+  >
+    <p>thể loại:</p>
+    <div class="content-cat">
+      <p >
+        <!-- {{ onSubmitString }} -->
+        {{ CategoryList[category - 1].tenchude }}
+      </p>
+      <p class="button-6">X</p>
+    </div>
+  </div>
+</div>

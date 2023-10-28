@@ -1,12 +1,4 @@
-<!-- <nav>
-    <h1>this is navbar</h1>
-</nav> -->
-
-<body>
-
-    <app-navbar></app-navbar>
-
-    <div class="app-body">
-        <router-outlet></router-outlet>
-    </div>
-</body>
+<app-top-navbar *ngIf="!isSpecificUrl('register')"  ></app-top-navbar>
+<router-outlet>
+  
+</router-outlet>

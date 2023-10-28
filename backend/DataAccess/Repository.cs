@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using backend.models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.DataAccess
@@ -10,23 +11,53 @@ namespace backend.DataAccess
     public class Repository<T> : IRepository<T> where T : class, new()
     {
         //inject 
-        private readonly BookDbContext dbcontext;
+        private readonly LibraryContext dbcontext;
 
 
-        // public IRepository<T> bookRepository {get; set;}
-        public Repository(BookDbContext dbcontext)
+
+        public Repository(LibraryContext dbcontext)
         {
             this.dbcontext = dbcontext;
-            // bookRepository = new Repository<T>(dbcontext);
+
         }
 
         public async Task<IEnumerable<T>> GetAsync()
         {
             return await dbcontext.Set<T>().ToListAsync();
         }
+        //hỗ trợ lấy theo điều kiện 
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predecate)
+        {
+            return await dbcontext.Set<T>().Where(predecate).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize)
+        {
+            return await dbcontext
+                .Set<T>()
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> filter = null)
+        {
+            return await dbcontext
+                .Set<T>()
+                .Where(filter)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+
         public async Task<T> getSingleAsync(object id)
         {
             return await dbcontext.Set<T>().FindAsync(id);
+        }
+
+        public async Task<T> getSingleAsync(Expression<Func<T, bool>> predecate)
+        {
+            return await dbcontext.Set<T>().FirstOrDefaultAsync(predecate);
         }
 
         //insert lag đó thêm T nó bát return val :
@@ -34,6 +65,15 @@ namespace backend.DataAccess
         public async Task InsertAsync(T temp)
         {
             await dbcontext.Set<T>().AddAsync(temp);
+        }
+        public async Task Update(T item)
+        {
+            dbcontext.Set<T>().Update(item);
+        }
+        public async Task DeleteAsync(object id)
+        {
+            var entity = await getSingleAsync(id);
+            dbcontext.Set<T>().Remove(entity);
         }
     }
 }

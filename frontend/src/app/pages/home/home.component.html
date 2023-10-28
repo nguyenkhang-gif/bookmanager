@@ -1,15 +1,36 @@
-<!-- <div class="container">
-    <div class="slide-show"></div>
-    <p>
-        body
-    </p>
-</div> -->
-<!-- 
-<h1>home works</h1>
-<*ngFor="let item of list" -->
+<div *ngIf="list.length > 0" class="outsite-container">
+  <div class="home-container">
+    <div
+      *ngFor="let item of list"
+      class="card"
+      [routerLink]="['/detail', item.id]"
+    >
+      <img src="../../../assets/books/{{item.hinhanh}}" alt="Avatar" style="width: 100%" />
+      <div class="container">
+        <h4>
+          <b>{{ item.tensach }}</b>
+        </h4>
+        <!-- <p>{{ item.author }}</p> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="list.length == 0" class="spinner-home">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="container-pagination">
+  <div class="container-main-pagination">
+    <!-- <div class="container-pagination-item"><p>1</p></div>
+    <div class="container-pagination-item"><p>1</p></div>
+    <div class="container-pagination-item"><p>1</p></div> -->
+    <button class="pagination-btn" (click)="handleNextBefore('-')">
+      before
+    </button>
+    <button class="pagination-btn">{{ pageIndex }}</button>
+    <button class="pagination-btn" (click)="handleNextBefore('+')">next</button>
 
-
-
-<div  *ngFor="let item of bookCardList">
-    <p>{{item.authName}}</p>
+    <!-- <button class="pagination-btn">1</button>
+    <button class="pagination-btn">1</button>
+    <button class="pagination-btn active">1</button> -->
+  </div>
 </div>

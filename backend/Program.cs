@@ -1,5 +1,8 @@
+
+// using backend.DataAccess;
+// using backend.models;
+using backend;
 using backend.DataAccess;
-using backend.models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,12 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DbContext, BookDbContext>(option =>
+builder.Services.AddDbContext<DbContext, LibraryContext>(option =>
 {
-    option.UseSqlServer("Data Source=DESKTOP-NQ9064U\\SQLEXPRESS;Initial Catalog=bookDB;Trusted_Connection=Yes;TrustServerCertificate=True;");
+    option.UseSqlServer("Server=localhost,1433;Database=library;User ID=sa;Password={Luunhungbinthy1};Trusted_Connection=False;TrustServerCertificate=True;Encrypt=True;");
 });
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddCors(cors =>
