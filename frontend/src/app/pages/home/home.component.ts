@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   itemsToRepeat = new Array(0)
   query: string = ''
   catid?:number =0
-
+  ///change some shit heree pls
   constructor(
     private service: BookServiceService,
     private router: Router,
