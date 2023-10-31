@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DbContext, LibraryContext>(option =>
 {
-    option.UseSqlServer("Server=localhost,1433;Database=library;User ID=sa;Password={Luunhungbinthy1};Trusted_Connection=False;TrustServerCertificate=True;Encrypt=True;");
+    option.UseSqlServer("Server=localhost,1433;Database=library;User ID=SA;Password=Password123;Trusted_Connection=False;TrustServerCertificate=True;Encrypt=True;");
 });
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddCors(cors =>

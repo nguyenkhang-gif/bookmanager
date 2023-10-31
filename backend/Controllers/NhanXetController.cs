@@ -33,7 +33,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<IEnumerable<NhanXet>> getAllwithUserId([FromRoute]string id){
+        public async Task<IEnumerable<NhanXet>> getAllwithUserId([FromRoute]int id){
             return await context.NhanXets.GetAsync(item=>item.Userid==id);
         }
 

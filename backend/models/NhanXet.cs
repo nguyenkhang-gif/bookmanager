@@ -15,7 +15,7 @@ public partial class NhanXet
 
     public string? Tieude { get; set; }
 
-    public string? Userid { get; set; }
+    public int? Userid { get; set; }
     public int? rating { get; set; }
 
     public DateTime? Ngaydang { get; set; }
