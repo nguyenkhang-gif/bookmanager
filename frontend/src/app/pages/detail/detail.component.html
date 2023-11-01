@@ -21,7 +21,8 @@
         <p *ngIf="bookInfo.duocMuon == 0" class="un-available">hết sách</p>
       </div>
       <button class="borow-btn">Mượn ngay</button>
-      <button class="follow-btn">theo dõi</button>
+      <button class="follow-btn" *ngIf="!isFollow" (click)="handleFollowClick()">theo dõi</button>
+      <button class="un-follow-btn" *ngIf="isFollow" (click)="handleFollowClick()">bỏ theo dõi</button>
     </div>
   </div>
 
