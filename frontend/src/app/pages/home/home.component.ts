@@ -139,6 +139,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("home called")
     // this.pageIndex=1
     //get the fk query
     this.route.queryParams.subscribe((queryParams) => {

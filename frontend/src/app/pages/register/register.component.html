@@ -54,10 +54,10 @@
             <button type="submit" (click)="onSubmit()" class="btn">
               Sign In
             </button>
-            <mat-radio-group>
+            <!-- <mat-radio-group>
               <mat-radio-button class="custom-radio" value="option1">Option 1</mat-radio-button>
               <mat-radio-button class="custom-radio" value="option2">Option 2</mat-radio-button>
-            </mat-radio-group>
+            </mat-radio-group> -->
 
             <h6 style="color: rgba(206, 56, 56, 0.84)">Design by hongngoc</h6>
           </div>
@@ -89,21 +89,36 @@
         <div class="right">
           <div class="form">
             <h2>Login</h2>
-            <form action="">
-              <label for="">User Name</label><br />
-              <input class="border" type="text" /><br /><br />
-              <label for="">Email</label><br />
-              <input class="border" type="text" /><br /><br />
+            <form
+              [formGroup]="registerForm"
+              (ngSubmit)="onSubmit()"
+              type="submit"
+            >
+              <label for="username">User Name</label><br />
+              <input
+                class="border"
+                id="username"
+                formControlName="username"
+                type="text"
+              /><br /><br />
+             
               <label for="">Password</label><br />
-              <input class="border" type="text" /><br />
-
+              <input
+                class="border"
+                id="password"
+                formControlName="password"
+                type="password"
+              /><br />
+             
               <a routerLink="/">home</a>
-              <a (click)="toRegister()">create new acount</a>
+              <a (click)="toLogin()">Login</a>
               <!-- <br /><br /><br /><br /> -->
             </form>
           </div>
           <div class="container-btn-author">
-            <button type="submit" class="btn">Sign In</button>
+            <button type="submit" (click)="onSubmit()" class="btn">
+              Sign In
+            </button>
             <h6 style="color: rgba(206, 56, 56, 0.84)">Design by hongngoc</h6>
           </div>
         </div>

@@ -15,6 +15,8 @@ import { BookServiceService } from 'src/app/services/book-service.service';
 import { Category } from 'src/app/models/Category';
 import { query } from '@angular/animations';
 import { MaterialModule } from '../../material/material.module';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-top-navbar',
@@ -26,7 +28,9 @@ export class TopNavbarComponent implements OnInit {
   value = '';
   onSubmitString: string = '';
   CategoryList: Category[] = [];
+  curentUser?: User;
   constructor(
+    private serviceUser: UserService,
     private service: BookServiceService,
     private router: Router,
     private route: ActivatedRoute
@@ -61,14 +65,18 @@ export class TopNavbarComponent implements OnInit {
     this.onSubmitString = this.value;
   }
 
-  
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams) => {
       this.value = queryParams['q'];
       this.category = queryParams['cat'];
       this.onSubmitString = queryParams['q'];
     });
+    
+    if(this.serviceUser.getUser()!=null){
+
+      console.log(JSON.parse(`${this.serviceUser.getUser()}`));
+    }
+
     // this.onSubmitString=queryParams['q'];
     this.getListCat();
   }

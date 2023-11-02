@@ -6,3 +6,4 @@ export interface User{
     phone_number:string
     address:string
 }
+
