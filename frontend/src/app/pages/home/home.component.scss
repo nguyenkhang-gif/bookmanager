@@ -13,6 +13,7 @@
 
 /* Add some padding inside the card container */
 .container {
+
   padding: 2px 16px;
 }
 .outsite-container{
@@ -20,7 +21,7 @@
 }
 .home-container {
   // background-color: aqua;
-
+  justify-content: center;
   margin: auto;
   margin-top: 50px;
   max-width: 80vw;

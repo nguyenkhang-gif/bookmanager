@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, booleanAttribute } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router, TitleStrategy } from '@angular/router';
 import { Book } from 'src/app/models/Book';
 import { BookServiceService } from 'src/app/services/book-service.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private service: BookServiceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService:TitleService
   ) {}
 
   
@@ -71,10 +73,10 @@ export class HomeComponent implements OnInit {
 
     }
     else if(this.query != null && this.query != ''&& (this.catid != 0&&this.catid != null)){
-      console.log("handle query and cat");
-      console.log("handle  catid:",this.catid);
-      console.log("handle query :",this.query);
-      console.log("handle pageindex :",this.pageIndex);
+      // console.log("handle query and cat");
+      // console.log("handle  catid:",this.catid);
+      // console.log("handle query :",this.query);
+      // console.log("handle pageindex :",this.pageIndex);
       this.service.getBookWithPageIndexPageSizeCatIdContent(pageIndex,pageSize,this.catid,this.query).subscribe({
         next: (list) => {
           console.log(list);
@@ -140,6 +142,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("home called")
+    this.titleService.setTitle("home")
     // this.pageIndex=1
     //get the fk query
     this.route.queryParams.subscribe((queryParams) => {

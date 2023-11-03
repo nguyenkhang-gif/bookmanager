@@ -6,6 +6,7 @@
 <div *ngIf="bookInfo != null && category != null" class="container-item">
   <!-- <div class="colorfill-1"></div>
     <div class="colorfill-2"></div> -->
+    <!-- start of detail -->
   <div class="container-main">
     <img [src]="imgurl" alt="" />
     <div class="container-book-info">
@@ -25,7 +26,7 @@
       <button class="un-follow-btn" *ngIf="isFollow" (click)="handleFollowClick()">bỏ theo dõi</button>
     </div>
   </div>
-
+    <!-- end of detail -->
   <div class="container-main detail">
     <p class="comment-title">Chi tiết</p>
     <div class="containter-detail-text">

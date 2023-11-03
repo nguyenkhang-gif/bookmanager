@@ -17,6 +17,7 @@ import { query } from '@angular/animations';
 import { MaterialModule } from '../../material/material.module';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/User';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-top-navbar',
@@ -24,6 +25,7 @@ import { User } from 'src/app/models/User';
   styleUrls: ['./top-navbar.component.scss'],
 })
 export class TopNavbarComponent implements OnInit {
+  
   category?: number;
   value = '';
   onSubmitString: string = '';
@@ -33,7 +35,8 @@ export class TopNavbarComponent implements OnInit {
     private serviceUser: UserService,
     private service: BookServiceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService:TitleService
   ) {}
 
   isSpecificUrl(url: string): boolean {
@@ -64,8 +67,11 @@ export class TopNavbarComponent implements OnInit {
     });
     this.onSubmitString = this.value;
   }
+  
 
   ngOnInit(): void {
+    // this.titleService.setTitle("home")
+    // if(this.route.url)
     this.route.queryParams.subscribe((queryParams) => {
       this.value = queryParams['q'];
       this.category = queryParams['cat'];

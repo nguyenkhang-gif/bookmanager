@@ -9,6 +9,7 @@ import { Publisher } from 'src/app/models/Publisher';
 import { format } from 'date-fns';
 import { FollowService } from 'src/app/services/follow.service';
 import { Favorite } from 'src/app/models/Favorite';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-detail',
@@ -19,7 +20,8 @@ export class DetailComponent implements OnInit {
   constructor(
     private route: Router,
     private service: BookServiceService,
-    private FollowSer: FollowService
+    private FollowSer: FollowService,
+    private titleService: TitleService
   ) {}
   imgurl: string = '';
   imguserurl: string = '../../../assets/149071.png';
@@ -48,16 +50,15 @@ export class DetailComponent implements OnInit {
   handleFollowClick() {
     if (this.isFollow) {
       // console.log('handle remove follow');
-      if(this.thisFollow&&this.thisFollow.id)this.FollowSer.deleteWithId(this.thisFollow.id).subscribe({
-        next:(item)=>{
-          console.log("delete thành công");
-        },
-        error:(e)=>{
-          
-          console.log("error delete: ",e);
-          
-        }
-      })
+      if (this.thisFollow && this.thisFollow.id)
+        this.FollowSer.deleteWithId(this.thisFollow.id).subscribe({
+          next: (item) => {
+            console.log('delete thành công');
+          },
+          error: (e) => {
+            console.log('error delete: ', e);
+          },
+        });
       this.isFollow = false;
     } else {
       console.log('handle add follow');
@@ -102,6 +103,7 @@ export class DetailComponent implements OnInit {
   loaddata(url: any) {
     this.service.getBookWithId(url).subscribe({
       next: (book) => {
+        this.titleService.setTitle(book.tensach);
         this.bookInfo = book;
         console.log('book:', book);
         this.imgurl = `../../../assets/books/${book.hinhanh}`;
@@ -109,7 +111,7 @@ export class DetailComponent implements OnInit {
 
         this.service.getComment(book.id).subscribe({
           next: (comments) => {
-            console.log('commentS:', comments);
+            // console.log('commentS:', comments);
             // console.log('commentS lnegh:', comments.length);
             comments.forEach((item) => {
               this.averateRate += item.rating;
