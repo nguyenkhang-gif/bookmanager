@@ -10,139 +10,163 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  list: Book[] = []
-  ogList: Book[] = []
-  pageNum: number = 1
-  pageIndex: number = 1
-  itemInPage:number=8
-  itemsToRepeat = new Array(0)
-  query: string = ''
-  catid?:number =0
+  list: Book[] = [];
+  ogList: Book[] = [];
+  pageNum: number = 1;
+  pageIndex: number = 1;
+  itemInPage: number = 8;
+  itemsToRepeat = new Array(0);
+  query: string = '';
+  catid?: number = 0;
+  notFound = false;
   ///change some shit heree pls
   constructor(
     private service: BookServiceService,
     private router: Router,
     private route: ActivatedRoute,
-    private titleService:TitleService
+    private titleService: TitleService
   ) {}
 
-  
+  reloadPage() {
+    location.reload();
+  }
 
   isSpecificUrl(url: string): boolean {
     const currentUrl = this.router.url;
     return currentUrl.includes(`/${url}`);
   }
 
-
-  handleNextBefore(method:string){
-    if(method=="+"&&this.list.length){
-      
-      this.pageIndex++
-      this.setDataWithPageIndex(this.pageIndex,this.itemInPage)
+  handleNextBefore(method: string) {
+    if (method == '+' && this.list.length) {
+      this.pageIndex++;
+      this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
     }
-    if(method=="-"&&this.pageIndex>1){
-      this.pageIndex--
-      this.setDataWithPageIndex(this.pageIndex,this.itemInPage)
+    if (method == '-' && this.pageIndex > 1) {
+      this.pageIndex--;
+      this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
     }
-
   }
 
-  setDataWithPageIndex(pageIndex: number, pageSize: number){
-
-    if((this.query == null || this.query == '') && this.catid != 0&& this.catid!=null){
-      console.log('handle only catid:',this.catid);
-      this.service.getBookWithPageIndexPageSizeCatId(pageIndex,pageSize,this.catid).subscribe({
-        next: (list) => {
-          // console.log(list);
-          this.list = list;
-       
-        },
-      })
+  checkifnotfound() {
+    if (this.list.length == 0) {
+      this.notFound = true;
+    } else {
+      this.notFound = false;
     }
-    else if (this.query != null && (this.catid == 0||this.catid == null)){
-      // console.log('handle catid:',this.catid);
-      console.log('handle query only:',this.query);
-      this.service.getBookWithPageIndexPageSizeCatIdContent(pageIndex,pageSize,0,this.query).subscribe({
-        next: (list) => {
-          // console.log(list);
-          this.list = list;
-       
-        },
-      })
+  }
 
+  setDataWithPageIndex(pageIndex: number, pageSize: number) {
+    if (
+      (this.query == null || this.query == '') &&
+      this.catid != 0 &&
+      this.catid != null
+    ) {
+      // console.log('handle only catid:', this.catid);
+      this.service
+        .getBookWithPageIndexPageSizeCatId(pageIndex, pageSize, this.catid)
+        .subscribe({
+          next: (list) => {
+            // console.log(list);
+            this.list = list;
+          },
+        });
+    } else if (this.query != null && (this.catid == 0 || this.catid == null)) {
+      // console.log('handle query only:', this.query);
+      this.service
+        .getBookWithPageIndexPageSizeCatIdContent(
+          pageIndex,
+          pageSize,
+          0,
+          this.query
+        )
+        .subscribe({
+          next: (list) => {
+            // console.log('search with query: ', list);
 
-    }
-    else if(this.query != null && this.query != ''&& (this.catid != 0&&this.catid != null)){
+            this.list = list;
+            this.checkifnotfound()
+          },
+        });
+    } else if (
+      this.query != null &&
+      this.query != '' &&
+      this.catid != 0 &&
+      this.catid != null
+    ) {
       // console.log("handle query and cat");
       // console.log("handle  catid:",this.catid);
       // console.log("handle query :",this.query);
       // console.log("handle pageindex :",this.pageIndex);
-      this.service.getBookWithPageIndexPageSizeCatIdContent(pageIndex,pageSize,this.catid,this.query).subscribe({
-        next: (list) => {
-          console.log(list);
-          this.list = list;
-       
-        },
-        error:(e)=>{
-          console.log(e);
-          
-        }
-      })
-    }
-    else{
       this.service
-      .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
-      .subscribe({
-        next: (list) => {
-          console.log(list);
-          this.list = list;
-       
-        },
-       
-      });
+        .getBookWithPageIndexPageSizeCatIdContent(
+          pageIndex,
+          pageSize,
+          this.catid,
+          this.query
+        )
+        .subscribe({
+          next: (list) => {
+            // console.log(list);
+            this.list = list;
+            this.checkifnotfound();
+          },
+          error: (e) => {
+            // console.log(e);
+            
+          },
+        });
+    } else {
+      this.service
+        .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
+        .subscribe({
+          next: (list) => {
+            // console.log(list);
+            this.list = list;
+            this.checkifnotfound()
+          },
+          error:()=>{
+            this.checkifnotfound()
+            
+          }
+        });
     }
-    console.log('query:',this.query==null)
-    console.log('cat:',this.catid==null)
-   
-
-    
+    // console.log('query:', this.query == null);
+    // console.log('cat:', this.catid == null);
   }
 
-  
-  getDataWithQuery(query: string, catid: number) {
-    if ((query == null || query == '') && catid != 0) {
-      this.service.getBookWithCatId(catid).subscribe({
-        next: (data) => {
-          this.list = data
-          this.ogList = data;//chỉ để lấy số lượng item 
-        
-          this.pageNum = Math.ceil(this.ogList.length / 4);
-          this.itemsToRepeat = new Array(this.pageNum);
-          this.setDataWithPageIndex(1, 4);
-          // console.log('query none')
-          // console.log('cat :',this.catid)
-        },
-      });
-      
-    }
-    if (query != null && catid != 0) {
-      this.service.getBookWithCatIdAndContent(catid, query).subscribe({
-        next: (data) => {
-          this.list = data
-          // console.log('query :',this.query)
-          // console.log('cat :',this.catid)
-        },
-      });
-    }
-    if (this.query != null && (this.catid == 0||this.catid == null)){
-      console.log("handle getDate with query only:", this.query)
-    }
-
-  }
+  // getDataWithQuery(query: string, catid: number) {
+  //   if ((query == null || query == '') && catid != 0) {
+  //     this.service.getBookWithCatId(catid).subscribe({
+  //       next: (data) => {
+  //         this.list = data; //
+  //         this.ogList = data; //chỉ để lấy số lượng item
+  //         this.checkifnotfound()
+  //         this.pageNum = Math.ceil(this.ogList.length / 4);
+  //         this.itemsToRepeat = new Array(this.pageNum);
+  //         this.setDataWithPageIndex(1, 4);
+  //         // console.log('query none')
+  //         // console.log('cat :',this.catid)
+  //       },
+  //     });
+  //   }
+  //   if (query != null && catid != 0) {
+  //     this.service.getBookWithCatIdAndContent(catid, query).subscribe({
+  //       next: (data) => {
+  //         this.list = data;
+  //         this.checkifnotfound()
+  //         // console.log('query :',this.query)
+  //         // console.log('cat :',this.catid)
+  //       },
+  //     });
+  //   }
+  //   if (this.query != null && (this.catid == 0 || this.catid == null)) {
+  //     console.log('handle getDate with query only:', this.query);
+  //   }
+  // }
 
   ngOnInit(): void {
-    console.log("home called")
-    this.titleService.setTitle("home")
+    console.log('home called');
+    this.titleService.setTitle('home');
     // this.pageIndex=1
     //get the fk query
     this.route.queryParams.subscribe((queryParams) => {
@@ -151,9 +175,10 @@ export class HomeComponent implements OnInit {
       this.catid = queryParams['cat'];
       // console.log("query:",this.query)
       // this.getDataWithQuery(this.query, this.catid ? this.catid : 0);
-      this.setDataWithPageIndex(this.pageIndex,this.itemInPage)
+      this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
     });
     // console.log(this.query)
-    if (!this.isSpecificUrl('search')) this.setDataWithPageIndex(1,this.itemInPage);
+    if (!this.isSpecificUrl('search'))
+      this.setDataWithPageIndex(1, this.itemInPage);
   }
 }

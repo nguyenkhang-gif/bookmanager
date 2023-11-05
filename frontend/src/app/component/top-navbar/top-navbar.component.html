@@ -1,8 +1,11 @@
 <div class="header">
-  <div class="button-signin">
-    <a class="button-signup" routerLink="/register">Sign in/Logn in</a>
+  <div class="button-signin" *ngIf="!curentUser" >
+    <a class="button-signup" routerLink="/register">Sign in/Log in</a>
   </div>
-  <div class="title">
+  <div class="button-signin" *ngIf="curentUser" >
+    <a class="button-signup" routerLink="/register">Log out</a>
+  </div>
+  <div class="title" routerLink="/">
     <p>
       HCMUE
     </p>
@@ -40,6 +43,7 @@
   <mat-toolbar>
     <span class="title" routerLink="/">#ReadingIsHard</span>
     <button class="button-hot" mat-button>HOT!!!!!!</button>
+    <button class="button-hot" mat-button>Theo dõi</button>
     <button class="button-menu" mat-button [matMenuTriggerFor]="menu">
       Thể loại
     </button>
@@ -88,7 +92,7 @@
   </div>
   <div
     class="container-handle-search"
-    *ngIf="category != null && CategoryList.length && isSpecificUrl('search')"
+    *ngIf="category != null && category !=0 && CategoryList.length && isSpecificUrl('search')"
   >
     <p>thể loại:</p>
     <div class="content-cat">
@@ -96,7 +100,7 @@
         <!-- {{ onSubmitString }} -->
         {{ CategoryList[category - 1].tenchude }}
       </p>
-      <p class="button-6">X</p>
+      <p class="button-6" (click)="handleDeleteCatSearch()">X</p>
     </div>
   </div>
 </div>

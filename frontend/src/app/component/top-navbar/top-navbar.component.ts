@@ -68,6 +68,12 @@ export class TopNavbarComponent implements OnInit {
     this.onSubmitString = this.value;
   }
   
+  handleDeleteCatSearch(){
+    console.log("handle delete cat and search");
+    this.category=0
+    this.router.navigate(['/'])
+  }
+
 
   ngOnInit(): void {
     // this.titleService.setTitle("home")
@@ -79,7 +85,7 @@ export class TopNavbarComponent implements OnInit {
     });
     
     if(this.serviceUser.getUser()!=null){
-
+      this.curentUser=JSON.parse(`${this.serviceUser.getUser()}`)
       console.log(JSON.parse(`${this.serviceUser.getUser()}`));
     }
 

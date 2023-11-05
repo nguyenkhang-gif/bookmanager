@@ -15,8 +15,12 @@
     </div>
   </div>
 </div>
-<div *ngIf="list.length == 0" class="spinner-home">
+<div *ngIf="list.length == 0 && !notFound" class="spinner-home">
   <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="list.length == 0 && notFound" class="spinner-home notfound">
+  <mat-icon class="fixed-icon">build</mat-icon>
+  <p >Đã xãy ra lỗi </p>
 </div>
 <div class="container-pagination">
   <div class="container-main-pagination">
