@@ -56,7 +56,7 @@ export class BookServiceService {
   }
 
 
-  getBookWithPageIndexPageSizeCatIdContent(pageIndex: number, pageSize: number, catid: number, content: string) {
+  getBookWithPageIndexPageSizeCatIdContent(pageIndex: number, pageSize: number, catid?: number, content?: string) {
     let url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?catid=${catid}&content=${content}`
     if(catid==0)url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?content=${content}`
     console.log(url)

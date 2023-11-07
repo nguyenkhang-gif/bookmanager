@@ -8,11 +8,12 @@ namespace backend;
 public partial class TaiKhoan
 {
     [Key]
-    public int? Id { get; set; } = null!;
+    public int? Id { get; set; } 
 
     public string? Username { get; set; }
 
-    public string? Password { get; set; }
+     public byte[]? passwordHash { get; set; } // Change the data type to byte[]
+    public byte[]? passwordSalt { get; set; }
 
     public bool? Gioitinh { get; set; }
 

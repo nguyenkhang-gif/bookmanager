@@ -37,41 +37,39 @@ export class RegisterComponent implements OnInit {
     this.role = 'register';
   }
   onSubmit() {
-    console.log('this is in submit', this.service.getUser());
-    // console.log(this.registerForm.value);
-    // this.tempUserRes.username = this.registerForm.value.username
+    // console.log('this is in submit', this.service.getUser());
     if (
       this.registerForm.value.username != null &&
       this.registerForm.value.password != null
     ) {
       console.log({
-       
         username: this.registerForm.value.username,
         password: this.registerForm.value.password,
-        
       });
-      
+
       this.service
         .Login({
           // id: '', // You can set the id as needed
           username: this.registerForm.value.username,
-          password: this.registerForm.value.password
+          password: this.registerForm.value.password,
           // email: '', // Set the email, phone_number, address as needed
           // phone_number: '',
           // address: '',
         })
         .subscribe({
           next: (item) => {
-            console.log("login success",item);
-            this.service.setUser(item)
-            this.router.navigate(['/'])
+            console.log('login success', item);
+            localStorage.setItem('authToken', item);
+            // this.service.setUser(item)
+            // this.router.navigate(['/'])
             // console.log(item);
-          },
-          error: (e) => {
-            console.log(e);
           },
         });
     }
+  }
+  onSubmit2(){
+    this.service.getMe().subscribe((item)=>{console.log("get me res",item);
+    })
   }
 
   ngOnInit(): void {

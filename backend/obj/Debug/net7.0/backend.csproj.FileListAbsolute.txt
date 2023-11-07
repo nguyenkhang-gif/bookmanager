@@ -226,3 +226,7 @@ E:/apps/công nghệ web/final project/backend/bin/Debug/net7.0/runtimes/win/lib
 /Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/obj/Debug/net7.0/backend.pdb
 /Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/obj/Debug/net7.0/backend.genruntimeconfig.cache
 /Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/obj/Debug/net7.0/ref/backend.dll
+/Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/bin/Debug/net7.0/Scrutor.dll
+/Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.dll
+/Users/khangnguyen/Desktop/apps/webproject/finalproject/library/backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll

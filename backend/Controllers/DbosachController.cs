@@ -39,7 +39,6 @@ namespace backend.Controllers
         public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateId([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid)
         {
             return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>!catid.HasValue || item.Chudeid == catid);
-            
         }
 
         // [HttpGet("[action]/{pageIndex}/{pageSize}/{catid}/{content}")]

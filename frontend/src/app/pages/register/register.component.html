@@ -101,7 +101,7 @@
                 formControlName="username"
                 type="text"
               /><br /><br />
-             
+
               <label for="">Password</label><br />
               <input
                 class="border"
@@ -109,7 +109,7 @@
                 formControlName="password"
                 type="password"
               /><br />
-             
+
               <a routerLink="/">home</a>
               <a (click)="toLogin()">Login</a>
               <!-- <br /><br /><br /><br /> -->
@@ -117,6 +117,9 @@
           </div>
           <div class="container-btn-author">
             <button type="submit" (click)="onSubmit()" class="btn">
+              Sign In
+            </button>
+            <button type="submit" (click)="onSubmit2()" class="btn">
               Sign In
             </button>
             <h6 style="color: rgba(206, 56, 56, 0.84)">Design by hongngoc</h6>

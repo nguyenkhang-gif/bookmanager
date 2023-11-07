@@ -11,15 +11,21 @@ import { User } from '../models/User';
 export class UserService {
   constructor(private httpClient: HttpClient) {}
 
-  Login(user: any): Observable<any>  {
-    localStorage.setItem("user","this is an examplae")
-    const temp:any = localStorage.getItem("random")
-    // if(!temp){
-      console.log("this  is temp: ", temp)
-    // }
-    return this.httpClient.post<any>(
+  public Login(user: any): Observable<string>  {
+    return this.httpClient.post(
       'http://localhost:5280/TaiKhoan/Login',
-      user
+      user,
+      {
+        responseType:'text'
+      }
+    );
+  }
+  public getMe(): Observable<string>  {
+    return this.httpClient.get(
+      'http://localhost:5280/TaiKhoan/Getme',
+      {
+        responseType:'text'
+      }
     );
   }
 

@@ -134,35 +134,7 @@ export class HomeComponent implements OnInit {
     // console.log('cat:', this.catid == null);
   }
 
-  // getDataWithQuery(query: string, catid: number) {
-  //   if ((query == null || query == '') && catid != 0) {
-  //     this.service.getBookWithCatId(catid).subscribe({
-  //       next: (data) => {
-  //         this.list = data; //
-  //         this.ogList = data; //chỉ để lấy số lượng item
-  //         this.checkifnotfound()
-  //         this.pageNum = Math.ceil(this.ogList.length / 4);
-  //         this.itemsToRepeat = new Array(this.pageNum);
-  //         this.setDataWithPageIndex(1, 4);
-  //         // console.log('query none')
-  //         // console.log('cat :',this.catid)
-  //       },
-  //     });
-  //   }
-  //   if (query != null && catid != 0) {
-  //     this.service.getBookWithCatIdAndContent(catid, query).subscribe({
-  //       next: (data) => {
-  //         this.list = data;
-  //         this.checkifnotfound()
-  //         // console.log('query :',this.query)
-  //         // console.log('cat :',this.catid)
-  //       },
-  //     });
-  //   }
-  //   if (this.query != null && (this.catid == 0 || this.catid == null)) {
-  //     console.log('handle getDate with query only:', this.query);
-  //   }
-  // }
+  
 
   ngOnInit(): void {
     console.log('home called');
