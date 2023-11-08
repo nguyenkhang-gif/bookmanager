@@ -11,6 +11,10 @@ public partial class TaiKhoan
     public int? Id { get; set; } 
 
     public string? Username { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? email { get; set; }
+    public string? phone_number { get; set; }
 
      public byte[]? passwordHash { get; set; } // Change the data type to byte[]
     public byte[]? passwordSalt { get; set; }

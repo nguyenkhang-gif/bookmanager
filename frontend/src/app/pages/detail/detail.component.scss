@@ -344,3 +344,15 @@
   display: flex;
   flex-direction: row;
 }
+
+
+
+.success-snackbar {
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text color */
+}
+
+.error-snackbar {
+  background-color: #f44336; /* Red background color */
+  color: white; /* White text color */
+}

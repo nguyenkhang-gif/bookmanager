@@ -10,6 +10,10 @@ import { format } from 'date-fns';
 import { FollowService } from 'src/app/services/follow.service';
 import { Favorite } from 'src/app/models/Favorite';
 import { TitleService } from 'src/app/services/title.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from 'src/app/services/user.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -18,10 +22,12 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class DetailComponent implements OnInit {
   constructor(
+    private serviceUser: UserService,
     private route: Router,
     private service: BookServiceService,
     private FollowSer: FollowService,
-    private titleService: TitleService
+    private titleService: TitleService,
+    private snackbarService: SnackbarService
   ) {}
   imgurl: string = '';
   imguserurl: string = '../../../assets/149071.png';
@@ -47,55 +53,91 @@ export class DetailComponent implements OnInit {
   isFollow: boolean = false;
   thisFollow?: Favorite;
 
-  handleFollowClick() {
+  FollowDbUpdate(userId: any) {
     if (this.isFollow) {
+      this.snackbarService.showSuccess('đã bỏ theo dõi');
       // console.log('handle remove follow');
       if (this.thisFollow && this.thisFollow.id)
         this.FollowSer.deleteWithId(this.thisFollow.id).subscribe({
-          next: (item) => {
-            console.log('delete thành công');
-          },
+          next: (item) => {},
           error: (e) => {
             console.log('error delete: ', e);
           },
         });
-      this.isFollow = false;
+      // this.isFollow = false;
     } else {
-      console.log('handle add follow');
-
+      this.snackbarService.showSuccess('theo dõi thành công');
       this.FollowSer.add({
         Sachid: parseInt(this.route.url.split('/')[2]),
-        taikhoanid: 2,
+        taikhoanid: userId,
       }).subscribe({
         next: (item) => {
-          console.log('add thành công');
+          // this.snackbarService.showSuccess("theo dõi thành công");
         },
         error: (e) => {
-          console.log('error: ', e);
+          console.log('error: ', e.status);
+          // if(e.a)
+          // this.snackbarService.showSuccess("theo dõi thành công");
         },
       });
 
-      this.isFollow = true;
+      // this.isFollow = true;
     }
   }
-  handleFollow() {
+
+  handleFollowClick() {
+    this.serviceUser.getMe().subscribe({
+      next: (item) => {
+        // console.log('get me called');
+
+        this.FollowDbUpdate(item); //handle up date lên data nếu đã auth
+        this.handleFollow();
+      },
+      
+    });
+  }
+
+  getFollow(id: any) {
     this.FollowSer.getFollowWithUserAndBookId(
-      2,
+      id,
       this.route.url.split('/')[2]
     ).subscribe({
       next: (item) => {
         if (item) {
-          // console.log("there's no fav");
           this.thisFollow = item;
           this.isFollow = true;
         } else {
-          // console.log("there's no fav");
           this.isFollow = false;
           this.thisFollow = item;
         }
       },
       error: (e) => {
         console.log(e);
+      },
+    });
+  }
+  //lấy follow như kiểu load data
+  handleFollow() {
+    this.serviceUser.getMe().subscribe({
+      next: (item) => {
+        //có user
+        this.FollowSer.getFollowWithUserAndBookId(
+          item,
+          this.route.url.split('/')[2]
+        ).subscribe({
+          next: (item) => {
+            if (item) {
+              this.thisFollow = item;
+              this.isFollow = true;
+            } else {
+              this.isFollow = false;
+              this.thisFollow = item;
+            }
+          },
+          error: (e) => {
+            console.log(e);
+          },
+        });
       },
     });
   }
@@ -107,32 +149,17 @@ export class DetailComponent implements OnInit {
         this.bookInfo = book;
         console.log('book:', book);
         this.imgurl = `../../../assets/books/${book.hinhanh}`;
-        // console.log('bookid:', book.id);
+        this.fetchComments(book.id);
 
-        this.service.getComment(book.id).subscribe({
-          next: (comments) => {
-            // console.log('commentS:', comments);
-            // console.log('commentS lnegh:', comments.length);
-            comments.forEach((item) => {
-              this.averateRate += item.rating;
-            });
-            this.averateRate /= comments.length;
-            // console.log("averateRate:",this.averateRate)
-            this.comment = comments;
-          },
-        });
         this.service.getCatgory(book.chudeid).subscribe({
           next: (cat) => {
-            // console.log('chude:', cat);
+            // lấy chủ đề
             this.category = cat;
           },
-          error: (e) => {
-            console.log(e);
-          },
         });
+
         this.service.getProducer(book.nhaxuatbanid).subscribe({
           next: (producer) => {
-            console.log('producer:', producer);
             this.producerInfo = producer;
           },
         });
@@ -140,84 +167,71 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  // =================START of add coment func
+  getName(id: any) {
+    this.serviceUser.getNameWithId(id).subscribe((name) => {
+      return name;
+    });
+  }
+  private fetchComments(bookId: number) {
+    this.service.getComment(bookId).subscribe({
+      // lấy comments
+      next: (comments) => {
+        comments.forEach((item) => {
+          this.averateRate += item.rating;
+          // lấy tên
+          this.serviceUser.getNameWithId(item.userid).subscribe((name) => {
+            item.user = name;
+          });
+        });
+        this.averateRate /= comments.length;
+
+        this.comment = comments;
+      },
+    });
+  }
+  // =================START of add coment func
+
   //handle add comment
   handleAddComment() {
-    console.log('handle add comment', this.commentText);
-    this.service
-      .addReview({
-        sachid: parseInt(this.route.url.split('/')[2], 10),
-        tieude: this.commentText,
-        userid: '2', // Đặt email, phone_number và address theo nhu cầu
-        rating: this.rating,
-        ngaydang: this.formattedDate, // Đặt ngày dự định theo nhu cầu
-        // sachid: 101,
-        // tieude: "Nhận xét sách 1",
-        // userid: "1",
-        // rating: 5,
-        // ngaydang: "2023-10-15T08:30:00",
-      })
-      .subscribe({
-        next: (item) => {
-          console.log('add thành công', item);
-          // lấy lại comment
-          if (this.bookInfo) console.log('comments needs tobe add');
-          // this.service.getComment(this.bookInfo.id).subscribe({
-          //   next: (comments) => {
-          //     console.log('commentS:', comments);
-          //     // console.log('commentS lnegh:', comments.length);
-          //     comments.forEach(item=>{
-          //       this.averateRate += item.rating
+    this.serviceUser.getMe().subscribe({
+      next: (item: string) => {
+        // console.log(item);
+        this.snackbarService.showSuccess('add thành công !!!');
+        // ==============START OF ADD COMMENT===============
+        this.service
+          .addReview({
+            sachid: parseInt(this.route.url.split('/')[2], 10),
+            tieude: this.commentText,
+            userid: item, // Đặt email, phone_number và address theo nhu cầu
+            rating: this.rating,
+            ngaydang: this.formattedDate, // Đặt ngày dự định theo nhu cầu
+          })
+          .subscribe({
+            next: (item) => {
+              console.log('add thành công', item);
+              // lấy lại comment
+              if (this.bookInfo) console.log('comments needs tobe add');
+            },
+            error: (e) => {
+              console.log('these and error', e.status);
+              if (e.status && this.bookInfo)
+                this.fetchComments(this.bookInfo.id);
+            },
+          });
 
-          //     })
-          //     this.averateRate /= comments.length
-          //     // console.log("averateRate:",this.averateRate)
-          //     this.comment=comments
-          //   },
-          // })
-        },
-        error: (e) => {
-          console.log('these and error', e.status);
-          if (e.status && this.bookInfo)
-            this.service.getComment(this.bookInfo.id).subscribe({
-              next: (comments) => {
-                console.log('commentS:', comments);
-                // console.log('commentS lnegh:', comments.length);
-                comments.forEach((item) => {
-                  this.averateRate += item.rating;
-                });
-                this.averateRate /= comments.length;
-                // console.log("averateRate:",this.averateRate)
-                this.comment = comments;
-              },
-            });
-        },
-      });
-    // console.log({
-    //   // sachid: parseInt(this.route.url.split('/')[2], 10),
-    //   // tieude: this.commentText,
-    //   // userid: '2',  // Đặt email, phone_number và address theo nhu cầu
-    //   // rating: this.rating,
-    //   // ngaydang: this.formattedDate, // Đặt ngày dự định theo nhu cầu
-    //   sachid: 101,
-    //   tieude: "Nhận xét sách 1",
-    //   userid: "1",
-    //   rating: 5,
-    //   ngaydang: "2023-10-15T08:30:00",
-    // });
-
-    // console.log({
-    //   sachid: parseInt(this.route.url.split('/')[2], 10),
-    //   tieude: this.commentText,
-    //   userid: '2',  // Đặt email, phone_number và address theo nhu cầu
-    //   rating: this.rating,
-    //   ngaydang: this.formattedDate, // Đặt ngày dự định theo nhu cầu
-
-    // })
+        // ==============END OF ADD COMMENT===============
+      },
+      error: (e) => {
+        this.snackbarService.showSuccess('add không thành công !!!');
+        console.log(e.status);
+      },
+    });
   }
 
   ngOnInit(): void {
     this.handleFollow();
-    console.log('on route', this.route.url.split('/')[2]);
+    // console.log('on route', this.route.url.split('/')[2]);
     this.loaddata(this.route.url.split('/')[2]);
   }
 }

@@ -69,6 +69,13 @@ namespace backend.Controllers
         {
             return await context.TaiKhoans.getSingleAsync(id);
         }
+        [HttpGet("[action]/{id}")]
+
+        public async Task<string> getNameById([FromRoute] int id)
+        {
+            var temp = await context.TaiKhoans.getSingleAsync(id);
+            return temp.Username!;
+        }
 
 
         [HttpPost("[action]")]
@@ -126,21 +133,67 @@ namespace backend.Controllers
 
         }
 
-        // [HttpPost("[action]")]
-        // public async Task<ActionResult> Update([FromBody] Dbosach item)
-        // {
+        [HttpPost("[action]")]
+        public async Task<string> Update([FromBody] TaiKhoan item, string? oldPassword, string? newPassword)
+        {
+            var tempitem = await context.TaiKhoans.getSingleAsync(usertemp => usertemp.Id == item.Id);
+            if (tempitem != null)
+            {
+                if (oldPassword != null && newPassword != null)
+                {
+                    if (VerifyPasswordHash(oldPassword, tempitem.passwordHash!, tempitem.passwordSalt!))
+                    {
+                        CreatePasswordHash(newPassword!, out byte[] passwordHash, out byte[] passwordSalt);
+                        // temp.Username = item.username;
+                        tempitem.Bikhoa = item.Bikhoa;
+                        tempitem.FirstName = item.FirstName;
+                        tempitem.LastName = item.LastName;
+                        tempitem.phone_number = item.phone_number;
+                        tempitem.email = item.email;
+                        tempitem.Quyen = item.Quyen;
+                        tempitem.Gioitinh = item.Gioitinh;
+                        tempitem.Ngaysinh = item.Ngaysinh;
+                        tempitem.passwordHash = passwordHash;
+                        tempitem.passwordSalt = passwordSalt;
+                        try
+                        {
+                            context.TaiKhoans.Update(tempitem);
+                            await context.SaveChangesAsync();
+                            return "edit thành công có mật khẩu";
+                        }
+                        catch (Exception e)
+                        {
+                            return e.ToString();
+                        }
+                        // return "change password";
+                    }
+                }
+                else
+                {
+                    tempitem.Bikhoa = item.Bikhoa;
+                    tempitem.FirstName = item.FirstName;
+                    tempitem.phone_number = item.phone_number;
+                    tempitem.email = item.email;
+                    tempitem.LastName = item.LastName;
+                    tempitem.Quyen = item.Quyen;
+                    tempitem.Gioitinh = item.Gioitinh;
+                    tempitem.Ngaysinh = item.Ngaysinh;
+                    try
+                    {
+                        context.TaiKhoans.Update(tempitem);
+                        await context.SaveChangesAsync();
+                        return "edit thành công không thay đổi pass";
+                    }
+                    catch (Exception e)
+                    {
+                        return e.ToString();
+                    }
+                }
+                return "there are user";
+            }
+            return "error";
 
-        //     try
-        //     {
-        //         context.Dbosaches.Update(item);
-        //         await context.SaveChangesAsync();
-        //         return Ok();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
-        //     }
-        // }
+        }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -160,6 +213,8 @@ namespace backend.Controllers
             // return  true;
         }
 
+
+
         private string createToken(TaiKhoan user)
         {
             List<Claim> claims = new List<Claim>{
@@ -171,7 +226,7 @@ namespace backend.Controllers
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddDays(30),
                 signingCredentials: cred
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

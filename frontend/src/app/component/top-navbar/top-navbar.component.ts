@@ -30,7 +30,7 @@ export class TopNavbarComponent implements OnInit {
   value = '';
   onSubmitString: string = '';
   CategoryList: Category[] = [];
-  curentUser?: User;
+  curentUser?: any;
   constructor(
     private serviceUser: UserService,
     private service: BookServiceService,
@@ -54,7 +54,7 @@ export class TopNavbarComponent implements OnInit {
   getListCat() {
     this.service.getAllCatgory().subscribe({
       next: (list) => {
-        // console.log('all catergory list', list);
+       
         this.CategoryList = list;
       },
     });
@@ -69,7 +69,7 @@ export class TopNavbarComponent implements OnInit {
   }
   
   handleDeleteCatSearch(){
-    console.log("handle delete cat and search");
+    // console.log("handle delete cat and search");
     this.category=0
     this.router.navigate(['/'])
   }
@@ -84,12 +84,18 @@ export class TopNavbarComponent implements OnInit {
       this.onSubmitString = queryParams['q'];
     });
     
-    if(this.serviceUser.getUser()!=null){
-      this.curentUser=JSON.parse(`${this.serviceUser.getUser()}`)
-      console.log(JSON.parse(`${this.serviceUser.getUser()}`));
-    }
+    this.serviceUser.getMe().subscribe({
+      next:(item)=>{
+        this.curentUser=item
+      },
+      error:(e)=>{
+        
+      }
+    })
 
     // this.onSubmitString=queryParams['q'];
+    console.log("nav bar called:",this.serviceUser.getMe());
+    
     this.getListCat();
   }
 }

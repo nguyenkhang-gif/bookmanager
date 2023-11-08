@@ -34,6 +34,7 @@ namespace backend.Controllers
 
         [HttpGet("[action]/{id}")]
         public async Task<IEnumerable<NhanXet>> getAllwithUserId([FromRoute]int id){
+            
             return await context.NhanXets.GetAsync(item=>item.Userid==id);
         }
 
@@ -41,7 +42,7 @@ namespace backend.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Insert([FromBody]NhanXet item){
             try{
-                context.NhanXets.InsertAsync(item);
+                context.NhanXets?.InsertAsync(item);
                 await context.SaveChangesAsync();
                 return Ok("add thành công");
             }catch(Exception e){

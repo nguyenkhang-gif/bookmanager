@@ -5,6 +5,7 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { OrderPagesComponent } from './pages/order-pages/order-pages.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,12 @@ const routes: Routes = [
     path:"order",
     component:OrderPagesComponent
   },
+  
+  {
+    path:"profile",
+    component:ProfileComponent
+  },
+
   {
     path:"register",
     component:RegisterComponent

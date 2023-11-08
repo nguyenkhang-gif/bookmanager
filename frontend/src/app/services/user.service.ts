@@ -10,30 +10,44 @@ import { User } from '../models/User';
 })
 export class UserService {
   constructor(private httpClient: HttpClient) {}
+  public Logout() {
+    localStorage.removeItem('auth');
+  }
 
-  public Login(user: any): Observable<string>  {
-    return this.httpClient.post(
-      'http://localhost:5280/TaiKhoan/Login',
+  public Login(user: any): Observable<string> {
+    return this.httpClient.post('http://localhost:5280/TaiKhoan/Login', user, {
+      responseType: 'text',
+    });
+  }
+
+  public editInfo(user: any): Observable<string> {
+    return this.httpClient.post<string>(
+      `http://localhost:5280/TaiKhoan/Update`,
       user,
-      {
-        responseType:'text'
-      }
     );
   }
-  public getMe(): Observable<string>  {
+
+  public getMe(): Observable<string> {
+    return this.httpClient.get('http://localhost:5280/TaiKhoan/Getme', {
+      responseType: 'text',
+    });
+  }
+  getNameWithId(id: any): Observable<string> {
     return this.httpClient.get(
-      'http://localhost:5280/TaiKhoan/Getme',
+      `http://localhost:5280/TaiKhoan/getNameById/${id}`,
       {
-        responseType:'text'
+        responseType: 'text',
       }
     );
   }
 
-  setUser(user:any){
-    localStorage.setItem("user",JSON.stringify(user))
+  setUser(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
-  getUser(){
-    return localStorage.getItem("user")
+  getUser(id: any): Observable<User> {
+    return this.httpClient.get<any>(
+      `http://localhost:5280/TaiKhoan/getById/${id}`
+    );
   }
 }

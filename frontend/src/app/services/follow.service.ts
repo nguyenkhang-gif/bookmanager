@@ -10,7 +10,7 @@ import { Favorite } from '../models/Favorite';
 export class FollowService {
   constructor(private httpClient: HttpClient) {}
 
-  getFollowWithUserAndBookId(userid: number, bookid: any) {
+  getFollowWithUserAndBookId(userid: any, bookid: any) {
     return this.httpClient.get<Favorite>(
       `http://localhost:5280/Follow/getByUserId/${userid}/${bookid}`
     );

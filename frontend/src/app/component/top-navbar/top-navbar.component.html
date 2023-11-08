@@ -2,9 +2,12 @@
   <div class="button-signin" *ngIf="!curentUser" >
     <a class="button-signup" routerLink="/register">Sign in/Log in</a>
   </div>
-  <div class="button-signin" *ngIf="curentUser" >
-    <a class="button-signup" routerLink="/register">Log out</a>
+  <div class="button-signin" *ngIf="curentUser!=null" >
+    <a class="button-signup" routerLink="/profile">Cá Nhân</a>
   </div>
+  <!-- <div class="button-signin" *ngIf="curentUser" >
+    <a class="button-signup" routerLink="/register">Log out</a>
+  </div> -->
   <div class="title" routerLink="/">
     <p>
       HCMUE
@@ -30,15 +33,7 @@
   </div>
 </div>
 <div class="nav">
-  <!-- <ul class="nav-task">
-        <li class="nav-hot"><a href="">HOT!!</a></li>
-        <li class="nav-lichsu"><a href="">LỊCH SỬ</a></li>
-        <li class="nav-theloai"><a href="">THỂ LOẠI</a></li>
 
-        <div class="search-box">
-            <input type="search" placeholder="Tìm sách..." id="search">
-        </div>
-    </ul>   -->
 
   <mat-toolbar>
     <span class="title" routerLink="/">#ReadingIsHard</span>

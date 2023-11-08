@@ -15,6 +15,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
     NotfoundComponent,
     TopNavbarComponent,
     RegisterComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { AuthInterceptor } from './services/auth.interceptor';
     MaterialModule,
     HttpClientModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    MatSnackBarModule
   ],
   providers: [
     {

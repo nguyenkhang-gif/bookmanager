@@ -42,10 +42,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm.value.username != null &&
       this.registerForm.value.password != null
     ) {
-      console.log({
-        username: this.registerForm.value.username,
-        password: this.registerForm.value.password,
-      });
+  
 
       this.service
         .Login({
@@ -60,17 +57,13 @@ export class RegisterComponent implements OnInit {
           next: (item) => {
             console.log('login success', item);
             localStorage.setItem('authToken', item);
-            // this.service.setUser(item)
-            // this.router.navigate(['/'])
+            this.router.navigate(['/'])
             // console.log(item);
           },
         });
     }
   }
-  onSubmit2(){
-    this.service.getMe().subscribe((item)=>{console.log("get me res",item);
-    })
-  }
+ 
 
   ngOnInit(): void {
     // if()
