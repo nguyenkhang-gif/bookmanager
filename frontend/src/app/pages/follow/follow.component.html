@@ -1,0 +1,38 @@
+<div class="container-top">
+  <p>Follow</p>
+</div>
+<div *ngIf="followBookList.length > 0" class="outsite-container">
+  <div class="home-container">
+    <div *ngFor="let item of followBookList" class="card">
+      <div style="width: 100px; cursor: pointer">
+        <img
+          src="../../../assets/books/{{ item.hinhanh }}"
+          alt="Avatar"
+          [routerLink]="['/detail', item.id]"
+        />
+      </div>
+      <div class="container">
+        <div class="">
+          <h4>
+            <b>{{ item.tensach }}</b>
+          </h4>
+          <p>Được viết bởi {{ item.tensach }}</p>
+        </div>
+
+        <!-- HTML !-->
+        <div class="">
+          <button class="button-3" role="button" (click)="handleBorrow()">
+            Mượn ngay
+          </button>
+          <button
+            class="button-3 red"
+            role="button"
+            (click)="handleUnfollow(item.id)"
+          >
+            Bỏ theo dõi
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

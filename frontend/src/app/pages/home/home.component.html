@@ -1,11 +1,16 @@
 <div *ngIf="list.length > 0" class="outsite-container">
+  <app-bundle-section></app-bundle-section>
   <div class="home-container">
     <div
       *ngFor="let item of list"
       class="card"
       [routerLink]="['/detail', item.id]"
     >
-      <img src="../../../assets/books/{{item.hinhanh}}" alt="Avatar" style="width: 100%" />
+      <img
+        src="../../../assets/books/{{ item.hinhanh }}"
+        alt="Avatar"
+        style="width: 100%"
+      />
       <div class="container">
         <h4>
           <b>{{ item.tensach }}</b>
@@ -20,7 +25,7 @@
 </div>
 <div *ngIf="list.length == 0 && notFound" class="spinner-home notfound">
   <mat-icon class="fixed-icon">build</mat-icon>
-  <p >Đã xãy ra lỗi </p>
+  <p>Đã xãy ra lỗi</p>
 </div>
 <div class="container-pagination">
   <div class="container-main-pagination">

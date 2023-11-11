@@ -18,6 +18,8 @@ public partial class Dbosach
     
     public int? Chudeid { get; set; }
 
+    public int? borrowCount{get;set;}
+
     public string? Dinhdang { get; set; }
 
     public int? Dongia { get; set; }

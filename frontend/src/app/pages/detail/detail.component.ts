@@ -59,12 +59,15 @@ export class DetailComponent implements OnInit {
       // console.log('handle remove follow');
       if (this.thisFollow && this.thisFollow.id)
         this.FollowSer.deleteWithId(this.thisFollow.id).subscribe({
-          next: (item) => {},
+          next: (item) => {
+            console.log('followUpdate:', item);
+
+            this.handleFollow();
+          },
           error: (e) => {
-            console.log('error delete: ', e);
+            this.handleFollow();
           },
         });
-      // this.isFollow = false;
     } else {
       this.snackbarService.showSuccess('theo dõi thành công');
       this.FollowSer.add({
@@ -72,12 +75,10 @@ export class DetailComponent implements OnInit {
         taikhoanid: userId,
       }).subscribe({
         next: (item) => {
-          // this.snackbarService.showSuccess("theo dõi thành công");
+          this.handleFollow();
         },
         error: (e) => {
-          console.log('error: ', e.status);
-          // if(e.a)
-          // this.snackbarService.showSuccess("theo dõi thành công");
+          this.handleFollow();
         },
       });
 
@@ -88,35 +89,12 @@ export class DetailComponent implements OnInit {
   handleFollowClick() {
     this.serviceUser.getMe().subscribe({
       next: (item) => {
-        // console.log('get me called');
-
-        this.FollowDbUpdate(item); //handle up date lên data nếu đã auth
-        this.handleFollow();
-      },
-      
-    });
-  }
-
-  getFollow(id: any) {
-    this.FollowSer.getFollowWithUserAndBookId(
-      id,
-      this.route.url.split('/')[2]
-    ).subscribe({
-      next: (item) => {
-        if (item) {
-          this.thisFollow = item;
-          this.isFollow = true;
-        } else {
-          this.isFollow = false;
-          this.thisFollow = item;
-        }
-      },
-      error: (e) => {
-        console.log(e);
+        this.FollowDbUpdate(item);
       },
     });
   }
-  //lấy follow như kiểu load data
+
+  //lấy follow như kiểu load data, có tính hợp update 
   handleFollow() {
     this.serviceUser.getMe().subscribe({
       next: (item) => {

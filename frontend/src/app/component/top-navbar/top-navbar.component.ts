@@ -1,4 +1,4 @@
-import {
+ import {
   Component,
   EventEmitter,
   Input,
@@ -25,7 +25,6 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./top-navbar.component.scss'],
 })
 export class TopNavbarComponent implements OnInit {
-  
   category?: number;
   value = '';
   onSubmitString: string = '';
@@ -36,7 +35,7 @@ export class TopNavbarComponent implements OnInit {
     private service: BookServiceService,
     private router: Router,
     private route: ActivatedRoute,
-    private titleService:TitleService
+    private titleService: TitleService
   ) {}
 
   isSpecificUrl(url: string): boolean {
@@ -54,7 +53,6 @@ export class TopNavbarComponent implements OnInit {
   getListCat() {
     this.service.getAllCatgory().subscribe({
       next: (list) => {
-       
         this.CategoryList = list;
       },
     });
@@ -67,13 +65,12 @@ export class TopNavbarComponent implements OnInit {
     });
     this.onSubmitString = this.value;
   }
-  
-  handleDeleteCatSearch(){
-    // console.log("handle delete cat and search");
-    this.category=0
-    this.router.navigate(['/'])
-  }
 
+  handleDeleteCatSearch() {
+    // console.log("handle delete cat and search");
+    this.category = 0;
+    this.router.navigate(['/']);
+  }
 
   ngOnInit(): void {
     // this.titleService.setTitle("home")
@@ -83,19 +80,21 @@ export class TopNavbarComponent implements OnInit {
       this.category = queryParams['cat'];
       this.onSubmitString = queryParams['q'];
     });
-    
     this.serviceUser.getMe().subscribe({
-      next:(item)=>{
-        this.curentUser=item
+      next: (item) => {
+        console.log('user here', item);
+
+        this.curentUser = item;
       },
-      error:(e)=>{
-        
-      }
-    })
+      error: (e) => {
+        console.log('user here', this.curentUser);
+        this.curentUser = '';
+      },
+    });
 
     // this.onSubmitString=queryParams['q'];
-    console.log("nav bar called:",this.serviceUser.getMe());
-    
+    console.log('nav bar called:', this.serviceUser.getMe());
+
     this.getListCat();
   }
 }

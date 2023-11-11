@@ -31,11 +31,30 @@ namespace backend.Controllers
         {
             return await context.YeuThiches.getSingleAsync(item => item.taikhoanid == id && item.Sachid == bookid);
         }
-        [HttpGet("[action]/{id}")]
+       
+
+
+        [HttpGet("[action]/{id}")]// chức năng có vẻ chưa sài hoặc gần như ko sài 
         public async Task<YeuThich> getByBookId([FromRoute] int id)
         {
             return await context.YeuThiches.getSingleAsync(item => item.Sachid == id);
         }
+
+
+        [HttpGet("[action]/{userid}")]
+        public async Task<IEnumerable<Dbosach>> getAllBookWithUserId([FromRoute] int userid)
+        {
+            var templist = await context.YeuThiches.GetAsync(item => item.taikhoanid == userid);
+            var OGlist = new List<Dbosach>();
+            foreach (var itemi in templist)
+            {
+                var bookitem = await context.Dbosaches.getSingleAsync(it => it.Id == itemi.Sachid);
+                OGlist.Add(bookitem);
+
+            }
+            return OGlist;
+        }
+
         [HttpPost("[action]")]
         public async Task<ActionResult> Insert([FromBody] YeuThich temp)
         {
@@ -74,6 +93,28 @@ namespace backend.Controllers
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
             }
+        }
+        [HttpDelete("[action]/{userid}/{bookid}")]
+        public async Task<IActionResult> DeleteWithUserIdAndBookId([FromRoute] int userid, int bookid)
+        {
+
+            var followDum = await context.YeuThiches.getSingleAsync(item => item.taikhoanid == userid && item.Sachid == bookid);
+            if (followDum != null)
+            {
+                try
+                {
+                    await context.YeuThiches.DeleteAsync(followDum.id);
+                    await context.SaveChangesAsync();
+                    return Ok("xóa thành công");
+                }
+                catch (Exception e)
+                {
+                    return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+                }
+            }
+            return BadRequest("Chưa xóa dc");
+
+
         }
 
     }

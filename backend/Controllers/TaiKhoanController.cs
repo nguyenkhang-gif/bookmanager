@@ -134,13 +134,16 @@ namespace backend.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<string> Update([FromBody] TaiKhoan item, string? oldPassword, string? newPassword)
+        public async Task<ActionResult<string>> Update([FromBody] TaiKhoan item,[FromQuery] string? oldPassword, string? newPassword)
         {
             var tempitem = await context.TaiKhoans.getSingleAsync(usertemp => usertemp.Id == item.Id);
             if (tempitem != null)
             {
+                Console.WriteLine("oldpass",oldPassword);
+                Console.WriteLine("new pass ",newPassword);
                 if (oldPassword != null && newPassword != null)
                 {
+                    
                     if (VerifyPasswordHash(oldPassword, tempitem.passwordHash!, tempitem.passwordSalt!))
                     {
                         CreatePasswordHash(newPassword!, out byte[] passwordHash, out byte[] passwordSalt);
@@ -157,9 +160,10 @@ namespace backend.Controllers
                         tempitem.passwordSalt = passwordSalt;
                         try
                         {
+                            string token = createToken(tempitem);
                             context.TaiKhoans.Update(tempitem);
                             await context.SaveChangesAsync();
-                            return "edit thành công có mật khẩu";
+                            return token;
                         }
                         catch (Exception e)
                         {
@@ -189,7 +193,7 @@ namespace backend.Controllers
                         return e.ToString();
                     }
                 }
-                return "there are user";
+                // return "there are user";
             }
             return "error";
 

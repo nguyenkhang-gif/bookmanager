@@ -3,15 +3,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/User';
+import { Router } from '@angular/router';
 // import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
   public Logout() {
-    localStorage.removeItem('auth');
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/']);
   }
 
   public Login(user: any): Observable<string> {
@@ -20,11 +22,20 @@ export class UserService {
     });
   }
 
-  public editInfo(user: any): Observable<string> {
-    return this.httpClient.post<string>(
-      `http://localhost:5280/TaiKhoan/Update`,
-      user,
-    );
+  public editInfo(
+    user: any,
+    oldPassword?: any,
+    newPassword?: any
+  ): Observable<any> {
+    var urlString = `http://localhost:5280/TaiKhoan/Update`;
+    if (oldPassword != null && newPassword != null) {
+      console.log('have pass');
+
+      urlString = `http://localhost:5280/TaiKhoan/Update?oldPassword=${oldPassword}&newPassword=${newPassword}`;
+    }
+    return this.httpClient.post(urlString, user, {
+      responseType: 'text',
+    });
   }
 
   public getMe(): Observable<string> {

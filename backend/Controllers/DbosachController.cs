@@ -23,6 +23,59 @@ namespace backend.Controllers
             this.context = context;
         }
 
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<int?>> GetHighestReview()
+        {
+            var bookList = await context.NhanXets.GetAsync();
+            var groupedComments = bookList.GroupBy(item => item.Sachid);
+            // NhanXet highestComent = null;
+            int? highestAverageSachId = -1;
+            double highestAverage = double.MinValue;
+            foreach (var group in groupedComments)
+            {
+                double averageRating = group.Average(comment => (double)comment.rating);
+                if (averageRating > highestAverage)
+                {
+                    highestAverage = averageRating;
+                    highestAverageSachId = group.Key;
+                }
+            }
+            return Ok(highestAverageSachId);
+        }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<String>> GetMostReview()
+        {
+            var bookList = await context.NhanXets.GetAsync();
+            var groupedComments = bookList.GroupBy(item => item.Sachid);
+
+            int? highestAverageSachId = -1;
+            double highestAverage = double.MinValue;
+            foreach (var group in groupedComments)
+            {
+                int frequency = group.Count();
+                if (frequency > highestAverage)
+                {
+                    highestAverage = frequency;
+                    highestAverageSachId = group.Key;
+                }
+            }
+            return Ok(highestAverageSachId + " " + highestAverage);
+        }
+
+
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<Dbosach>> GetMostBorrowCount()
+        {
+            // Dbosach temp = new Dbosach();
+            var bookList = await context.Dbosaches.GetAsync();
+
+
+            return Ok(bookList.OrderByDescending(book => book.borrowCount).FirstOrDefault());
+        }
+
+
         [HttpGet("[action]/{pageIndex}/{pageSize}")]
         public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndex([FromRoute] int pageIndex, [FromRoute] int pageSize)
         {
@@ -38,7 +91,7 @@ namespace backend.Controllers
         [HttpGet("[action]/{pageIndex}/{pageSize}")]
         public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateId([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid)
         {
-            return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>!catid.HasValue || item.Chudeid == catid);
+            return await context.Dbosaches.GetAsync(pageIndex, pageSize, item => !catid.HasValue || item.Chudeid == catid);
         }
 
         // [HttpGet("[action]/{pageIndex}/{pageSize}/{catid}/{content}")]
@@ -81,13 +134,13 @@ namespace backend.Controllers
 
         public async Task<IEnumerable<Dbosach>> getByChuDeIdAndString([FromRoute] int? id, string searchcontent)
         {
-            return await context.Dbosaches.GetAsync(item=>(!id.HasValue || item.Chudeid == id)&& item.Tensach.Contains(searchcontent));
+            return await context.Dbosaches.GetAsync(item => (!id.HasValue || item.Chudeid == id) && item.Tensach.Contains(searchcontent));
         }
         [HttpPost("[action]/{searchcontent}")]
 
-        public async Task<IEnumerable<Dbosach>> getByString([FromRoute]  string searchcontent)
+        public async Task<IEnumerable<Dbosach>> getByString([FromRoute] string searchcontent)
         {
-            return await context.Dbosaches.GetAsync(item=> item.Tensach.Contains(searchcontent));
+            return await context.Dbosaches.GetAsync(item => item.Tensach.Contains(searchcontent));
         }
 
         [HttpPost("[action]")]

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   ogList: Book[] = [];
   pageNum: number = 1;
   pageIndex: number = 1;
-  itemInPage: number = 8;
+  itemInPage: number = 4;
   itemsToRepeat = new Array(0);
   query: string = '';
   catid?: number = 0;

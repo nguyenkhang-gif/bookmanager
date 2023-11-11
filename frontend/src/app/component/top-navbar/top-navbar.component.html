@@ -2,7 +2,7 @@
   <div class="button-signin" *ngIf="!curentUser" >
     <a class="button-signup" routerLink="/register">Sign in/Log in</a>
   </div>
-  <div class="button-signin" *ngIf="curentUser!=null" >
+  <div class="button-signin" *ngIf="curentUser!=null&&curentUser!=''" >
     <a class="button-signup" routerLink="/profile">Cá Nhân</a>
   </div>
   <!-- <div class="button-signin" *ngIf="curentUser" >
@@ -37,8 +37,8 @@
 
   <mat-toolbar>
     <span class="title" routerLink="/">#ReadingIsHard</span>
+    <button class="button-hot" mat-button routerLink="/follow">Theo dõi</button>
     <button class="button-hot" mat-button>HOT!!!!!!</button>
-    <button class="button-hot" mat-button>Theo dõi</button>
     <button class="button-menu" mat-button [matMenuTriggerFor]="menu">
       Thể loại
     </button>

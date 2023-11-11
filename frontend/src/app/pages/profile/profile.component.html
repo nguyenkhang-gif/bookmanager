@@ -109,7 +109,7 @@
                 <label class="small mb-1" for="inputBirthday">Birthday</label>
                 <input
                   class="form-control"
-                  id="inputBirthday"
+                 
                   type="datetime"
                   name="birthday"
                   placeholder="Enter your birthday"
@@ -117,8 +117,78 @@
                 />
               </div>
             </div>
+            <!-- start of password -->
+            <div class="row gx-3 mb-3" *ngIf="isChangePassword">
+              <!-- Form Group (phone number)-->
+              <div class="col-md-4">
+                <label class="small mb-1" for="inputPhone">old password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  placeholder="Enter your old password"
+                  formControlName="oldPassword"
+                />
+              </div>
+              <!-- Form Group (birthday)-->
+              <div class="col-md-3">
+                <label class="small mb-1" for="inputBirthday"
+                  >new password</label
+                >
+                <input
+                  class="form-control"
+       
+                  type="password"
+    
+                  placeholder="Enter your new password"
+                  formControlName="newPassword"
+                />
+              </div>
+              <div class="col-md-3">
+                <label class="small mb-1" for="inputBirthday"
+                  >confirm new password</label
+                >
+                <input
+                  class="form-control"
+         
+                  type="password"
+                  placeholder="Confirm your password"
+                  formControlName="confirmPassword"
+                />
+              </div>
+              <div class="col-md-1">
+                <button
+                  class="button-3"
+                  role="button"
+                  (click)="handleClosePasswordChange()"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
             <!-- Save changes button-->
-            <button class="btn btn-primary" type="button" (click)="handleSaveChange()">Save changes</button>
+            <button
+              *ngIf="!isChangePassword"
+              (click)="handleOpenPasswordChange()"
+              class="button-1"
+              type="button"
+            >
+              changes password
+            </button>
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="handleSaveChange()"
+            >
+              Save changes
+            </button>
+            <button
+              class="btn btn-danger logout"
+              type="button"
+              (click)="Logout()"
+            >
+              logout
+            </button>
           </form>
         </div>
       </div>

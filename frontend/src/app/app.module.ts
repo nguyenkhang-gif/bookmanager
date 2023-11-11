@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { FollowComponent } from './pages/follow/follow.component';
+import { BundleSectionComponent } from './components/bundle-section/bundle-section.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     TopNavbarComponent,
     RegisterComponent,
     ProfileComponent,
+    FollowComponent,
+    BundleSectionComponent,
   ],
   imports: [
     BrowserModule,

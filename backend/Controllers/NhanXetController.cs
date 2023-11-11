@@ -21,6 +21,12 @@ namespace backend.Controllers
         {
             this.context = context;
         }
+        [HttpGet("[action]")]
+
+        public async Task<IEnumerable<NhanXet>> get()
+        {
+            return await context.NhanXets.GetAsync();
+        }
         // nhận xét
         [HttpGet("[action]/{id}")]
         public async Task<NhanXet> getSinglewithId([FromRoute] int id){

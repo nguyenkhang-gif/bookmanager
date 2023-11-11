@@ -6,6 +6,7 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { OrderPagesComponent } from './pages/order-pages/order-pages.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { FollowComponent } from './pages/follow/follow.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path:"register",
     component:RegisterComponent
+  },
+  {
+    path:"follow",
+    component:FollowComponent
   },
   {
     path:"**",
