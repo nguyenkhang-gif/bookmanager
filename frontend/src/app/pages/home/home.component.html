@@ -1,5 +1,5 @@
 <div *ngIf="list.length > 0" class="outsite-container">
-  <app-bundle-section></app-bundle-section>
+  <app-bundle-section *ngIf="!isSpecificUrl('/search')"></app-bundle-section>
   <div class="home-container">
     <div
       *ngFor="let item of list"

@@ -1,24 +1,88 @@
 .container {
-    margin-top: 50px;
-    background-color: aqua;
+    margin-top: 20px;
+    // background-color: aqua;
     display: flex;
     min-height: 500px;
 }
 
 .most-star-container {
     flex: 1;
-    background-color: aquamarine;
+    // background-color: aquamarine;
 }
 
-.slideshow-container {
-    max-width: 800px;
-    position: relative;
+
+
+
+
+
+
+
+.container-main {
+    display: flex;
+    width: 900px;
+    padding: 20px;
+    max-width: 70vw;
+    min-height: 400px;
+    // background-color: green;
     margin: auto;
+    // margin-top: 30px;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px;
+}
+
+.container-main img {
+    cursor: pointer;
+    margin-left: 30px;
+    // margin-top: 10px;
+    height: 30rem;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+        rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.container-book-info {
+    flex: 1;
+    // background-color: aqua;
+    padding: 50px;
+}
+
+.book-name {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 100px;
+}
+
+
+
+// slide show start
+.slideshow-container {
+    // background-color: aqua;
+    max-width: 940px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    margin: auto;
+    // margin: 10px;
 }
 
 .mySlides {
-    display: none;
+    
+    margin: 20px;
+    // display: none;
+    // position: absolute;
+    // transform: translate(-50%,-50%)
+    // transform: translate(-940px,0);
+    transition: 0.5s ease-in-out;
+    // top:50%;
 }
+
+// .fadeIn {
+//     opacity: 1;
+// }
+
+// .fadeOut {
+//     opacity: 0;
+// }
 
 .prev,
 .next {
@@ -42,3 +106,7 @@
 .next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+
+
+
+/// slide show end

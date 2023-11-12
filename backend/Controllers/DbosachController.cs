@@ -41,6 +41,7 @@ namespace backend.Controllers
                     highestAverageSachId = group.Key;
                 }
             }
+            
             return Ok(highestAverageSachId);
         }
         [HttpGet("[action]")]

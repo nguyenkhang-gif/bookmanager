@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
   query: string = '';
   catid?: number = 0;
   notFound = false;
-  ///change some shit heree pls
+
+
   constructor(
     private service: BookServiceService,
     private router: Router,
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
 
   isSpecificUrl(url: string): boolean {
     const currentUrl = this.router.url;
-    return currentUrl.includes(`/${url}`);
+    return currentUrl.startsWith(`${url}`);
   }
 
   handleNextBefore(method: string) {
@@ -84,7 +85,7 @@ export class HomeComponent implements OnInit {
             // console.log('search with query: ', list);
 
             this.list = list;
-            this.checkifnotfound()
+            this.checkifnotfound();
           },
         });
     } else if (
@@ -112,7 +113,6 @@ export class HomeComponent implements OnInit {
           },
           error: (e) => {
             // console.log(e);
-            
           },
         });
     } else {
@@ -122,22 +122,23 @@ export class HomeComponent implements OnInit {
           next: (list) => {
             // console.log(list);
             this.list = list;
-            this.checkifnotfound()
+            this.checkifnotfound();
           },
-          error:()=>{
-            this.checkifnotfound()
-            
-          }
+          error: () => {
+            this.checkifnotfound();
+          },
         });
     }
     // console.log('query:', this.query == null);
     // console.log('cat:', this.catid == null);
   }
 
-  
-
   ngOnInit(): void {
-    console.log('home called');
+  
+    if(this.isSpecificUrl('/search')){
+      this.itemInPage=8
+    }
+ 
     this.titleService.setTitle('home');
     // this.pageIndex=1
     //get the fk query
@@ -145,6 +146,7 @@ export class HomeComponent implements OnInit {
       // console.log("this is route for query");
       this.query = queryParams['q'];
       this.catid = queryParams['cat'];
+
       // console.log("query:",this.query)
       // this.getDataWithQuery(this.query, this.catid ? this.catid : 0);
       this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
