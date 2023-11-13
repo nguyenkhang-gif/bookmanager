@@ -208,8 +208,8 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.handleFollow();
-    // console.log('on route', this.route.url.split('/')[2]);
-    this.loaddata(this.route.url.split('/')[2]);
+    // this.handleFollow();
+    console.log('on route', this.route.url.split('/')[2]);
+    this.loaddata(this.route.url.split('/')[3]);
   }
 }

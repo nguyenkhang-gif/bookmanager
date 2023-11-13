@@ -30,6 +30,7 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
       (this.currentIndex - 1 + this.mostCommentRateView!.length) %
       this.mostCommentRateView!.length;
   }
+  
 
   ngOnInit(): void {
     interval(2000).subscribe(() => {
@@ -54,4 +55,6 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
     //   this.intervalSubscription.unsubscribe();
     // }
   }
+
+
 }

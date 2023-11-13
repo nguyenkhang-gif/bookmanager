@@ -25,7 +25,9 @@ export class RegisterComponent implements OnInit {
 
   registerForm = new FormGroup({
     username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl(''),
+    confirmPassword: new FormControl(''),
   });
 
   role: string = 'register';
@@ -37,33 +39,59 @@ export class RegisterComponent implements OnInit {
     this.role = 'register';
   }
   onSubmit() {
-    // console.log('this is in submit', this.service.getUser());
     if (
       this.registerForm.value.username != null &&
-      this.registerForm.value.password != null
+      this.registerForm.value.password != null &&
+      this.role == 'login'
     ) {
-  
-
       this.service
         .Login({
-          // id: '', // You can set the id as needed
           username: this.registerForm.value.username,
           password: this.registerForm.value.password,
-          // email: '', // Set the email, phone_number, address as needed
-          // phone_number: '',
-          // address: '',
         })
         .subscribe({
           next: (item) => {
             console.log('login success', item);
             localStorage.setItem('authToken', item);
-            this.router.navigate(['/'])
+            this.router.navigate(['/']);
             // console.log(item);
           },
         });
     }
+
+    //==========================Register===============================
+    
+    if (
+      (this.registerForm.value.username != null &&
+        this.registerForm.value.password != null &&
+        this.registerForm.value.confirmPassword ==
+          this.registerForm.value.password,
+      this.role == 'register')
+    ) {
+      console.log(this.registerForm.value.username);
+      console.log(this.registerForm.value.email);
+
+      console.log(this.registerForm.value.confirmPassword);
+      console.log(this.registerForm.value.password);
+      this.service
+        .Register({
+          username: this.registerForm.value.username,
+          password: this.registerForm.value.password,
+          email: this.registerForm.value.email,
+        })
+        .subscribe({
+          next: (item) => {
+            console.log('login success', item);
+
+            this.router.navigate(['/']);
+          },
+          error: (e) => {
+            console.log(e);
+          },
+        });
+    }
+    //==========================Register END===============================
   }
- 
 
   ngOnInit(): void {
     // if()

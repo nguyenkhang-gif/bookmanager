@@ -35,7 +35,11 @@
                 type="text"
               /><br /><br />
               <label for="">Email</label><br />
-              <input class="border" type="email" /><br /><br />
+              <input
+                class="border"
+                type="email"
+                formControlName="email"
+              /><br /><br />
               <label for="">Password</label><br />
               <input
                 class="border"
@@ -44,7 +48,11 @@
                 type="password"
               /><br />
               <label for="">Confirm password</label><br />
-              <input class="border" type="text" /><br />
+              <input
+                class="border"
+                type="password"
+                formControlName="confirmPassword"
+              /><br />
               <a routerLink="/">home</a>
               <a (click)="toLogin()">Login</a>
               <!-- <br /><br /><br /><br /> -->
@@ -119,7 +127,7 @@
             <button type="submit" (click)="onSubmit()" class="btn">
               Sign In
             </button>
-            
+
             <h6 style="color: rgba(206, 56, 56, 0.84)">Design by hongngoc</h6>
           </div>
         </div>

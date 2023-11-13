@@ -1,0 +1,27 @@
+<div>
+  <mat-toolbar color="primary" class="nav">
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Admin</span>
+    <!-- <span class="example-spacer"></span> -->
+    <button
+      class="example-icon favorite-icon"
+      [routerLink]="['/admin/allproduct']"
+      aria-label="Example icon-button with heart icon"
+    >
+      Home
+    </button>
+    <button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+    >
+      All Product
+    </button>
+    <button class="example-icon">All User</button>
+  </mat-toolbar>
+</div>

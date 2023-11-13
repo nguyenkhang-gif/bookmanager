@@ -26,14 +26,8 @@ export class AppComponent {
   
 
   isSpecificUrl(url: string): boolean {
-    // Check the current URL or parameters to determine if it matches a specific condition.
     const currentUrl = this.router.url;
-    
-    // You can also use ActivatedRoute to access route parameters.
-    // const paramValue = this.route.snapshot.params['paramName'];
-
-    // Example: Check if the URL contains '/specific-path'
-    return currentUrl.includes(`/${url}`);
+    return currentUrl.startsWith(`${url}`);
   }
 
   ngOnInit(): void {

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/User';
 import { Router } from '@angular/router';
+import { userDum } from '../models/UserDum';
 // import { User } from '../models/User';
 
 @Injectable({
@@ -22,6 +23,11 @@ export class UserService {
     });
   }
 
+  public Register(user: any): Observable<string> {
+    return this.httpClient.post('http://localhost:5280/TaiKhoan/Insert', user, {
+      responseType: 'text',
+    });
+  }
   public editInfo(
     user: any,
     oldPassword?: any,
@@ -29,7 +35,7 @@ export class UserService {
   ): Observable<any> {
     var urlString = `http://localhost:5280/TaiKhoan/Update`;
     if (oldPassword != null && newPassword != null) {
-      console.log('have pass');
+      // console.log('have pass');
 
       urlString = `http://localhost:5280/TaiKhoan/Update?oldPassword=${oldPassword}&newPassword=${newPassword}`;
     }

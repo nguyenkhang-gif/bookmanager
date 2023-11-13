@@ -19,6 +19,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FollowComponent } from './pages/follow/follow.component';
 import { BundleSectionComponent } from './components/bundle-section/bundle-section.component';
+import { AllproductsComponent } from './pages/allproducts/allproducts.component';
+import { AdminTopNavComponent } from './component/admin-top-nav/admin-top-nav.component';
+import { HomeAdminComponentComponent } from './pages/home-admin-component/home-admin-component.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { BundleSectionComponent } from './components/bundle-section/bundle-secti
     ProfileComponent,
     FollowComponent,
     BundleSectionComponent,
+    AllproductsComponent,
+    AdminTopNavComponent,
+    HomeAdminComponentComponent,
   ],
   imports: [
     BrowserModule,

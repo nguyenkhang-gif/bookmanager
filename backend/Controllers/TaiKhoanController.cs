@@ -108,12 +108,16 @@ namespace backend.Controllers
             // return checkIfHave
             if (checkIfHave != null)
             {
-                return StatusCode(404, "alredy have user");
+                return StatusCode(404, "already have user");
             }
             else
             {
                 CreatePasswordHash(item.password, out byte[] passwordHash, out byte[] passwordSalt);
                 temp.Username = item.username;
+                temp.Quyen=2;
+                temp.FirstName="user123";
+                temp.LastName="user123";
+                temp.email=item.email;
                 temp.passwordHash = passwordHash;
                 temp.passwordSalt = passwordSalt;
                 try

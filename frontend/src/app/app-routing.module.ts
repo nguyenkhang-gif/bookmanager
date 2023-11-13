@@ -7,6 +7,9 @@ import { OrderPagesComponent } from './pages/order-pages/order-pages.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FollowComponent } from './pages/follow/follow.component';
+import { authAdminGuard } from './guards/auth.guard';
+import { AllproductsComponent } from './pages/allproducts/allproducts.component';
+import { HomeAdminComponentComponent } from './pages/home-admin-component/home-admin-component.component';
 
 const routes: Routes = [
   {
@@ -17,11 +20,13 @@ const routes: Routes = [
   },
   {
     path:'search',
-    component:HomeComponent
+    component:HomeComponent,
+    // canActivate:[authGuard]
   },
   {
     path:"detail/:id",
-    component:DetailComponent
+    component:DetailComponent,
+    // canActivate:[authAdminGuard]
   },
   {
     path:"order",
@@ -36,6 +41,27 @@ const routes: Routes = [
   {
     path:"register",
     component:RegisterComponent
+  },
+  {
+    path:"admin",
+    // component:AllproductsComponent,
+    canActivate:[authAdminGuard],
+    children:[
+      {
+        path:"",
+        component:HomeAdminComponentComponent,
+        pathMatch:"full",
+        // title:"Home"
+      },
+      {
+        path:"allproduct",
+        component:AllproductsComponent
+      },
+      {
+        path:"detail/:id",
+        component:DetailComponent
+      }
+    ]
   },
   {
     path:"follow",
