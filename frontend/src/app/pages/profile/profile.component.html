@@ -9,17 +9,21 @@
         <div class="card-header">Profile Picture</div>
         <div class="card-body text-center">
           <!-- Profile picture image-->
-          <img
+          <!-- <img
             class="img-account-profile rounded-circle mb-2"
             src="http://bootdey.com/img/Content/avatar/avatar1.png"
             alt=""
-          />
+          /> -->
+          <div class="img-account-profile-2 mb-2">
+            <img [src]="imageData" alt="" />
+          </div>
           <!-- Profile picture help block-->
           <div class="small font-italic text-muted mb-4">
             JPG or PNG no larger than 5 MB
           </div>
+          <input type="file" (change)="onFileSelected($event)" />
           <!-- Profile picture upload button-->
-          <button class="btn btn-primary" type="button">
+          <button class="btn btn-primary" (click)="onSubmit()" type="button">
             Upload new image
           </button>
         </div>
@@ -109,7 +113,6 @@
                 <label class="small mb-1" for="inputBirthday">Birthday</label>
                 <input
                   class="form-control"
-                 
                   type="datetime"
                   name="birthday"
                   placeholder="Enter your birthday"
@@ -136,9 +139,7 @@
                 >
                 <input
                   class="form-control"
-       
                   type="password"
-    
                   placeholder="Enter your new password"
                   formControlName="newPassword"
                 />
@@ -149,7 +150,6 @@
                 >
                 <input
                   class="form-control"
-         
                   type="password"
                   placeholder="Confirm your password"
                   formControlName="confirmPassword"

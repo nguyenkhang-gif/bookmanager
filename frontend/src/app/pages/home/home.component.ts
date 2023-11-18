@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, booleanAttribute } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  booleanAttribute,
+} from '@angular/core';
 import { ActivatedRoute, Route, Router, TitleStrategy } from '@angular/router';
 import { Book } from 'src/app/models/Book';
 import { BookServiceService } from 'src/app/services/book-service.service';
@@ -9,17 +15,16 @@ import { TitleService } from 'src/app/services/title.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   list: Book[] = [];
   ogList: Book[] = [];
   pageNum: number = 1;
   pageIndex: number = 1;
-  itemInPage: number = 4;
+  itemInPage: number = 8;
   itemsToRepeat = new Array(0);
   query: string = '';
   catid?: number = 0;
   notFound = false;
-
 
   constructor(
     private service: BookServiceService,
@@ -94,10 +99,6 @@ export class HomeComponent implements OnInit {
       this.catid != 0 &&
       this.catid != null
     ) {
-      // console.log("handle query and cat");
-      // console.log("handle  catid:",this.catid);
-      // console.log("handle query :",this.query);
-      // console.log("handle pageindex :",this.pageIndex);
       this.service
         .getBookWithPageIndexPageSizeCatIdContent(
           pageIndex,
@@ -134,11 +135,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-    if(this.isSpecificUrl('/search')){
-      this.itemInPage=8
+    if (this.isSpecificUrl('/search')) {
+      this.itemInPage = 8;
     }
- 
+
     this.titleService.setTitle('home');
     // this.pageIndex=1
     //get the fk query
@@ -154,5 +154,8 @@ export class HomeComponent implements OnInit {
     // console.log(this.query)
     if (!this.isSpecificUrl('search'))
       this.setDataWithPageIndex(1, this.itemInPage);
+  }
+  ngOnDestroy(): void {
+    console.log('destroy called');
   }
 }

@@ -32,10 +32,46 @@ namespace backend.Controllers
             this.Concontext = configuration;
         }
 
-        //  public TaiKhoanController(IConfiguration context)
-        // {
-        //     this.Concontext = context;
-        // }
+        [HttpPost("[action]/{userid}")]
+        public async Task<IActionResult> UploadFile([FromRoute] int userid)
+        {
+            var user = await context.TaiKhoans.getSingleAsync(userid);
+            var file = Request.Form.Files[0];
+
+            if (file.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    var fileBytes = memoryStream.ToArray();
+                    user.imageData = fileBytes;
+
+                    // Xử lý fileBytes ở đây (ví dụ: lưu vào cơ sở dữ liệu)
+                    context.TaiKhoans.Update(user);
+                    await context.SaveChangesAsync();
+                    // ...
+
+                    return Ok(new { Message = "File uploaded successfully" });
+                }
+            }
+            else
+            {
+                return BadRequest(new { Message = "File is empty" });
+            }
+        }
+
+        [HttpGet("[action]/{userid}")]
+        public async Task<IActionResult> GetImage([FromRoute] int userid)
+        {
+            var user = await context.TaiKhoans.getSingleAsync(u => u.Id == userid);
+
+            if (user == null || user.imageData == null)
+            {
+                return NotFound(new { Message = "Image not found" });
+            }
+
+            return File(user.imageData, "image/jpeg"); // Đặt loại MIME phù hợp
+        }
 
         [HttpGet("[action]"), Authorize]
         public ActionResult<string> GetMe()
@@ -114,10 +150,10 @@ namespace backend.Controllers
             {
                 CreatePasswordHash(item.password, out byte[] passwordHash, out byte[] passwordSalt);
                 temp.Username = item.username;
-                temp.Quyen=2;
-                temp.FirstName="user123";
-                temp.LastName="user123";
-                temp.email=item.email;
+                temp.Quyen = 2;
+                temp.FirstName = "user123";
+                temp.LastName = "user123";
+                temp.email = item.email;
                 temp.passwordHash = passwordHash;
                 temp.passwordSalt = passwordSalt;
                 try
@@ -138,16 +174,16 @@ namespace backend.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<string>> Update([FromBody] TaiKhoan item,[FromQuery] string? oldPassword, string? newPassword)
+        public async Task<ActionResult<string>> Update([FromBody] TaiKhoan item, [FromQuery] string? oldPassword, string? newPassword)
         {
             var tempitem = await context.TaiKhoans.getSingleAsync(usertemp => usertemp.Id == item.Id);
             if (tempitem != null)
             {
-                Console.WriteLine("oldpass",oldPassword);
-                Console.WriteLine("new pass ",newPassword);
+                Console.WriteLine("oldpass", oldPassword);
+                Console.WriteLine("new pass ", newPassword);
                 if (oldPassword != null && newPassword != null)
                 {
-                    
+
                     if (VerifyPasswordHash(oldPassword, tempitem.passwordHash!, tempitem.passwordSalt!))
                     {
                         CreatePasswordHash(newPassword!, out byte[] passwordHash, out byte[] passwordSalt);

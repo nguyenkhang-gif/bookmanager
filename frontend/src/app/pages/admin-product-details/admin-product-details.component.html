@@ -1,0 +1,178 @@
+<div class="container outer">
+  <div class="container img-con">
+    <img [src]="imageUrl || imageData" alt="" />
+    <input type="file" (change)="onFileSelected($event)" />
+    <!-- Profile picture upload button-->
+    <button class="btn btn-primary" (click)="onSubmit()" type="button">
+      Upload new image
+    </button>
+  </div>
+  <form class="example-form" [formGroup]="bookForm">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Tên Sách</mat-label>
+            <input matInput formControlName="tensach" />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <div class="outer-cat-author-container">
+      <div class="cat-container">
+        <p>Thể Loại:</p>
+        <button mat-button [matMenuTriggerFor]="menu" class="menu">
+          {{ category.tenchude || "không có" }}
+        </button>
+        <mat-menu #menu="matMenu" matInput>
+          <button
+            *ngFor="let item of catList"
+            mat-menu-item
+            (click)="changeCat(item)"
+          >
+            {{ item.tenchude }}
+          </button>
+        </mat-menu>
+      </div>
+      <div class="cat-container">
+        <p>Tác giả:</p>
+        <button mat-button [matMenuTriggerFor]="menu_2" class="menu">
+          {{ author.tentacgia || "không có" }}
+        </button>
+        <mat-menu #menu_2="matMenu" matInput>
+          <button
+            *ngFor="let item of authorList"
+            mat-menu-item
+            (click)="changeAuthor(item)"
+          >
+            {{ item.tentacgia }}
+          </button>
+        </mat-menu>
+      </div>
+
+      <!-- Start producer -->
+      <div class="cat-container">
+        <p>Nhà xuất bản:</p>
+        <button mat-button [matMenuTriggerFor]="menu_3" class="menu">
+          {{ producerInfo.tennhaxuatban || "không có" }}
+        </button>
+        <mat-menu #menu_3="matMenu" matInput>
+          <button
+            *ngFor="let item of producerInfoList"
+            mat-menu-item
+            (click)="changeProducer(item)"
+          >
+            {{ item.tennhaxuatban }}
+          </button>
+        </mat-menu>
+      </div>
+      <!-- end of producer -->
+    </div>
+
+    <table class="example-full-width" cellspacing="0">
+      <!-- START OF BORROW -->
+      <tr>
+        <td>
+          <section class="example-section">
+            <label
+              class="example-margin"
+              style="font-weight: 700; font-size: 16px"
+              >Được mượn:</label
+            >
+            <mat-radio-group>
+              <mat-radio-button
+                class="example-margin"
+                value="after"
+                [checked]="isBorrow"
+                (click)="canBorrow()"
+                >Có</mat-radio-button
+              >
+              <mat-radio-button
+                class="example-margin"
+                value="before"
+                [checked]="!isBorrow"
+                (click)="canNotBorrow()"
+                >Không</mat-radio-button
+              >
+            </mat-radio-group>
+          </section>
+        </td>
+      </tr>
+      <!-- END OF BORROW -->
+
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Chiều dài</mat-label>
+            <div class="input-with-unit">
+              <input matInput formControlName="chieudai" />
+              <span class="unit">cm</span>
+            </div>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Chiều rộng</mat-label>
+            <div class="input-with-unit">
+              <input matInput formControlName="chieurong" />
+              <span class="unit">cm</span>
+            </div>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Lượt mượn</mat-label>
+            <div class="input-with-unit">
+              <input matInput formControlName="borrowCount" />
+              <span class="unit">cm</span>
+            </div>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <!-- row 2 -->
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Số lượng</mat-label>
+            <div class="input-with-unit">
+              <input matInput formControlName="soluong" />
+              <span class="unit">Cuốn</span>
+            </div>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Số trang</mat-label>
+            <div class="input-with-unit">
+              <input matInput formControlName="sotrang" />
+              <span class="unit">Trang</span>
+            </div>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Lượt mượn</mat-label>
+            <div class="input-with-unit">
+              <input matInput formControlName="borrowCount" />
+              <span class="unit">cm</span>
+            </div>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- end of row 2 -->
+    </table>
+  </form>
+
+  <!-- =========================START OF SUBMIT======================== -->
+  <button>Lưu thông tin</button>
+  <app-popup-window
+    *ngIf="popupWindowOpen"
+   
+    [isDone]="isLoading"
+    (sendDataToParent)="receiveDataFromChild($event)"
+  ></app-popup-window>
+
+  <!-- =========================END OF SUBMIT======================== -->
+</div>

@@ -23,6 +23,73 @@ namespace backend.Controllers
             this.context = context;
         }
 
+        [HttpPost("[action]/{bookid}")]
+        public async Task<IActionResult> UploadFile([FromRoute] int bookid)
+        {
+            var user = await context.Dbosaches.getSingleAsync(bookid);
+            var file = Request.Form.Files[0];
+
+            if (file.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    var fileBytes = memoryStream.ToArray();
+                    user.imageData = fileBytes;
+
+                    // Xử lý fileBytes ở đây (ví dụ: lưu vào cơ sở dữ liệu)
+                    context.Dbosaches.Update(user);
+                    await context.SaveChangesAsync();
+                    // ...
+
+                    return Ok(new { Message = "File uploaded successfully" });
+                }
+            }
+            else
+            {
+                return BadRequest(new { Message = "File is empty" });
+            }
+        }
+        [HttpGet("[action]/{userid}")]
+        public async Task<IActionResult> GetImage([FromRoute] int userid)
+        {
+            var user = await context.Dbosaches.getSingleAsync(userid);
+
+            if (user == null || user.imageData == null)
+            {
+                return NotFound(new { Message = "Image not found" });
+            }
+
+            return File(user.imageData, "image/jpeg"); // Đặt loại MIME phù hợp
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetImages()
+        {
+            var users = await context.Dbosaches.GetAsync();
+
+            if (users == null || users.Count() == 0)
+            {
+                return NotFound(new { Message = "Images not found" });
+            }
+
+            // Tạo danh sách để lưu trữ các FileContentResult
+            var imageResults = new List<FileContentResult>();
+
+            foreach (var user in users)
+            {
+                if (user.imageData != null)
+                {
+                    // Thêm mỗi hình ảnh vào danh sách
+                    var imageResult = new FileContentResult(user.imageData, "image/jpeg");
+                    imageResults.Add(imageResult);
+                }
+            }
+
+            // Trả về danh sách các hình ảnh
+            return new ObjectResult(imageResults);
+        }
+
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<int?>> GetHighestReview()
@@ -41,7 +108,7 @@ namespace backend.Controllers
                     highestAverageSachId = group.Key;
                 }
             }
-            
+
             return Ok(highestAverageSachId);
         }
         [HttpGet("[action]")]
@@ -95,19 +162,6 @@ namespace backend.Controllers
             return await context.Dbosaches.GetAsync(pageIndex, pageSize, item => !catid.HasValue || item.Chudeid == catid);
         }
 
-        // [HttpGet("[action]/{pageIndex}/{pageSize}/{catid}/{content}")]
-        // public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, int? catid, string content)
-        // {
-        //     return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>
-        //         (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content))
-        //     );
-        // }
-        // public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, int catid, string content)
-        // {
-
-
-        //     return await context.Dbosaches.GetAsync(pageIndex, pageSize, item => item.Chudeid == catid && item.Tensach.Contains(content));
-        // }
 
 
         [HttpGet("[action]")]
@@ -115,6 +169,14 @@ namespace backend.Controllers
         public async Task<IEnumerable<Dbosach>> get()
         {
             return await context.Dbosaches.GetAsync();
+        }
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<Dbosach>> GetByIds([FromQuery] List<int?> ids)
+        {
+            // Lấy các đối tượng có ID thuộc danh sách ids từ database
+            var result = await context.Dbosaches.GetAsync(item=>ids.Contains(item.Id));
+
+            return result;
         }
         [HttpGet("[action]/{id}")]
 

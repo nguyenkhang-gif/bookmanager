@@ -9,7 +9,7 @@ namespace backend;
 public partial class Dbosach
 {
     [Key]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public int? Chieudai { get; set; }
 
@@ -35,6 +35,7 @@ public partial class Dbosach
     public int? Tacgiaid { get; set; }
 
     public string? Tensach { get; set; }
+     public byte[]? imageData { get; set; } 
 
     public int? DuocMuon{get;set;}
 

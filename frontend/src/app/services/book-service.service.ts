@@ -5,12 +5,16 @@ import { Review } from '../models/Review';
 import { Category } from '../models/Category';
 import { Publisher } from '../models/Publisher';
 import { Observable, switchMap, forkJoin, tap, catchError } from 'rxjs';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookServiceService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private sanitizer: DomSanitizer
+  ) {}
   getBooks() {
     return this.httpClient.get<Book[]>('http://localhost:5280/Dbosach/get');
   }
@@ -45,19 +49,31 @@ export class BookServiceService {
       'http://localhost:5280/ChuDe/getWithId/' + bookId
     );
   }
+  getAllCatgory() {
+    return this.httpClient.get<Category[]>('http://localhost:5280/ChuDe/get');
+  }
   getProducer(bookId: number) {
     return this.httpClient.get<Publisher>(
       'http://localhost:5280/NhaXuatBan/getWithId/' + bookId
     );
   }
-  getAllCatgory() {
-    return this.httpClient.get<Category[]>('http://localhost:5280/ChuDe/get');
+  getAllProducer() {
+    return this.httpClient.get<Publisher[]>(
+      `http://localhost:5280/NhaXuatBan/get`
+    );
   }
+
   addReview(item: Review) {
     return this.httpClient.post<Review>(
       'http://localhost:5280/NhanXet/Insert',
       item
     );
+  }
+  getBooksWithId(list: any[]): Observable<any[]> {
+    const url = `http://localhost:5280/Dbosach/GetByIds?ids=${list.join(
+      '&ids='
+    )}`;
+    return this.httpClient.get<any[]>(url);
   }
 
   getBookWithCatId(id: number) {
@@ -99,29 +115,41 @@ export class BookServiceService {
   }
 
   //most comment highest rate and mot borrow count
-  getThreeStuff(callback: (templist: Book[]) => void): any {
+  getThreeStuff(callback: (templist: Book[], averateRate: any) => void): any {
     let templist: Book[] = [];
+    let averateRate = 0;
 
     this.getHighestReview().subscribe((bookid_1) => {
-      console.log(bookid_1);
+      // console.log(bookid_1);
       this.getBookWithId(bookid_1).subscribe((book_1) => {
-        console.log(book_1);
+        this.getComment(bookid_1).subscribe({
+          // lấy comments
+          next: (comments) => {
+            comments.forEach((item) => {
+              averateRate += item.rating;
+              // lấy tên
+            });
+            averateRate /= comments.length;
+          },
+        });
         templist.push(book_1);
-        // ===========handle most review
+        // =================handle most review
         this.getMostReview().subscribe({
           error: (bookid_2) => {
             console.log(bookid_2.error.text.split(' '));
             this.getBookWithId(bookid_2.error.text.split(' ')[0]).subscribe(
               (book_2) => {
                 console.log(book_2);
-                templist.push(book_2)
+                templist.push(book_2);
                 //======= Start OF GET MOST BORROW =======
                 this.getMostBorrow().subscribe((book_3) => {
                   console.log(book_3);
                   templist.push(book_3);
-                  console.log('templist add',templist);
+                  console.log(averateRate);
 
-                  callback(templist);
+                  // console.log('templist add',templist);
+
+                  callback(templist, averateRate);
                 });
                 //======= END OF GET MOST BORROW =========
               }
@@ -132,7 +160,22 @@ export class BookServiceService {
       });
     });
   }
-  
   //
 
+  getImage(userId: number): Observable<Blob> {
+    const url = `http://localhost:5280/Dbosach/GetImage/${userId}`;
+    return this.httpClient.get(url, { responseType: 'blob' });
+  }
+  getImages(): Observable<any> {
+    const url = 'http://localhost:5280/Dbosach/GetImages';
+    return this.httpClient.get(url, { responseType: 'arraybuffer' });
+  }
+  getSafeImageUrl(base64: any): SafeUrl {
+    const imageUrl = 'data:image/jpeg;base64,' + base64;
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+  // getImages(): Observable<Blob[]> {
+  //   const url = `http://localhost:5280/Dbosach/GetImages`;
+  //   return this.httpClient.get<Blob[]>(url, { responseType: 'blob' as 'json' });
+  // }
 }

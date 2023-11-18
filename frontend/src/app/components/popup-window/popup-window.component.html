@@ -1,0 +1,12 @@
+<div class="outer-container">
+
+</div>
+<div class="container">
+    <div class="">
+        <mat-spinner *ngIf="!isDone"></mat-spinner>
+        <mat-icon class="finishIcon" *ngIf="isDone">tag_faces</mat-icon>
+    </div>
+    <p *ngIf="!isDone" >Đang sử lý</p>
+    <p *ngIf="isDone">DONE</p>
+    <mat-icon class="close-icon {{isDone?'':'blur'}}" (click)="sendToParent()">close</mat-icon>
+</div>

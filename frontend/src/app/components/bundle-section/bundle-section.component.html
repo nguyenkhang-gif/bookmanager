@@ -1,21 +1,20 @@
-<div class="container" >
-  <!-- <div class="most-star-container">
-    <p>1000 VIEW!!!</p>
-  </div>
-  <div class="most-star-container">
-    <p>1000 VIEW!!!</p>
-  </div>
-  <div class="most-star-container" (click)="clicktest()">
-    <p>1000 VIEW!!!</p>
-  </div> -->
+<div class="container">
   <div *ngIf="mostCommentRateView != null" class="slideshow-container">
     <div
       *ngFor="let slide of mostCommentRateView; let i = index"
       class="mySlides"
-      [style.transform]="'translateX(' + (currentIndex * transtlate) + 'px)'"
+      [style.transform]="'translateX(' + currentIndex * transtlate + 'px)'"
     >
+     
       <div class="container-main">
-        <img [src]="slide.hinhanh" alt="" [routerLink]="['/detail', slide.id]" />
+        <div class="averate-Rate" *ngIf="averateRate != 0 &&i==0">
+          <p>900</p>
+        </div>
+        <img
+          [src]="slide.hinhanh"
+          alt=""
+          [routerLink]="['/detail', slide.id]"
+        />
         <div class="container-book-info">
           <p class="book-name">{{ slide.tensach }}</p>
           <p class="author-name">tác giả : {{ slide.tensach }}</p>

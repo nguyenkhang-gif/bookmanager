@@ -22,6 +22,9 @@ import { BundleSectionComponent } from './components/bundle-section/bundle-secti
 import { AllproductsComponent } from './pages/allproducts/allproducts.component';
 import { AdminTopNavComponent } from './component/admin-top-nav/admin-top-nav.component';
 import { HomeAdminComponentComponent } from './pages/home-admin-component/home-admin-component.component';
+import { AdminProductDetailsComponent } from './pages/admin-product-details/admin-product-details.component';
+import { AdminCardComponent } from './pages/admin-card/admin-card.component';
+import { PopupWindowComponent } from './components/popup-window/popup-window.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,9 @@ import { HomeAdminComponentComponent } from './pages/home-admin-component/home-a
     AllproductsComponent,
     AdminTopNavComponent,
     HomeAdminComponentComponent,
+    AdminProductDetailsComponent,
+    AdminCardComponent,
+    PopupWindowComponent,
   ],
   imports: [
     BrowserModule,

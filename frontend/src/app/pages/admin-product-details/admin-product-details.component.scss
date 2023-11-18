@@ -1,0 +1,66 @@
+.example-form {
+  // min-width: 150px;
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+td {
+  padding-right: 8px;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // margin-bottom: 200px;
+}
+.outer{
+  // background-color: aqua;
+  margin-bottom: 200px;
+  padding-bottom: 100px;
+}
+.img-con {
+  margin-top: 30px;
+}
+
+.img-con img{
+  max-width: 300px;
+}
+
+.cat-container{
+  flex: 1;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+}
+.cat-container p{
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.menu{
+  background-color: aqua;
+  // margin: auto;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+.outer-cat-author-container{
+  display: flex;
+  // background-color: #298e46;
+  align-items: center;
+}
+
+.input-with-unit {
+  display: flex;
+}
+
+.unit {
+  margin-left: 5px; /* Khoảng cách giữa input và đơn vị */
+  align-self: center; /* Canh lề theo chiều dọc để đảm bảo đơn vị ở giữa */
+}

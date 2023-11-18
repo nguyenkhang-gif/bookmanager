@@ -23,6 +23,13 @@ namespace backend.Controllers
             this.context = context;
         }
 
+        [HttpGet("[action]")]
+
+        public async Task<IEnumerable<TacGium>> get()
+        {
+            return await context.TacGia.GetAsync();
+        }
+
         [HttpGet("[action]/{id}")]
 
         public async Task<TacGium> getById([FromRoute] int id)

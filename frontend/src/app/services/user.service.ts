@@ -67,4 +67,9 @@ export class UserService {
       `http://localhost:5280/TaiKhoan/getById/${id}`
     );
   }
+
+  getImage(userId: number): Observable<Blob> {
+    const url = `http://localhost:5280/TaiKhoan/GetImage/${userId}`;
+    return this.httpClient.get(url, { responseType: 'blob' });
+  }
 }

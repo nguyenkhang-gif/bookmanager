@@ -1,10 +1,88 @@
-<mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
-  <mat-label>Search</mat-label>
-  <input matInput type="text" [(ngModel)]="value" />
-  
-  <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
-    <mat-icon>close</mat-icon>
+<div class="container-search">
+  <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-button [matMenuTriggerFor]="menu" *ngIf="CategoryList.length > 0">
+    Thể loại
   </button>
-</mat-form-field>
+  <mat-menu #menu="matMenu">
+    <button
+      *ngFor="let item of CategoryList"
+      (click)="setCat(item.id)"
+      mat-menu-item
+    >
+      {{ item.tenchude }}
+    </button>
+  </mat-menu>
   <!-- HTML !-->
-  <button class="button-3" role="button" (click)="onSubmit()"> Search</button>
+  <button class="button-3" role="button" (click)="onSubmit()">Search</button>
+</div>
+<div class="container-main">
+  <div class="inner-container-main" *ngIf="listbook.length > 0">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Ảnh</th>
+          <th>Tên Sách</th>
+          <th>Đồng Giá</th>
+          <th>Số Lượng</th>
+          <th>Được mượn</th>
+          <th>Lượt mượn</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listbook">
+          <!-- <td><img src="../../../assets/books/{{ item.hinhanh }}" alt="" /></td> -->
+          <td>
+            <img
+              *ngIf="item.imageData"
+              [src]="getSafeImageUrl(item.imageData)"
+            />
+          </td>
+          <td>{{ item.tensach }}</td>
+          <td>{{ item.dongia }}</td>
+          <td>{{ item.soluong }}</td>
+          <td>
+            <p *ngIf="item.duocMuon == 1" class="available">Được</p>
+            <p *ngIf="item.duocMuon == 0" class="un-available">Không</p>
+          </td>
+          <td>{{ item.borrowCount }}</td>
+          <td class="button-container">
+            <!-- HTML !-->
+            <button
+              class="button-3"
+              (click)="toBookDetail(item.id)"
+              role="button"
+            >
+              Sửa
+            </button>
+            <button class="button-3 red" role="button">Xóa</button>
+            <button class="button-3 blue" role="button" (click)="addToCard(item.id)">Thêm</button>
+          </td>
+        </tr>
+
+        <!-- <tr class="active-row">
+              <td>Melissa</td>
+              <td>5150</td>
+          </tr> -->
+        <!-- and so on... -->
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="container-pagination">
+  <div class="container-main-pagination">
+    <button class="pagination-btn" (click)="handleNextBefore('-')">
+      before
+    </button>
+    <button class="pagination-btn">{{ pageIndex }}</button>
+    <button class="pagination-btn" (click)="handleNextBefore('+')">next</button>
+  </div>
+</div>

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-profile',
@@ -13,10 +15,13 @@ export class ProfileComponent implements OnInit {
   userInfo?: User;
   userForm: FormGroup;
   isChangePassword = false;
+  selectedFile: File | null = null;
+  imageData: string | null = null;
   constructor(
-    private router :Router,
+    private router: Router,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private http: HttpClient
   ) {
     this.userForm = this.formBuilder.group({
       id: [null], // You can set initial values or use null
@@ -33,12 +38,54 @@ export class ProfileComponent implements OnInit {
       // address: [''],
     });
   }
+  //===========================handle upload==================================
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] as File;
+  }
+
+  getImage(userid:any): void {
+    this.userService.getImage(userid).subscribe(
+      (data: Blob) => {
+        const blobArray: Blob[] = [data];
+        console.log(blobArray);
+        
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          // reader.result chứa dữ liệu ảnh dưới dạng base64
+          this.imageData = reader.result as string;
+        };
+        reader.readAsDataURL(data);
+      },
+      (error) => {
+        console.error('Error getting image', error);
+      }
+    );
+  }
+  onSubmit() {
+    if (!this.selectedFile) {
+      console.error('No file selected.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    // Gọi API để lưu ảnh
+    this.http
+      .post('http://localhost:5280/TaiKhoan/UploadFile/5', formData)
+      .subscribe({
+        next: (response) => {
+          console.log('Upload successful', response);
+        },
+        error: (error) => {
+          console.error('Error uploading file', error);
+        },
+      });
+  }
 
   handleClosePasswordChange() {
     this.isChangePassword = false;
-    // this.userForm.value.oldPassword = '';
-    // this.userForm.value.newPassword = '';
-    // this.userForm.value.confirmPassword = '';
+    
     const oldPasswordControl = this.userForm.get('oldPassword');
     const newPasswordControl = this.userForm.get('newPassword');
     const confirmPasswordControl = this.userForm.get('confirmPassword');
@@ -75,7 +122,11 @@ export class ProfileComponent implements OnInit {
               //return token
 
               console.log(item);
-              if(item!="edit thành công không thay đổi pass"&&item!="error")localStorage.setItem('authToken', item);
+              if (
+                item != 'edit thành công không thay đổi pass' &&
+                item != 'error'
+              )
+                localStorage.setItem('authToken', item);
             },
             error: (e) => {
               console.log('error: ', e);
@@ -94,13 +145,14 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  Logout(){
-    this.userService.Logout()
-   
+  Logout() {
+    this.userService.Logout();
   }
 
   getUser(userId: any) {
     this.userService.getUser(userId).subscribe((item) => {
+      console.log(item);
+
       this.userInfo = item;
       this.userForm.patchValue({
         id: item.id,
@@ -118,7 +170,9 @@ export class ProfileComponent implements OnInit {
   getUserInfo() {
     this.userService.getMe().subscribe({
       next: (item) => {
+        console.log(item);
         this.getUser(item);
+        this.getImage(item)
       },
       error: (e) => {
         console.log(e);

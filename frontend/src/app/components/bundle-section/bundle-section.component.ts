@@ -14,6 +14,7 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
   imgurl = `../../../assets/books/sach 1.jpg`;
   transtlate = -940;
   currentIndex = 2;
+  averateRate = 0;
   constructor(private service: BookServiceService) {}
   // private intervalSubscription: Subscription;
 
@@ -33,14 +34,14 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
   
 
   ngOnInit(): void {
-    interval(2000).subscribe(() => {
-      this.nextSlide()
-      // Đây là nơi bạn đặt code cần thực thi mỗi giây
-    });
-    this.service.getThreeStuff((templist: Book[]) => {
-      console.log('Final templist:', templist);
+    // interval(2000).subscribe(() => {
+    //   this.nextSlide()
+    //   // Đây là nơi bạn đặt code cần thực thi mỗi giây
+    // });
+    this.service.getThreeStuff((templist: Book[],averateRate) => {
       templist.forEach((item) => {
         console.log(item);
+        this.averateRate=averateRate        
         item.hinhanh = `../../../assets/books/${item.hinhanh}`;
       });
       // lo

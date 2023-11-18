@@ -1,0 +1,54 @@
+<div class="container-main">
+  <div class="inner-container-main" *ngIf="listbook.length > 0">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Ảnh</th>
+          <th>Tên Sách</th>
+          <th>Đồng Giá</th>
+          <th>Số Lượng</th>
+          <th>Được mượn</th>
+          <th>Lượt mượn</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listbook">
+          <!-- <td><img src="../../../assets/books/{{ item.hinhanh }}" alt="" /></td> -->
+          <td>
+            <img
+              *ngIf="item.imageData"
+              [src]="getSafeImageUrl(item.imageData)"
+            />
+          </td>
+          <td>{{ item.tensach }}</td>
+          <td>{{ item.dongia }}</td>
+          <td>{{ item.soluong }}</td>
+          <td>
+            <p *ngIf="item.duocMuon == 1" class="available">Được</p>
+            <p *ngIf="item.duocMuon == 0" class="un-available">Không</p>
+          </td>
+          <td>{{ item.borrowCount }}</td>
+          <td class="button-container">
+            <!-- HTML !-->
+            <button
+              class="button-3"
+              [routerLink]="['/detail', item.id]"
+              role="button"
+            >
+              Chi tiết
+            </button>
+            <button class="button-3 red" role="button" (click)="deleteCard(item.id)">Xóa</button>
+          </td>
+        </tr>
+
+        <!-- <tr class="active-row">
+                <td>Melissa</td>
+                <td>5150</td>
+            </tr> -->
+        <!-- and so on... -->
+      </tbody>
+    </table>
+  </div>
+</div>

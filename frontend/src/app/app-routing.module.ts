@@ -10,6 +10,8 @@ import { FollowComponent } from './pages/follow/follow.component';
 import { authAdminGuard } from './guards/auth.guard';
 import { AllproductsComponent } from './pages/allproducts/allproducts.component';
 import { HomeAdminComponentComponent } from './pages/home-admin-component/home-admin-component.component';
+import { AdminProductDetailsComponent } from './pages/admin-product-details/admin-product-details.component';
+import { AdminCardComponent } from './pages/admin-card/admin-card.component';
 
 const routes: Routes = [
   {
@@ -58,8 +60,16 @@ const routes: Routes = [
         component:AllproductsComponent
       },
       {
+        path:"card",
+        component:AdminCardComponent
+      },
+      {
+        path:"search",
+        component:AllproductsComponent
+      },
+      {
         path:"detail/:id",
-        component:DetailComponent
+        component:AdminProductDetailsComponent
       }
     ]
   },
