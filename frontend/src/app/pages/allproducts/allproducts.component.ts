@@ -3,6 +3,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { BookServiceService } from 'src/app/services/book-service.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Book } from 'src/app/models/Book';
+import { JsonPipe } from '@angular/common';
 // import { LocalStorageService } from 'angular-webstorage-service';
 
 @Component({
@@ -87,10 +88,7 @@ export class AllproductsComponent implements OnInit {
         )
         .subscribe({
           next: (list) => {
-            // console.log('search with query: ', list);
-
             this.listbook = list;
-            // this.checkifnotfound();
           },
         });
     } else if (
@@ -154,18 +152,22 @@ export class AllproductsComponent implements OnInit {
     return JSON.parse(localStorage.getItem(key)!);
   }
   addToCard(item: any) {
+    console.log(this.cardList);
+    console.log(item);
+
     this.cardList.push(item);
     console.log(this.cardList);
     this.saveDataToLocalStorage('card', this.cardList);
   }
-  clearCard(){
-    localStorage.setItem("card","[]")
-  } 
-  
-   ///================Card handle====================
+  clearCard() {
+    localStorage.setItem('card', '[]');
+  }
+
+  ///================Card handle====================
 
   ngOnInit(): void {
     this.cardList = this.getData('card');
+    console.log(this.getData('card'));
     this.loadData();
     this.getListCat();
     this.route.queryParams.subscribe((queryParams) => {

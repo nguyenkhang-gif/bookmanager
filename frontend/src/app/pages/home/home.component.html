@@ -7,8 +7,8 @@
       [routerLink]="['/detail', item.id]"
     >
       <img
-        src="../../../assets/books/{{ item.hinhanh }}"
-        alt="Avatar"
+        [src]="getSafeImageUrl(item.imageData)"
+        [alt]="tempimageurl"
         style="width: 100%"
       />
       <div class="container">

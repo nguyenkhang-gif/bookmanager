@@ -9,25 +9,23 @@ import { ImageService } from 'src/app/services/image.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  selector: 'app-profile-admin',
+  templateUrl: './profile-admin.component.html',
+  styleUrls: ['./profile-admin.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileAdminComponent implements OnInit {
   userInfo?: User;
   userForm: FormGroup;
   isChangePassword = false;
   selectedFile: File | null = null;
   imageData: string | null = null;
   constructor(
-    private snackBarService:SnackbarService,
+    private snackBarService: SnackbarService,
     private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private imageService:ImageService
-    // private sanitizer: DomSanitizer,
-
+    private imageService: ImageService // private sanitizer: DomSanitizer,
   ) {
     this.userForm = this.formBuilder.group({
       id: [null], // You can set initial values or use null
@@ -47,48 +45,36 @@ export class ProfileComponent implements OnInit {
 
   // =============HANDLE IMAGE=======================
   getSafeImageUrl(base64: any) {
-   return this.imageService.getSafeImageUrl(base64);
+    return this.imageService.getSafeImageUrl(base64);
   }
   // =============END OF HANDLE IMAGE=====================
 
   //===========================handle upload==================================
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
-    if (this.selectedFile) {
+    if (!this.imageService.checkFileSize(this.selectedFile, 5 * 1024 * 1024)) {
+      console.log('oversize');
+    }
+    if (
+      this.selectedFile &&
+      this.imageService.checkFileSize(this.selectedFile, 5 * 1024 * 1024)
+    ) {
       this.imageService.convertToBase64(this.selectedFile, (base64String) => {
         console.log(base64String);
-        if (this.userInfo && this.userInfo.imageData) {
+        if (this.userInfo) {
           this.userInfo.imageData = base64String;
           console.log(this.userInfo.imageData);
-          
-      }
-      // Ở đây, bạn có thể thực hiện các hành động khác với base64String
+        }
       });
+    } else {
+      this.snackBarService.showSuccess('size của ảnh không phù hợp');
     }
   }
 
-  getImage(userid: any): void {
-    this.userService.getImage(userid).subscribe(
-      (data: Blob) => {
-        const blobArray: Blob[] = [data];
-        console.log(blobArray);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          // reader.result chứa dữ liệu ảnh dưới dạng base64
-          this.imageData = reader.result as string;
-        };
-        reader.readAsDataURL(data);
-      },
-      (error) => {
-        console.error('Error getting image', error);
-      }
-    );
-  }
   onSubmit() {
     if (!this.selectedFile) {
       console.error('No file selected.');
-      this.snackBarService.showSuccess("chưa chọn file")
+      this.snackBarService.showSuccess('chưa chọn file');
       return;
     }
 
@@ -111,19 +97,17 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  handleClosePasswordChange() {
-    this.isChangePassword = false;
-
-    const oldPasswordControl = this.userForm.get('oldPassword');
-    const newPasswordControl = this.userForm.get('newPassword');
-    const confirmPasswordControl = this.userForm.get('confirmPassword');
-
-    oldPasswordControl!.reset();
-    newPasswordControl!.reset();
-    confirmPasswordControl!.reset();
-  }
   handleOpenPasswordChange() {
-    this.isChangePassword = true;
+    // this.isChangePassword = true;
+    console.log('handle reset password');
+    this.userService.resetPassword(this.router.url.split('/')[3]).subscribe({
+      next: (item) => {
+        console.log(item);
+      },
+      error: (e) => {
+        if ((e.status = 200)) console.log(e);
+      },
+    });
   }
 
   handleSaveChange() {
@@ -194,23 +178,22 @@ export class ProfileComponent implements OnInit {
         FirstName: item.firstName,
         LastName: item.lastName,
         phone_number: item.phone_number,
-        // Set values for other fields as needed
       });
-      // console.log(item);
     });
   }
+
+  //handle cấp quyền ??
+
+  toAdmin() {
+    if (this.userInfo) this.userInfo.quyen = 0;
+  }
+  toUser() {
+    if (this.userInfo) this.userInfo.quyen = 2;
+  }
+
   //lấy user
   getUserInfo() {
-    this.userService.getMe().subscribe({
-      next: (item) => {
-        console.log(item);
-        this.getUser(item);
-        // this.getImage(item);
-      },
-      error: (e) => {
-        console.log(e);
-      },
-    });
+    this.getUser(this.router.url.split('/')[3]);
   }
 
   //================handle loading stuff==============
@@ -223,5 +206,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserInfo();
+    console.log(this.router.url.split('/')[3]);
   }
 }

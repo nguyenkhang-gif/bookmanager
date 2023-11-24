@@ -1,0 +1,84 @@
+<div class="container-search">
+  <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-button [matMenuTriggerFor]="menu">
+    sắp xếp theo 
+  </button>
+  <mat-menu #menu="matMenu">
+    <button
+      mat-menu-item
+    >
+      Tên
+    </button>
+    <button
+     
+   
+      mat-menu-item
+    >
+      Tuổi
+    </button>
+  </mat-menu>
+
+  <button class="button-3" role="button" (click)="onSubmit()">Search</button>
+</div>
+<div class="container-main">
+  <div class="inner-container-main">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Mã</th>
+          <th>Ảnh</th>
+          <th>FirtName</th>
+          <th>LastName</th>
+          <th>Email</th>
+          <th>Số điện Thoại</th>
+          <th>Lượt mượn</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listUser">
+          <td>{{convertToPaddedString(item.id)}}</td>
+          <td>
+            <img
+              *ngIf="item.imageData"
+              [src]="getSafeImageUrl(item.imageData)"
+              alt="Không có"
+            />
+          </td>
+          <td>{{ item.firstName || "Không có" }}</td>
+          <td>{{ item.lastName || "Không có" }}</td>
+          <td>{{ item.email || "Không có" }}</td>
+          <td>{{ item.phone_number || "Không có" }}</td>
+          <td>
+            <button
+              class="button-3"
+              [routerLink]="['/admin/profile', item.id]"
+              role="button"
+            >
+              Chi tiết
+            </button>
+            <button class="button-3 red" role="button">Khóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <button class="btn-create-ticket button-26">Tạo phiếu mượn</button> -->
+</div>
+<div class="container-pagination">
+  <div class="container-main-pagination">
+    <button class="pagination-btn" (click)="handleNextBefore('-')">
+      before
+    </button>
+    <button class="pagination-btn">{{ pageIndex }}</button>
+    <button class="pagination-btn" (click)="handleNextBefore('+')">next</button>
+  </div>
+</div>

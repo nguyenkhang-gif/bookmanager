@@ -6,7 +6,7 @@
     <div *ngFor="let item of followBookList" class="card">
       <div style="width: 100px; cursor: pointer">
         <img
-          src="../../../assets/books/{{ item.hinhanh }}"
+          [src]="getSafeImageUrl(item.imageData)"
           alt="Avatar"
           [routerLink]="['/detail', item.id]"
         />
@@ -17,6 +17,11 @@
             <b>{{ item.tensach }}</b>
           </h4>
           <p>Được viết bởi {{ item.tensach }}</p>
+        </div>
+        <div class="">
+         <p class="status" *ngIf="item.duocMuon==1">Còn sách</p>
+         <p class="status red" *ngIf="item.duocMuon==0">Hết sách</p>
+
         </div>
 
         <!-- HTML !-->

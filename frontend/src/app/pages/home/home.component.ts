@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Route, Router, TitleStrategy } from '@angular/router';
 import { Book } from 'src/app/models/Book';
 import { BookServiceService } from 'src/app/services/book-service.service';
+import { ImageService } from 'src/app/services/image.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -25,9 +26,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   query: string = '';
   catid?: number = 0;
   notFound = false;
+  tempimageurl='../../../assets/books/sach 1.jpg'
 
   constructor(
     private service: BookServiceService,
+    private imageService: ImageService,
     private router: Router,
     private route: ActivatedRoute,
     private titleService: TitleService
@@ -51,6 +54,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.pageIndex--;
       this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
     }
+  }
+
+  getSafeImageUrl(base64: any) {
+    return this.imageService.getSafeImageUrl(base64);
   }
 
   checkifnotfound() {
@@ -121,7 +128,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
         .subscribe({
           next: (list) => {
-            // console.log(list);
+            console.log(list);
             this.list = list;
             this.checkifnotfound();
           },

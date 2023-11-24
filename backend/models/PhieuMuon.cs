@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend;
-
+[Table("PhieuMuon")]
 public partial class PhieuMuon
 {
-    public int Id { get; set; }
+   
+    public int? Id { get; set; }
 
     public DateTime? Ngaymuon { get; set; }
 
-    public string? Userid { get; set; }
+    public int? Userid { get; set; }
 
     public DateTime? Ngaytra { get; set; }
 

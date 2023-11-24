@@ -12,6 +12,9 @@ import { AllproductsComponent } from './pages/allproducts/allproducts.component'
 import { HomeAdminComponentComponent } from './pages/home-admin-component/home-admin-component.component';
 import { AdminProductDetailsComponent } from './pages/admin-product-details/admin-product-details.component';
 import { AdminCardComponent } from './pages/admin-card/admin-card.component';
+import { AlluserComponent } from './pages/alluser/alluser.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.component';
 
 const routes: Routes = [
   {
@@ -60,13 +63,34 @@ const routes: Routes = [
         component:AllproductsComponent
       },
       {
+        path:"alluser",
+        component:AlluserComponent
+      },
+      {
         path:"card",
         component:AdminCardComponent
       },
       {
+        path:"checkout",
+        component:CheckoutComponent
+      },
+              
+      {
         path:"search",
         component:AllproductsComponent
       },
+      
+      {
+        path:"searchuser",
+        component:AlluserComponent
+      },
+      
+      {
+        path:"profile/:id",
+        component:ProfileAdminComponent
+      },
+
+
       {
         path:"detail/:id",
         component:AdminProductDetailsComponent

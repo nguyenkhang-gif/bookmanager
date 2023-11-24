@@ -8,7 +8,6 @@
       <div class="card mb-4 mb-xl-0">
         <div class="card-header">Profile Picture</div>
         <div class="card-body text-center">
-         
           <div class="img-account-profile-2 mb-2">
             <img [src]="getSafeImageUrl(userInfo?.imageData)" alt="" />
           </div>
@@ -115,51 +114,35 @@
                 />
               </div>
             </div>
-            <!-- start of password -->
-            <div class="row gx-3 mb-3" *ngIf="isChangePassword">
+            <div class="row gx-3 mb-3">
               <!-- Form Group (phone number)-->
-              <div class="col-md-4">
-                <label class="small mb-1" for="inputPhone">old password</label>
-                <input
-                  class="form-control"
-                  type="password"
-                  placeholder="Enter your old password"
-                  formControlName="oldPassword"
-                />
-              </div>
-              <!-- Form Group (birthday)-->
-              <div class="col-md-3">
-                <label class="small mb-1" for="inputBirthday"
-                  >new password</label
-                >
-                <input
-                  class="form-control"
-                  type="password"
-                  placeholder="Enter your new password"
-                  formControlName="newPassword"
-                />
-              </div>
-              <div class="col-md-3">
-                <label class="small mb-1" for="inputBirthday"
-                  >confirm new password</label
-                >
-                <input
-                  class="form-control"
-                  type="password"
-                  placeholder="Confirm your password"
-                  formControlName="confirmPassword"
-                />
-              </div>
-              <div class="col-md-1">
-                <button
-                  class="button-3"
-                  role="button"
-                  (click)="handleClosePasswordChange()"
-                >
-                  Close
-                </button>
+              <div class="col-md-6">
+                <section class="example-section">
+                  <label
+                    class="example-margin"
+                    style="font-weight: 700; font-size: 16px"
+                    >Role:</label
+                  >
+                  <mat-radio-group>
+                    <mat-radio-button
+                      class="example-margin"
+                      value="after"
+                      [checked]="userInfo?.quyen==0"
+                      (click)="toAdmin()"
+                      >Admin</mat-radio-button
+                    >
+                    <mat-radio-button
+                      class="example-margin"
+                      value="before"
+                      [checked]="userInfo?.quyen==2"
+                      (click)="toUser()"
+                      >Người đọc</mat-radio-button
+                    >
+                  </mat-radio-group>
+                </section>
               </div>
             </div>
+            <!-- start of password -->
 
             <!-- Save changes button-->
             <button
@@ -168,7 +151,7 @@
               class="button-1"
               type="button"
             >
-              changes password
+              Reset password
             </button>
             <button
               class="btn btn-primary"
@@ -176,13 +159,6 @@
               (click)="handleSaveChange()"
             >
               Save changes
-            </button>
-            <button
-              class="btn btn-danger logout"
-              type="button"
-              (click)="Logout()"
-            >
-              logout
             </button>
           </form>
         </div>

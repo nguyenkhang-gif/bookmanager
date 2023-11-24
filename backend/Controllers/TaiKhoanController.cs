@@ -173,6 +173,48 @@ namespace backend.Controllers
 
         }
 
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> InsertList([FromBody] List<authDum> allitem)
+        {
+            foreach (var item in allitem)
+            {
+                TaiKhoan temp = new TaiKhoan();
+                //handle geneterate password
+                var checkIfHave = await context.TaiKhoans.getSingleAsync(user => user.Username == item.username);
+
+                // return checkIfHave
+                if (checkIfHave != null)
+                {
+                    // return StatusCode(404, "already have user");
+                }
+                else
+                {
+                    CreatePasswordHash(item.password, out byte[] passwordHash, out byte[] passwordSalt);
+                    temp.Username = item.username;
+                    temp.Quyen = 2;//user binh thuong
+                    temp.FirstName = "user123";
+                    temp.LastName = "user123";
+                    temp.email = item.email;
+                    temp.passwordHash = passwordHash;
+                    temp.passwordSalt = passwordSalt;
+                    try
+                    {
+                        await context.TaiKhoans.InsertAsync(temp);
+                        await context.SaveChangesAsync();
+                        // return Ok("register success!!");
+                    }
+                    catch (Exception e)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+                    }
+                    // return Ok(temp);
+
+                }
+            }
+            return Ok();
+        }
+
         [HttpPost("[action]")]
         public async Task<ActionResult<string>> Update([FromBody] TaiKhoan item, [FromQuery] string? oldPassword, string? newPassword)
         {
@@ -196,6 +238,7 @@ namespace backend.Controllers
                         tempitem.Quyen = item.Quyen;
                         tempitem.Gioitinh = item.Gioitinh;
                         tempitem.Ngaysinh = item.Ngaysinh;
+                        tempitem.imageData = item.imageData;
                         tempitem.passwordHash = passwordHash;
                         tempitem.passwordSalt = passwordSalt;
                         try
@@ -220,6 +263,9 @@ namespace backend.Controllers
                     tempitem.email = item.email;
                     tempitem.LastName = item.LastName;
                     tempitem.Quyen = item.Quyen;
+
+                    tempitem.imageData = item.imageData;
+
                     tempitem.Gioitinh = item.Gioitinh;
                     tempitem.Ngaysinh = item.Ngaysinh;
                     try
@@ -238,7 +284,33 @@ namespace backend.Controllers
             return "error";
 
         }
+        [HttpGet("[action]/{userid}")]
+        public async Task<ActionResult<string>> ResetPass([FromRoute] int userid)
+        {
+            var tempitem = await context.TaiKhoans.getSingleAsync(usertemp => usertemp.Id == userid);
+            if (tempitem != null)
+            {
+                CreatePasswordHash("user1234", out byte[] passwordHash, out byte[] passwordSalt);
+                // temp.Username = item.username;
 
+                tempitem.passwordHash = passwordHash;
+                tempitem.passwordSalt = passwordSalt;
+                try
+                {
+                    string token = createToken(tempitem);
+                    context.TaiKhoans.Update(tempitem);
+                    await context.SaveChangesAsync();
+                    return "Reset thành công!!";
+                }
+                catch (Exception e)
+                {
+                    return e.ToString();
+                }
+            }
+            else
+                return "error";
+
+        }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -255,6 +327,36 @@ namespace backend.Controllers
                 return computeHash.SequenceEqual(passwordHash);
             }
             // return  true;
+        }
+
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<TaiKhoan>> GetAllWithSizeAndIndex([FromRoute] int pageIndex, [FromRoute] int pageSize)
+        {
+            return await context.TaiKhoans.GetAsync(pageIndex, pageSize);
+        }
+
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<TaiKhoan>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, [FromQuery] string content)
+        {
+            return await context.TaiKhoans.GetAsync(pageIndex, pageSize, item => string.IsNullOrEmpty(content) || item.FirstName.Contains(content) || item.LastName.Contains(content) || item.phone_number.Contains(content) || item.email.Contains(content)||item.Id.ToString().Contains(content));
+        }
+
+        private string ConvertToPaddedString(int? number)
+        {
+            // Chuyển số nguyên thành chuỗi
+            string strNumber = number.ToString();
+
+            // Tính số lượng số 0 cần bù
+            int zeroCount = 8 - strNumber.Length;
+
+            // Bù số 0 nếu cần
+            while (zeroCount > 0)
+            {
+                strNumber = '0' + strNumber;
+                zeroCount--;
+            }
+
+            return strNumber;
         }
 
 

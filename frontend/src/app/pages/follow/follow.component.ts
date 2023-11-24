@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from 'src/app/models/Book';
+import { AuthorService } from 'src/app/services/author.service';
 import { FollowService } from 'src/app/services/follow.service';
+import { ImageService } from 'src/app/services/image.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,12 +13,18 @@ import { UserService } from 'src/app/services/user.service';
 export class FollowComponent implements OnInit {
   constructor(
     private followService: FollowService,
-    private userService: UserService
+    private userService: UserService,
+    private imageService: ImageService,
+    private authorService: AuthorService
   ) {}
   followBookList: Book[] = [];
 
   ngOnInit(): void {
-    this.loadData()
+    this.loadData();
+  }
+
+  getSafeImageUrl(base64: any) {
+    return this.imageService.getSafeImageUrl(base64);
   }
 
   loadData() {
@@ -27,6 +35,12 @@ export class FollowComponent implements OnInit {
           next: (list) => {
             console.log('fromfollow: ', list);
             this.followBookList = list;
+            this.followBookList.forEach(book=>{
+              this.authorService.getAuthorWithBookId(book.tacgiaid).subscribe(author=>{
+                console.log(author);
+                
+              })
+            })
           },
         });
       },
@@ -51,7 +65,7 @@ export class FollowComponent implements OnInit {
         error: (e) => {
           console.log('error delete: ', e);
           if (e.status == 200) {
-            this.loadData()
+            this.loadData();
           }
         },
       });

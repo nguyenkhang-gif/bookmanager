@@ -1,6 +1,6 @@
 <div class="container outer">
-  <div class="container img-con">
-    <img [src]="imageUrl || imageData" alt="" />
+  <div class="container img-con"  >
+    <img [src]="getSafeImageUrl(bookInfo?.imageData)" alt="" />
     <input type="file" (change)="onFileSelected($event)" />
     <!-- Profile picture upload button-->
     <button class="btn btn-primary" (click)="onSubmit()" type="button">
@@ -166,11 +166,11 @@
   </form>
 
   <!-- =========================START OF SUBMIT======================== -->
-  <button>Lưu thông tin</button>
+  <button class="button-37" (click)="saveAllForm()" >Lưu thông tin</button>
   <app-popup-window
     *ngIf="popupWindowOpen"
    
-    [isDone]="isLoading"
+    [isDone]="!isLoading"
     (sendDataToParent)="receiveDataFromChild($event)"
   ></app-popup-window>
 

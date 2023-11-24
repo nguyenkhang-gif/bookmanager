@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Form, FormControl, FormGroup } from '@angular/forms';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 // import { User } from 'src/app/models/User';
 // import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user.service';
 import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 import { User } from 'src/app/models/User';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-register',
@@ -20,18 +21,28 @@ import { User } from 'src/app/models/User';
 })
 export class RegisterComponent implements OnInit {
   // constructor(private service : UserService){}
-
+  constructor(
+    private router: Router,
+    private service: UserService,
+    private snackbarService: SnackbarService
+  ) {}
   tempUserRes?: User;
 
   registerForm = new FormGroup({
-    username: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    confirmPassword: new FormControl(''),
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+    confirmPassword: new FormControl('', [Validators.required]),
   });
 
   role: string = 'register';
-  constructor(private router: Router, private service: UserService) {}
+
   toLogin() {
     this.role = 'login';
   }
@@ -54,25 +65,20 @@ export class RegisterComponent implements OnInit {
             console.log('login success', item);
             localStorage.setItem('authToken', item);
             this.router.navigate(['/']);
-            // console.log(item);
           },
         });
     }
 
     //==========================Register===============================
-    
-    if (
-      (this.registerForm.value.username != null &&
-        this.registerForm.value.password != null &&
-        this.registerForm.value.confirmPassword ==
-          this.registerForm.value.password,
-      this.role == 'register')
-    ) {
-      console.log(this.registerForm.value.username);
-      console.log(this.registerForm.value.email);
 
-      console.log(this.registerForm.value.confirmPassword);
-      console.log(this.registerForm.value.password);
+    if (
+      this.registerForm.valid &&
+      this.registerForm.value.username != null &&
+      this.registerForm.value.password != null &&
+      this.registerForm.value.confirmPassword ==
+        this.registerForm.value.password &&
+      this.role == 'register'
+    ) {
       this.service
         .Register({
           username: this.registerForm.value.username,
@@ -87,10 +93,36 @@ export class RegisterComponent implements OnInit {
           },
           error: (e) => {
             console.log(e);
+            this.snackbarService.showSuccess('đã có người dùng');
           },
         });
+    } else {
+      console.log(this.getFormValidationErrors());
+      if (this.role != 'login')
+        this.snackbarService.showSuccess('somthing go wrong');
     }
     //==========================Register END===============================
+  }
+  private getFormValidationErrors() {
+    Object.keys(this.registerForm.controls).forEach((key) => {
+      const controlErrors = this.registerForm.get(key)?.errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach((keyError) => {
+          console.log(
+            `Key control: ${key}, keyError: ${keyError}, err value: ${controlErrors[keyError]}`
+          );
+        });
+      }
+    });
+  }
+  onSubmit2() {
+    if (this.registerForm.valid) {
+      // Form is valid, proceed with your logic
+      console.log('Form is valid. Submitting...');
+    } else {
+      // Form is not valid, log the validation errors
+      console.log('Form is not valid. Validation errors:');
+    }
   }
 
   ngOnInit(): void {

@@ -1,3 +1,7 @@
+
+<div class="title">
+  <p >Card</p>
+</div>
 <div class="container-main">
   <div class="inner-container-main" *ngIf="listbook.length > 0">
     <table class="styled-table">
@@ -51,4 +55,5 @@
       </tbody>
     </table>
   </div>
+  <button class="btn-create-ticket button-26" *ngIf="!isSpecificUrl('checkout')"  [routerLink]="['/admin/checkout']" >Tạo phiếu mượn </button>
 </div>

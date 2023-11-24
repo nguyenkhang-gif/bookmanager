@@ -8,10 +8,10 @@
     <div class="colorfill-2"></div> -->
     <!-- start of detail -->
   <div class="container-main">
-    <img [src]="imgurl" alt="" />
+    <img [src]="getSafeImageUrl(bookInfo.imageData)" alt="" />
     <div class="container-book-info">
       <p class="book-name">{{ bookInfo.tensach }}</p>
-      <p class="author-name">tác giả : {{ bookInfo.tensach }}</p>
+      <p class="author-name">tác giả : {{ author }}</p>
       <div class="catergory-container">
         <p class="catergory-1">thể loại:</p>
         <p class="catergory">{{ category.tenchude }}</p>
@@ -21,7 +21,7 @@
         <p *ngIf="bookInfo.duocMuon == 1" class="available">có thể mượn</p>
         <p *ngIf="bookInfo.duocMuon == 0" class="un-available">hết sách</p>
       </div>
-      <button class="borow-btn">Mượn ngay</button>
+      <!-- <button class="borow-btn">Mượn ngay</button> -->
       <button class="follow-btn" *ngIf="!isFollow" (click)="handleFollowClick()">theo dõi</button>
       <button class="un-follow-btn" *ngIf="isFollow" (click)="handleFollowClick()">bỏ theo dõi</button>
     </div>
@@ -101,7 +101,7 @@
 
       <div class="container-single-comment" *ngFor="let item of comment">
         <div class="container-user-comment">
-          <img [src]="imguserurl" alt="" />
+          <img [src]="getSafeImageUrl(item.image)||imguserurl" alt="" />
           <p>{{item.user}}</p>
         </div>
         <div class="containter-star">

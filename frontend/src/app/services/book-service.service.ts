@@ -63,8 +63,8 @@ export class BookServiceService {
     );
   }
 
-  addReview(item: Review) {
-    return this.httpClient.post<Review>(
+  addReview(item: any) {
+    return this.httpClient.post<any>(
       'http://localhost:5280/NhanXet/Insert',
       item
     );
@@ -178,4 +178,12 @@ export class BookServiceService {
   //   const url = `http://localhost:5280/Dbosach/GetImages`;
   //   return this.httpClient.get<Blob[]>(url, { responseType: 'blob' as 'json' });
   // }
+
+  //update book
+  updateBook(book: any) {
+    return this.httpClient.post(
+      `http://localhost:5280/Dbosach/Update`,
+      book
+    );
+  }
 }

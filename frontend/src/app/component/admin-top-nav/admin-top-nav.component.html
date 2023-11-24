@@ -22,8 +22,10 @@
     >
       All Product
     </button>
-    <button class="example-icon">All User</button>
+    <button class="example-icon" [routerLink]="['/admin/alluser']">
+      All User
+    </button>
     <button class="example-icon">All Request</button>
-    <button class="example-icon" [routerLink]="['/admin/card']" >Card</button>
+    <button class="example-icon" [routerLink]="['/admin/card']">Card</button>
   </mat-toolbar>
 </div>

@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const MaterialComponents = [
   MatMenuModule,
@@ -22,6 +25,9 @@ const MaterialComponents = [
   MatToolbarModule,
   MatButtonModule,
   MatIconModule,
+  MatStepperModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 ];
 
 @NgModule({

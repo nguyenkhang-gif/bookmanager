@@ -1,0 +1,191 @@
+<!-- STEP 1: USER -->
+
+<mat-horizontal-stepper class="container" [linear]="true">
+  <!-- Các bước sẽ được thêm vào đây -->
+
+  <mat-step label="Bước 1:Chọn người mượn" [completed]="Steps[0]">
+    <!-- Nội dung của bước 1 -->
+
+    <p class="title">Chọn user</p>
+    <div class="container-search">
+      <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="value" />
+
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="value = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-button [matMenuTriggerFor]="menu">sắp xếp theo</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Tên</button>
+        <button mat-menu-item>Tuổi</button>
+      </mat-menu>
+
+      <button class="button-3" role="button" (click)="onSubmit()">
+        Search
+      </button>
+    </div>
+    <div class="container-main">
+      <div class="inner-container-main">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Mã</th>
+              <th>Ảnh</th>
+              <th>FirtName</th>
+              <th>LastName</th>
+              <th>Email</th>
+              <th>Số điện Thoại</th>
+              <th>Lượt mượn</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listUser">
+              <td>{{ convertToPaddedString(item.id) }}</td>
+              <td>
+                <img
+                  *ngIf="item.imageData"
+                  [src]="getSafeImageUrl(item.imageData)"
+                  alt="Không có"
+                />
+              </td>
+              <td>{{ item.firstName || "Không có" }}</td>
+              <td>{{ item.lastName || "Không có" }}</td>
+              <td>{{ item.email || "Không có" }}</td>
+              <td>{{ item.phone_number || "Không có" }}</td>
+              <td>
+                <button
+                  class="button-3"
+                  [routerLink]="['/admin/profile', item.id]"
+                  role="button"
+                >
+                  Chi tiết
+                </button>
+                <button
+                  class="button-3 red"
+                  role="button"
+                  (click)="handleChoose(item.id)"
+                >
+                  Chọn
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <button class="btn-create-ticket button-26">Tạo phiếu mượn</button> -->
+    </div>
+    <div class="container-pagination">
+      <div class="container-main-pagination">
+        <button class="pagination-btn" (click)="handleNextBefore('-')">
+          before
+        </button>
+        <button class="pagination-btn">{{ pageIndex }}</button>
+        <button class="pagination-btn" (click)="handleNextBefore('+')">
+          next
+        </button>
+      </div>
+    </div>
+  </mat-step>
+
+  <mat-step label="Bước 2">
+    <!-- Nội dung của bước 2 -->
+    <p class="title">Bước 2: xác nhận sách</p>
+    <!-- CARD START -->
+    <app-admin-card></app-admin-card>
+    <!-- CARD END -->
+
+    <div class="container-auto-fill">
+      <button class="button-3 button" (click)="handleStepConfirm()">
+        Xác nhận
+      </button>
+    </div>
+  </mat-step>
+  <mat-step label="Bước 3">
+    <!-- Nội dung của bước 2 -->
+    <p class="title">Bước 3:xác nhận toàn bộ thông tin</p>
+    <!-- USER INFO -->
+    <div class="user-container" *ngIf="userinfo">
+      <p class="title">Thông tin người dùng</p>
+      <div class="image">
+        <img [src]="getSafeImageUrl(userinfo.imageData)" alt="" />
+      </div>
+      <div>
+        <p>
+          {{ userinfo.firstName }}
+        </p>
+      </div>
+      <div>
+        <p>
+          {{ userinfo.lastName }}
+        </p>
+      </div>
+    </div>
+    <!-- END OF USER INFO -->
+    <div class="step-3-main-container">
+      <form action="" [formGroup]="dateForm">
+        <div class="form-container">
+          <p>Ngày mượn</p>
+          <mat-form-field class="child">
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              placeholder="Ngày mượn"
+              formControlName="startDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          <p>Ngày trả</p>
+          <mat-form-field class="child">
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              placeholder="Ngày trả"
+              formControlName="endDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="container-auto-fill">
+          <button class="button-3 center" (click)="getcurentDate()">
+            Tự động điền
+          </button>
+        </div>
+      </form>
+      <!-- CARD START -->
+      <app-admin-card></app-admin-card>
+      <!-- CARD END -->
+
+
+      <div class="container-auto-fill">
+        <button class="button-3 center" (click)="handleSubmitFinal()">
+          Xác nhận
+        </button>
+      </div>
+    </div>
+  </mat-step>
+
+  <!-- Các bước khác nếu cần -->
+</mat-horizontal-stepper>
+
+<!-- END OF STEP 1: USER -->
+<!-- STEP 2: CONFIRM AMOUNT AND BOOK LIST -->
+<!-- END OF STEP 2:  CONFIRM AMOUNT AND BOOK LIST -->
+<!-- STEP 3: CONFIRM DATE START , END -->
+<!-- END STEP 3: CONFIRM DATE START , END -->

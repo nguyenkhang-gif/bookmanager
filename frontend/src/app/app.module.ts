@@ -25,6 +25,9 @@ import { HomeAdminComponentComponent } from './pages/home-admin-component/home-a
 import { AdminProductDetailsComponent } from './pages/admin-product-details/admin-product-details.component';
 import { AdminCardComponent } from './pages/admin-card/admin-card.component';
 import { PopupWindowComponent } from './components/popup-window/popup-window.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { AlluserComponent } from './pages/alluser/alluser.component';
+import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { PopupWindowComponent } from './components/popup-window/popup-window.com
     AdminProductDetailsComponent,
     AdminCardComponent,
     PopupWindowComponent,
+    CheckoutComponent,
+    AlluserComponent,
+    ProfileAdminComponent,
   ],
   imports: [
     BrowserModule,

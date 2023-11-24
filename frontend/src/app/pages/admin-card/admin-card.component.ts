@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from 'src/app/services/book-service.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Book } from 'src/app/models/Book';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-card',
@@ -12,13 +13,16 @@ import { Book } from 'src/app/models/Book';
 export class AdminCardComponent implements OnInit {
   constructor(
     private bookService: BookServiceService,
-    private sanitizer: DomSanitizer // private localStorage: LocalStorageService
+    private sanitizer: DomSanitizer ,
+    private router:Router// private localStorage: LocalStorageService
   ) {}
 
   ///================Card handle====================
   cardList: any[] = [];
   listbook: Book[] = [];
   saveDataToLocalStorage(key: string, data: any): void {
+    console.log(JSON.stringify(data));
+
     localStorage.setItem(key, JSON.stringify(data));
   }
   getData(key: any) {
@@ -35,14 +39,12 @@ export class AdminCardComponent implements OnInit {
   deleteCard(id: any) {
     let index = this.cardList.indexOf(id);
     console.log(index);
-    
-    this.cardList=this.cardList.filter(item => item !== id)
-    this.listbook=this.listbook.filter(item => item.id !== id)
-    console.log(this.listbook);
-    
-    console.log(this.cardList);
 
-    
+    this.cardList = this.cardList.filter((item) => item !== id);
+    this.listbook = this.listbook.filter((item) => item.id !== id);
+    console.log(this.listbook);
+    this.saveDataToLocalStorage('card', this.cardList);
+    console.log(this.cardList);
   }
   ///================Card handle====================
   //========================HANDLE IMAG STUFF=================================
@@ -51,12 +53,25 @@ export class AdminCardComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
 
+
+
+
+
+
+
+  //====================CHECK URL
+  isSpecificUrl(url: string): boolean {
+    const currentUrl = this.router.url;
+    return currentUrl.includes(`/${url}`);
+  }
+
   ngOnInit(): void {
     this.bookService.getBooksWithId(this.getData('card')).subscribe((list) => {
       console.log(list);
       this.listbook = list;
       this.cardList = this.getData('card');
     });
+    // this.saveDataToLocalStorage("card","[]")
     console.log(this.getData('card'));
   }
 }

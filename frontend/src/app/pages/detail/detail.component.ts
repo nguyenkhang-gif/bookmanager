@@ -14,6 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/user.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Observable, forkJoin } from 'rxjs';
+import { ImageService } from 'src/app/services/image.service';
+import { AuthorService } from 'src/app/services/author.service';
 
 @Component({
   selector: 'app-detail',
@@ -22,12 +24,14 @@ import { Observable, forkJoin } from 'rxjs';
 })
 export class DetailComponent implements OnInit {
   constructor(
+    private authorService: AuthorService,
     private serviceUser: UserService,
     private route: Router,
     private service: BookServiceService,
     private FollowSer: FollowService,
     private titleService: TitleService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private imageService: ImageService
   ) {}
   imgurl: string = '';
   imguserurl: string = '../../../assets/149071.png';
@@ -43,6 +47,7 @@ export class DetailComponent implements OnInit {
   }
 
   bookInfo?: Book;
+  author = '';
   comment: Review[] = [];
   category?: Category;
   producerInfo?: Publisher;
@@ -94,7 +99,7 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  //lấy follow như kiểu load data, có tính hợp update 
+  //lấy follow như kiểu load data, có tính hợp update
   handleFollow() {
     this.serviceUser.getMe().subscribe({
       next: (item) => {
@@ -119,6 +124,9 @@ export class DetailComponent implements OnInit {
       },
     });
   }
+  getSafeImageUrl(base64: any) {
+    return this.imageService.getSafeImageUrl(base64);
+  }
 
   loaddata(url: any) {
     this.service.getBookWithId(url).subscribe({
@@ -126,7 +134,7 @@ export class DetailComponent implements OnInit {
         this.titleService.setTitle(book.tensach);
         this.bookInfo = book;
         console.log('book:', book);
-        this.imgurl = `../../../assets/books/${book.hinhanh}`;
+        // this.imgurl = `../../../assets/books/${book.hinhanh}`;
         this.fetchComments(book.id);
 
         this.service.getCatgory(book.chudeid).subscribe({
@@ -135,6 +143,12 @@ export class DetailComponent implements OnInit {
             this.category = cat;
           },
         });
+        this.authorService
+          .getAuthorWithBookId(book.tacgiaid)
+          .subscribe((item_2) => {
+            console.log(item_2);
+            this.author = item_2.tentacgia;
+          });
 
         this.service.getProducer(book.nhaxuatbanid).subscribe({
           next: (producer) => {
@@ -160,6 +174,10 @@ export class DetailComponent implements OnInit {
           // lấy tên
           this.serviceUser.getNameWithId(item.userid).subscribe((name) => {
             item.user = name;
+          });
+          this.serviceUser.getUser(item.userid).subscribe((item_2) => {
+            console.log(item_2);
+            item.image = item_2.imageData;
           });
         });
         this.averateRate /= comments.length;

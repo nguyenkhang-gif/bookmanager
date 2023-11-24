@@ -8,6 +8,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthorService } from 'src/app/services/author.service';
 import { Publisher } from 'src/app/models/Publisher';
 import { interval } from 'rxjs';
+import { Category } from 'src/app/models/Category';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-admin-product-details',
@@ -21,24 +24,26 @@ export class AdminProductDetailsComponent implements OnInit {
     private bookService: BookServiceService,
     private route: Router,
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private sanitizer: DomSanitizer,
+    private imageService:ImageService
   ) {}
   // bookForm: FormGroup;
   bookForm = this.formBuilder.group({
-    chieudai: [null],
-    chieurong: [null],
-    chudeid: [null],
-    borrowCount: [null],
-    dinhdang: [null],
-    dongia: [null],
-    hinhanh: [null],
-    nhaxuatbanid: [null],
-    soluong: [null],
-    sotrang: [null],
-    tacgiaid: [null],
-    tentacgia: [null],
-    tensach: [null],
-    duocMuon: [null],
+    chieudai: [],
+    chieurong: [],
+    chudeid: [],
+    borrowCount: [],
+    dinhdang: [],
+    dongia: [],
+    hinhanh: [],
+    nhaxuatbanid: [],
+    soluong: [],
+    sotrang: [],
+    tacgiaid: [],
+    tentacgia: [],
+    tensach: [],
+    duocMuon: [],
     chude: [''],
   });
   // CÁC BIÊN`
@@ -51,8 +56,8 @@ export class AdminProductDetailsComponent implements OnInit {
   producerInfo?: any;
   producerInfoList: any[] = []; //list the loai
   isBorrow = false;
-  popupWindowOpen = true;
-  isLoading = false;
+  popupWindowOpen = false;
+  isLoading = true;
 
   // END OF CÁC BIÊN`
   loadBookData(book: any): void {
@@ -84,27 +89,7 @@ export class AdminProductDetailsComponent implements OnInit {
           this.isBorrow = false;
         }
         console.log(this.bookForm);
-
-        this.imgurl = `../../../assets/books/${book.hinhanh}`;
-        this.bookService.getImage(url).subscribe(
-          (data: Blob) => {
-            console.log(data);
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              // reader.result chứa dữ liệu ảnh dưới dạng base64
-              this.bookInfo = book;
-              this.imageData = reader.result as string;
-              console.log(this.imageData);
-
-              this.bookInfo.hinhanh = reader.result as string;
-            };
-            reader.readAsDataURL(data);
-          },
-          (error) => {
-            console.error('Error getting image', error);
-          }
-        );
+        this.bookInfo = book;
         // ==== lấy cat
 
         this.bookService.getCatgory(book.chudeid).subscribe({
@@ -138,8 +123,9 @@ export class AdminProductDetailsComponent implements OnInit {
   }
 
   //==========================START OF CATERGORY=========================================
-  changeCat(item: any) {
+  changeCat(item: Category) {
     this.category = item;
+    // this.bookForm.get('chudeid')?.setValue(item.id)
   }
   //==========================END OF CATERGORY=========================================
 
@@ -169,10 +155,8 @@ export class AdminProductDetailsComponent implements OnInit {
   //=======================handle pop up window======================
   receiveDataFromChild(data: string) {
     console.log('Dữ liệu nhận được từ component con:', data);
-    this.popupWindowOpen=false
+    this.popupWindowOpen = false;
   }
-  
-
 
   //=======================end of handle pop up window======================
 
@@ -186,6 +170,7 @@ export class AdminProductDetailsComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imageUrl = e.target.result;
+        console.log(this.imageUrl);
       };
       reader.readAsDataURL(this.selectedFile);
     }
@@ -193,7 +178,20 @@ export class AdminProductDetailsComponent implements OnInit {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
-    this.loadImge();
+
+    console.log(this.selectedFile);
+    if(this.selectedFile){
+      this.imageService.convertToBase64(this.selectedFile, (base64String) => {
+        console.log(base64String);
+        if (this.bookInfo) {
+          this.bookInfo.imageData = base64String;
+          console.log(this.bookInfo?.imageData);
+        }
+        // Ở đây, bạn có thể thực hiện các hành động khác với base64String
+      });
+    }
+
+    // this.loadImge();
   }
 
   getImage(userid: any): void {
@@ -234,6 +232,7 @@ export class AdminProductDetailsComponent implements OnInit {
         next: (response) => {
           console.log('Upload successful', response);
           this.loadImge();
+          this.loadAllData();
         },
         error: (error) => {
           console.error('Error uploading file', error);
@@ -243,14 +242,92 @@ export class AdminProductDetailsComponent implements OnInit {
 
   //======================START OF UPLOAD IMG================================
 
-  ngOnInit(): void {
+  // ==============================HANDLE SUBMIT ALL============================
+  saveAllForm() {
+    console.log('sent all data to server');
+    console.log(this.bookInfo?.id);
+
+    console.log(this.category); //chủ đề id
+    console.log(this.author); //chủ đề id
+    console.log(this.producerInfo);
+
+    console.log(this.bookForm.get('chieudai')?.value);
+    console.log(this.bookForm.get('chieurong')?.value);
+    console.log(this.bookForm.get('tensach')?.value);
+    console.log(this.bookForm.get('borrowCount')?.value);
+    console.log(this.bookForm.get('soluong')?.value);
+    console.log(this.isBorrow == true ? 1 : 0);
+    console.log({
+      id: this.bookInfo?.id,
+      chieudai: this.bookForm.get('chieudai')?.value,
+      chieurong: this.bookForm.get('chieurong')?.value,
+      chudeid: this.category?.id,
+      borrowCount: this.bookForm.get('borrowCount')?.value,
+      dinhdang: this.bookInfo?.dinhdang,
+      dongia: this.bookInfo?.dongia,
+      hinhanh: this.bookInfo?.hinhanh,
+      nhaxuatbanid: this.producerInfo?.id,
+      soluong: this.bookForm.get('soluong')?.value,
+      sotrang: this.bookForm.get('sotrang')?.value,
+      tacgiaid: this.author?.id,
+      tensach: this.bookForm.get('tensach')?.value,
+      duocMuon:this.isBorrow == true ? 1 : 0,
+      imageData: this.bookInfo?.imageData,
+    });
+    this.popupWindowOpen=true
+    this.isLoading=true
+    
+    this.bookService.updateBook({
+      id: this.bookInfo?.id,
+      chieudai: this.bookForm.get('chieudai')?.value,
+      chieurong: this.bookForm.get('chieurong')?.value,
+      chudeid: this.category?.id,
+      borrowCount: this.bookForm.get('borrowCount')?.value,
+      dinhdang: this.bookInfo?.dinhdang,
+      dongia: this.bookInfo?.dongia,
+      hinhanh: this.bookInfo?.hinhanh,
+      nhaxuatbanid: this.producerInfo?.id,
+      soluong: this.bookForm.get('soluong')?.value,
+      sotrang: this.bookForm.get('sotrang')?.value,
+      tacgiaid: this.author?.id,
+      tensach: this.bookForm.get('tensach')?.value,
+      duocMuon:this.isBorrow == true ? 1 : 0,
+      imageData: this.bookInfo?.imageData,
+    }).subscribe({
+      next:(e)=>{
+        console.log(e);
+        // interval(3000).subscribe(() => {
+          // this.nextSlide()
+          // console.log("done!!");
+          this.isLoading = false;
+    
+          // this.sendEventToChild()
+          // Đây là nơi bạn đặt code cần thực thi mỗi giây
+        // });
+        
+      },
+      error:(e)=>{
+        console.log(e);
+        
+      }
+    });
+
+    console.log(this.bookInfo);
+  }
+  // ============================== END OF HANDLE SUBMIT ALL=====================
+  getSafeImageUrl(base64: any): SafeUrl {
+    const imageUrl = 'data:image/jpeg;base64,' + base64;
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+
+  loadAllData() {
     this.loaddata(this.route.url.split('/')[3]);
     this.bookService.getAllCatgory().subscribe((list) => {
       console.log(list);
       this.catList = list;
     });
     // this.loadImge();
-    this.getImage(this.route.url.split('/')[3]);
+    // this.getImage(this.route.url.split('/')[3]);
     this.authorService.getAllAuthtor().subscribe((item) => {
       console.log(item);
       this.authorList = item;
@@ -259,17 +336,16 @@ export class AdminProductDetailsComponent implements OnInit {
       console.log(list);
       this.producerInfoList = list;
     });
+  }
 
+  ngOnInit(): void {
+    this.loadAllData();
 
+    // interval(2000).subscribe(() => {
+    //   // this.nextSlide()
+    //   // console.log("done!!");
+    //   this.isLoading = true;
 
-
-    interval(2000).subscribe(() => {
-        // this.nextSlide()
-        // console.log("done!!");
-        this.isLoading=true
-        
-        // this.sendEventToChild()
-        // Đây là nơi bạn đặt code cần thực thi mỗi giây
-      });
+    // });
   }
 }

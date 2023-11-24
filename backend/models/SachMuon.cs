@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend;
-
+[Table("SachMuon")]
 public partial class SachMuon
 {
-    public int Sachmuonid { get; set; }
+
+    public int? id { get; set; }
 
     public int? Sachid { get; set; }
 

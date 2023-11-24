@@ -67,9 +67,33 @@ export class UserService {
       `http://localhost:5280/TaiKhoan/getById/${id}`
     );
   }
+  getAllUser(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`http://localhost:5280/TaiKhoan/get`);
+  }
 
   getImage(userId: number): Observable<Blob> {
     const url = `http://localhost:5280/TaiKhoan/GetImage/${userId}`;
     return this.httpClient.get(url, { responseType: 'blob' });
+  }
+  getUserWithIndexPageAndPageSize(pageIndex: number, pageSize: number) {
+    return this.httpClient.get<any[]>(
+      `http://localhost:5280/TaiKhoan/GetAllWithSizeAndIndex/${pageIndex}/${pageSize}`
+    );
+  }
+  getUserWithPageIndexPageSizeContent(
+    pageIndex: number,
+    pageSize: number,
+    content?: string
+  ) {
+    let url = `http://localhost:5280/TaiKhoan/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?content=${content}`;
+    // if (catid == 0)
+    //   url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?content=${content}`;
+    // console.log(url);
+    return this.httpClient.get<any[]>(url);
+  }
+
+
+  resetPassword(userid:any){
+    return this.httpClient.get(`http://localhost:5280/TaiKhoan/ResetPass/${userid}`)
   }
 }

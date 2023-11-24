@@ -13,7 +13,7 @@ export interface Book {
   tacgiaid: number;
   duocMuon: number;
   tensach: string;
-  imageData: Uint8Array; // Thêm cột imageData kiểu byte array
+  imageData: any; // Thêm cột imageData kiểu byte array
   chude: any | null; // Kiểu dữ liệu của chude chưa rõ
   nhanXets: any[]; // Kiểu dữ liệu của nhanXets chưa rõ
   nhaxuatban: any | null; // Kiểu dữ liệu của nhaxuatban chưa rõ
