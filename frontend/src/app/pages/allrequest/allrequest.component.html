@@ -16,34 +16,37 @@
   </mat-menu>
 
   <!-- <div class="form-container"> -->
-    <p>Ngày mượn</p>
-    <mat-form-field class="child">
-      <input
-        matInput
-        [matDatepicker]="picker1"
-        placeholder="Ngày mượn"
-        formControlName="startDate"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="picker1"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-    <p>Ngày trả</p>
-    <mat-form-field class="child">
-      <input
-        matInput
-        [matDatepicker]="picker2"
-        placeholder="Ngày trả"
-        formControlName="endDate"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="picker2"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
+    <form action="" class="form" [formGroup]="dateForm">
+
+      <p>Ngày mượn</p>
+      <mat-form-field class="child">
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          placeholder="Ngày mượn"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <p>Ngày trả</p>
+      <mat-form-field class="child">
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          placeholder="Ngày trả"
+          formControlName="endDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </form>
   <!-- </div> -->
   <!-- HTML !-->
   <button class="button-3" role="button" (click)="onSubmit()">Search</button>
@@ -94,6 +97,15 @@
       <!-- and so on... -->
     </tbody>
   </table>
+</div>
+<div class="container-pagination">
+  <div class="container-main-pagination">
+    <button class="pagination-btn" (click)="handleNextBefore('-')">
+      before
+    </button>
+    <button class="pagination-btn">{{ pageIndex }}</button>
+    <button class="pagination-btn" (click)="handleNextBefore('+')">next</button>
+  </div>
 </div>
 
 <div class="space"></div>

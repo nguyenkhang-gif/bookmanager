@@ -96,16 +96,23 @@ namespace backend.Controllers
         {
             return await context.PhieuMuons.GetAsync(pageIndex, pageSize);
         }
-        [HttpPost("[action]/{pageIndex}/{pageSize}")]
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
         public async Task<IEnumerable<PhieuMuon>> GetAllWithSizeAndIndexAndContent([FromRoute] int pageIndex, [FromRoute] int pageSize, [FromQuery] string? content, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
-
-
-
+            
             return await context.PhieuMuons.GetAsync(pageIndex, pageSize, item =>
-            item.Ngaymuon.Value.Year == startDate.Value.Year &&
+            // chekc start date 
+            (startDate==null? true:(item.Ngaymuon.Value.Year == startDate.Value.Year &&
             item.Ngaymuon.Value.Month == startDate.Value.Month &&
-            item.Ngaymuon.Value.Day == startDate.Value.Day);
+            item.Ngaymuon.Value.Day == startDate.Value.Day)) &&
+            //check end date 
+            (endDate==null? true:(item.Ngaytra.Value.Year == endDate.Value.Year &&
+            item.Ngaytra.Value.Month == endDate.Value.Month &&
+            item.Ngaytra.Value.Day == endDate.Value.Day))
+            // check content
+            &&
+            (content != null ? item.Userid.ToString().Contains(content) : true)
+            );
             //     DateTime temp=DateTime.Parse("2023-11-20T10:00:00");
             //     Console.WriteLine(temp.ToString());
             //     return await context.PhieuMuons.GetAsync(pageIndex, pageSize, item =>
