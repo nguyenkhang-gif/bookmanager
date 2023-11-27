@@ -1,6 +1,5 @@
-
 <div class="title">
-  <p >Card</p>
+  <p>Card</p>
 </div>
 <div class="container-main">
   <div class="inner-container-main" *ngIf="listbook.length > 0">
@@ -43,17 +42,33 @@
             >
               Chi tiết
             </button>
-            <button class="button-3 red" role="button" (click)="deleteCard(item.id)">Xóa</button>
+            <button
+              class="button-3 red"
+              role="button"
+              (click)="deleteCard(item.id)"
+            >
+              Xóa
+            </button>
           </td>
         </tr>
-
-        <!-- <tr class="active-row">
-                <td>Melissa</td>
-                <td>5150</td>
-            </tr> -->
-        <!-- and so on... -->
       </tbody>
     </table>
   </div>
-  <button class="btn-create-ticket button-26" *ngIf="!isSpecificUrl('checkout')"  [routerLink]="['/admin/checkout']" >Tạo phiếu mượn </button>
+  <div class="empty" *ngIf="listbook.length == 0">
+    <p>Không có item</p>
+  </div>
+  <button
+    class="btn-create-ticket button-26"
+    *ngIf="!isSpecificUrl('checkout') && listbook.length != 0"
+    [routerLink]="['/admin/checkout']"
+  >
+    Tạo phiếu mượn
+  </button>
+  <button
+    class="btn-create-ticket button-26 red"
+    *ngIf="!isSpecificUrl('checkout') && listbook.length != 0"
+    (click)="clearCard()"
+  >
+    Xóa toàn bộ
+  </button>
 </div>

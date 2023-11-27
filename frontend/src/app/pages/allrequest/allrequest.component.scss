@@ -1,0 +1,163 @@
+.styled-table {
+  border-collapse: collapse;
+  // margin: 25px 0;
+  margin: auto;
+  margin-bottom: 200px;
+  margin-top: 30px;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+
+
+
+
+
+//====================USER INFO STUFF==============
+.img-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-holder img {
+  width: 50px;
+  margin-right: 20px;
+
+}
+
+
+// =====================BUTTONS=================
+
+
+/* CSS */
+.button-3 {
+  margin-right: 20px;
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.button-3:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.button-3:hover {
+  background-color: #2c974b;
+}
+
+.button-3:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.button-3:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.button-3:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+
+// ===================== END OF BUTTONS=================
+
+
+
+
+//===============MAIN CONTAINER==========
+// .main-container {
+//   margin-bottom: 100px;
+//   background-color: #009879;
+// }
+
+//===============END OF MAIN CONTAINER==========
+
+
+
+.red {
+  background-color: #D74E09;
+}
+
+
+
+//================SEARCH CONTAINER=====================
+.container-search {
+  // background-color: #009879;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.example-form-field {
+  // width: 50%;
+  margin-top: 20px;
+}
+
+//================END OF SEARCH CONTAINER=====================
+
+
+.title {
+  margin-top: 20px;
+  margin-left: 40px;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.space {
+  height: 100px;
+}
+.child{
+  margin-top: 20px;
+}

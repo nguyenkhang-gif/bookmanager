@@ -69,6 +69,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setDataWithPageIndex(pageIndex: number, pageSize: number) {
+    console.log(this.catid);
+    console.log(this.query);
+    
     if (
       (this.query == null || this.query == '') &&
       this.catid != 0 &&
@@ -83,8 +86,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.list = list;
           },
         });
-    } else if (this.query != null && (this.catid == 0 || this.catid == null)) {
-      // console.log('handle query only:', this.query);
+    } else if (this.query != null &&this.query!='' && (this.catid == 0 || this.catid == null)) {
+      console.log('handle query only:', this.query);
       this.service
         .getBookWithPageIndexPageSizeCatIdContent(
           pageIndex,
@@ -124,6 +127,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           },
         });
     } else {
+      console.log("called");
+      
       this.service
         .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
         .subscribe({
@@ -137,8 +142,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           },
         });
     }
-    // console.log('query:', this.query == null);
-    // console.log('cat:', this.catid == null);
+    console.log('query:', this.query == '');
+    console.log('cat:', this.catid == null);
   }
 
   ngOnInit(): void {
@@ -150,7 +155,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // this.pageIndex=1
     //get the fk query
     this.route.queryParams.subscribe((queryParams) => {
-      // console.log("this is route for query");
+      console.log("this is route for query");
       this.query = queryParams['q'];
       this.catid = queryParams['cat'];
 

@@ -153,7 +153,7 @@ namespace backend.Controllers
         public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid, [FromQuery] string content)
         {
             return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>
-                (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content))
+                (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content)||item.Id.ToString().Contains(content))
             );
         }
         [HttpGet("[action]/{pageIndex}/{pageSize}")]
@@ -174,7 +174,7 @@ namespace backend.Controllers
         public async Task<IEnumerable<Dbosach>> GetByIds([FromQuery] List<int?> ids)
         {
             // Lấy các đối tượng có ID thuộc danh sách ids từ database
-            var result = await context.Dbosaches.GetAsync(item=>ids.Contains(item.Id));
+            var result = await context.Dbosaches.GetAsync(item => ids.Contains(item.Id));
 
             return result;
         }

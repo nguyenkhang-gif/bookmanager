@@ -1,0 +1,99 @@
+<p class="title">Tất cả phiếu mượn</p>
+<div class="container-search">
+  <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-button [matMenuTriggerFor]="menu">Loại</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Trễ</button>
+    <button mat-menu-item>Đúng hạn</button>
+    <button mat-menu-item>Đang sử lý</button>
+  </mat-menu>
+
+  <!-- <div class="form-container"> -->
+    <p>Ngày mượn</p>
+    <mat-form-field class="child">
+      <input
+        matInput
+        [matDatepicker]="picker1"
+        placeholder="Ngày mượn"
+        formControlName="startDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker1"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <p>Ngày trả</p>
+    <mat-form-field class="child">
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        placeholder="Ngày trả"
+        formControlName="endDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker2"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  <!-- </div> -->
+  <!-- HTML !-->
+  <button class="button-3" role="button" (click)="onSubmit()">Search</button>
+  
+</div>
+
+<div class="main-container">
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Mã Phiếu</th>
+        <th>Người Dùng</th>
+        <th>Ngày Mượn</th>
+        <th>Ngày Trả</th>
+        <th>Tình Trạng</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listCheckout">
+        <td>{{ convertToPaddedString(item.id) }}</td>
+        <td>
+          <div class="img-holder">
+            <img src="../../../assets/149071.png" alt="" />
+            <p>{{ item.user.firstName }}</p>
+          </div>
+        </td>
+        <td>{{ item.ngaymuon }}</td>
+        <td>{{ item.ngaytra }}</td>
+        <td>
+          {{
+            item.isDone == 2
+              ? "Trễ"
+              : item.isDone == 1
+              ? "Đúng Hạn"
+              : item.isDone == 0
+              ? "Đang xử lý"
+              : "Chưa có"
+          }}
+        </td>
+        <td>
+          <button class="button-3">Edit</button>
+          <button class="button-3 red">Xóa</button>
+          <button class="button-3">Hoàn Thành</button>
+        </td>
+      </tr>
+
+      <!-- and so on... -->
+    </tbody>
+  </table>
+</div>
+
+<div class="space"></div>

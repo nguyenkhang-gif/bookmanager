@@ -120,6 +120,7 @@
 /* CSS */
 .button-26 {
   appearance: button;
+  margin: 20px;
   background-color: #1652F0;
   border: 1px solid #1652F0;
   border-radius: 4px;
@@ -168,4 +169,18 @@
   margin-top: 30px;
   font-size: 30px;
   font-weight: 900;
+}
+
+.empty{
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.empty p{
+  font-size: 30px;
+  font-weight: 700;
+}
+.red{
+  background-color: #C3423F;
 }

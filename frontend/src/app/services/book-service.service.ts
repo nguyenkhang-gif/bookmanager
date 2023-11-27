@@ -160,8 +160,13 @@ export class BookServiceService {
       });
     });
   }
-  //
-
+  //  update book
+  updateBook(book: any) {
+    return this.httpClient.post(
+      `http://localhost:5280/Dbosach/Update`,
+      book
+    );
+  }
   getImage(userId: number): Observable<Blob> {
     const url = `http://localhost:5280/Dbosach/GetImage/${userId}`;
     return this.httpClient.get(url, { responseType: 'blob' });
@@ -179,11 +184,6 @@ export class BookServiceService {
   //   return this.httpClient.get<Blob[]>(url, { responseType: 'blob' as 'json' });
   // }
 
-  //update book
-  updateBook(book: any) {
-    return this.httpClient.post(
-      `http://localhost:5280/Dbosach/Update`,
-      book
-    );
-  }
+
+ 
 }

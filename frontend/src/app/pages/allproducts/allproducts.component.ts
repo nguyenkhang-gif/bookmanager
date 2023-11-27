@@ -77,7 +77,7 @@ export class AllproductsComponent implements OnInit {
             this.listbook = list;
           },
         });
-    } else if (this.query != null && (this.catid == 0 || this.catid == null)) {
+    } else if (this.query != null && this.query != '' && (this.catid == 0 || this.catid == null)) {
       // console.log('handle query only:', this.query);
       this.bookService
         .getBookWithPageIndexPageSizeCatIdContent(
@@ -131,7 +131,23 @@ export class AllproductsComponent implements OnInit {
   }
 
   //==============================HANDLE PAGINATED = ===================
+  //=============================BOOKID STUFF=========================
+  convertToPaddedString(number: any) {
+    // Chuyển số nguyên thành chuỗi
+    let strNumber = number.toString();
 
+    // Tính số lượng số 0 cần bù
+    let zeroCount = 8 - strNumber.length;
+
+    // Bù số 0 nếu cần
+    while (zeroCount > 0) {
+      strNumber = '0' + strNumber;
+      zeroCount--;
+    }
+
+    return strNumber;
+  }
+  //=============================END OF BOOKID STUFF=========================
   handleNextBefore(method: string) {
     if (method == '+' && this.listbook.length) {
       this.pageIndex++;
@@ -171,6 +187,8 @@ export class AllproductsComponent implements OnInit {
     this.loadData();
     this.getListCat();
     this.route.queryParams.subscribe((queryParams) => {
+      console.log("called");
+      
       this.query = queryParams['q'];
       this.catid = queryParams['cat'];
       this.setDataWithPageIndex(this.pageIndex, this.itemInPage);

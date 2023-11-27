@@ -28,6 +28,8 @@ import { PopupWindowComponent } from './components/popup-window/popup-window.com
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { AlluserComponent } from './pages/alluser/alluser.component';
 import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.component';
+import { AllcheckoutComponent } from './pages/allcheckout/allcheckout.component';
+import { AllrequestComponent } from './pages/allrequest/allrequest.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.compo
     CheckoutComponent,
     AlluserComponent,
     ProfileAdminComponent,
+    AllcheckoutComponent,
+    AllrequestComponent,
   ],
   imports: [
     BrowserModule,

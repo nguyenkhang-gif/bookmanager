@@ -7,14 +7,15 @@ namespace backend;
 [Table("PhieuMuon")]
 public partial class PhieuMuon
 {
-   
+
     public int? Id { get; set; }
 
     public DateTime? Ngaymuon { get; set; }
-
+    public DateTime? Ngaytra { get; set; }
     public int? Userid { get; set; }
 
-    public DateTime? Ngaytra { get; set; }
+    public int? isDone { get; set; }
+
 
     public virtual ICollection<SachMuon> SachMuons { get; set; } = new List<SachMuon>();
 

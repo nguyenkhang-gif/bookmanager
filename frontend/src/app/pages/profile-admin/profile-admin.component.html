@@ -166,3 +166,10 @@
     </div>
   </div>
 </div>
+
+<app-popup-window
+    *ngIf="popupWindowOpen"
+   
+    [isDone]="!isLoading"
+    (sendDataToParent)="receiveDataFromChild($event)"
+  ></app-popup-window>

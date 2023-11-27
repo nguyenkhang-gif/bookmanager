@@ -15,6 +15,7 @@ import { AdminCardComponent } from './pages/admin-card/admin-card.component';
 import { AlluserComponent } from './pages/alluser/alluser.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.component';
+import { AllrequestComponent } from './pages/allrequest/allrequest.component';
 
 const routes: Routes = [
   {
@@ -89,8 +90,10 @@ const routes: Routes = [
         path:"profile/:id",
         component:ProfileAdminComponent
       },
-
-
+      {
+        path:'allrequest',
+        component:AllrequestComponent
+      },
       {
         path:"detail/:id",
         component:AdminProductDetailsComponent

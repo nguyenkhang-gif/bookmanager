@@ -5,7 +5,7 @@
 
   <mat-step label="Bước 1:Chọn người mượn" [completed]="Steps[0]">
     <!-- Nội dung của bước 1 -->
-
+ 
     <p class="title">Chọn user</p>
     <div class="container-search">
       <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
@@ -172,7 +172,6 @@
       <app-admin-card></app-admin-card>
       <!-- CARD END -->
 
-
       <div class="container-auto-fill">
         <button class="button-3 center" (click)="handleSubmitFinal()">
           Xác nhận
@@ -183,6 +182,12 @@
 
   <!-- Các bước khác nếu cần -->
 </mat-horizontal-stepper>
+
+<app-popup-window
+  *ngIf="popupWindowOpen"
+  [isDone]="!isLoading"
+  (sendDataToParent)="receiveDataFromChild($event)"
+></app-popup-window>
 
 <!-- END OF STEP 1: USER -->
 <!-- STEP 2: CONFIRM AMOUNT AND BOOK LIST -->

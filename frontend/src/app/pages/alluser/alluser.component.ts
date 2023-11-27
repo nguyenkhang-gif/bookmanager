@@ -33,7 +33,7 @@ export class AlluserComponent implements OnInit {
 
   //==============Handle data and query stuff=========================
   setDataWithPageIndex(pageIndex: number, pageSize: number) {
-    console.log(this.value);
+    console.log(this.query);
 
     if (this.query != '' && this.query != null) {
       this.userService

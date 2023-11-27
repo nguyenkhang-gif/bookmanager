@@ -244,18 +244,18 @@ export class AdminProductDetailsComponent implements OnInit {
 
   // ==============================HANDLE SUBMIT ALL============================
   saveAllForm() {
-    console.log('sent all data to server');
-    console.log(this.bookInfo?.id);
+    // console.log('sent all data to server');
+    // console.log(this.bookInfo?.id);
 
-    console.log(this.category); //chủ đề id
-    console.log(this.author); //chủ đề id
-    console.log(this.producerInfo);
+    // console.log(this.category); //chủ đề id
+    // console.log(this.author); //chủ đề id
+    // console.log(this.producerInfo);
 
-    console.log(this.bookForm.get('chieudai')?.value);
-    console.log(this.bookForm.get('chieurong')?.value);
-    console.log(this.bookForm.get('tensach')?.value);
-    console.log(this.bookForm.get('borrowCount')?.value);
-    console.log(this.bookForm.get('soluong')?.value);
+    // console.log(this.bookForm.get('chieudai')?.value);
+    // console.log(this.bookForm.get('chieurong')?.value);
+    // console.log(this.bookForm.get('tensach')?.value);
+    // console.log(this.bookForm.get('borrowCount')?.value);
+    // console.log(this.bookForm.get('soluong')?.value);
     console.log(this.isBorrow == true ? 1 : 0);
     console.log({
       id: this.bookInfo?.id,

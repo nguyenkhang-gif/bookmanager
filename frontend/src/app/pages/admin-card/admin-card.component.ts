@@ -35,6 +35,11 @@ export class AdminCardComponent implements OnInit {
   }
   clearCard() {
     localStorage.setItem('card', '[]');
+    this.bookService.getBooksWithId(this.getData('card')).subscribe((list) => {
+      console.log(list);
+      this.listbook = list;
+      this.cardList = this.getData('card');
+    });
   }
   deleteCard(id: any) {
     let index = this.cardList.indexOf(id);

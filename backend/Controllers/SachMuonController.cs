@@ -47,9 +47,16 @@ namespace backend.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
             }
         }
+
+        
+
+        [HttpGet("[action]/{checkoutid}")]
+        public async Task<IEnumerable<SachMuon>> getWithCheckoutId([FromRoute] int checkoutid){
+            return await context.SachMuons.GetAsync(item=>item.Phieumuonid==checkoutid);
+        }
         [HttpGet("[action]/{id}")]
 
-        public async Task<IActionResult> InsertList([FromRoute] int id, [FromQuery] List<int?> ids, [FromQuery] List<int?> soluongs)
+        public async Task<IActionResult> InsertList([FromRoute] int id, [FromQuery] List<int?> ids)
         {
             // ids là list các sách đặt max là 8
             // id là id của phiếu mượn
@@ -59,10 +66,8 @@ namespace backend.Controllers
                 {
                     SachMuon temp = new SachMuon();
                     temp.Sachid = ids[i];
-                    if(soluongs[i]!=null){
-                        temp.Soluong = soluongs[i]; 
-                    }else temp.Soluong=1;
-                     // Assuming soluongs is a List or array
+                    temp.Soluong = 1;
+                    // Assuming soluongs is a List or array
                     temp.Phieumuonid = id;
                     context.SachMuons.InsertAsync(temp);
                 }

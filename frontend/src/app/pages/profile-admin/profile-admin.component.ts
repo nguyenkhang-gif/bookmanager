@@ -111,6 +111,7 @@ export class ProfileAdminComponent implements OnInit {
   }
 
   handleSaveChange() {
+    this.popupWindowOpen = true;
     if (this.userInfo != null) {
       this.userInfo.id = this.userForm.value.id;
       this.userInfo.username = this.userForm.value.username;
@@ -132,13 +133,15 @@ export class ProfileAdminComponent implements OnInit {
           .subscribe({
             next: (item) => {
               //return token
-
+              this.isLoading=false
               console.log(item);
               if (
                 item != 'edit thành công không thay đổi pass' &&
                 item != 'error'
-              )
+              ) {
                 localStorage.setItem('authToken', item);
+                
+              }
             },
             error: (e) => {
               console.log('error: ', e);
@@ -148,9 +151,11 @@ export class ProfileAdminComponent implements OnInit {
         this.userService.editInfo(this.userInfo).subscribe({
           next: (item) => {
             console.log(item);
+            this.isLoading=false
           },
           error: (e) => {
             console.log('error: ', e);
+            this.isLoading=false
           },
         });
       }

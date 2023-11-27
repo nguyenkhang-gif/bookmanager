@@ -90,8 +90,42 @@ namespace backend.Controllers
             }
         }
 
+        //=======================HANDLE SEARCH STUFF=============
+        [HttpPost("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<PhieuMuon>> GetAllWithSizeAndIndex([FromRoute] int pageIndex, [FromRoute] int pageSize)
+        {
+            return await context.PhieuMuons.GetAsync(pageIndex, pageSize);
+        }
+        [HttpPost("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<PhieuMuon>> GetAllWithSizeAndIndexAndContent([FromRoute] int pageIndex, [FromRoute] int pageSize, [FromQuery] string? content, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        {
 
-        
+
+
+            return await context.PhieuMuons.GetAsync(pageIndex, pageSize, item =>
+            item.Ngaymuon.Value.Year == startDate.Value.Year &&
+            item.Ngaymuon.Value.Month == startDate.Value.Month &&
+            item.Ngaymuon.Value.Day == startDate.Value.Day);
+            //     DateTime temp=DateTime.Parse("2023-11-20T10:00:00");
+            //     Console.WriteLine(temp.ToString());
+            //     return await context.PhieuMuons.GetAsync(pageIndex, pageSize, item =>
+            //     (startDate == null || item.Ngaymuon.ToString().Contains(startDate))
+            //     && (endDate == null || item.Ngaytra.ToString().Contains(endDate))
+            //     && (content == null || item.Ngaymuon.ToString().Contains(content) || item.Ngaytra.ToString().Contains(content)));
+        }
+        //=======================END OF HANDLE SEARCH STUFF=============
+
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<PhieuMuon>> tempString()
+        {
+            DateTime temp = DateTime.Parse("2023-11-20T10:00:00");
+            PhieuMuon temp_2 = await context.PhieuMuons.getSingleAsync(2);
+            Console.WriteLine(temp_2.Ngaymuon.ToString().Contains("20/2023"));
+            return temp_2;
+        }
+
+
         [HttpDelete("[action]/{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
