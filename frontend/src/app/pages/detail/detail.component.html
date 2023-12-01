@@ -6,7 +6,9 @@
 <div *ngIf="bookInfo != null && category != null" class="container-item">
   <!-- <div class="colorfill-1"></div>
     <div class="colorfill-2"></div> -->
-    <!-- start of detail -->
+  <!-- start of detail -->
+  <!-- <div class="container-test" style="height: 1000px;background-color: aqua;"></div>
+    <button (click)="init()">click here</button> -->
   <div class="container-main">
     <img [src]="getSafeImageUrl(bookInfo.imageData)" alt="" />
     <div class="container-book-info">
@@ -22,11 +24,23 @@
         <p *ngIf="bookInfo.duocMuon == 0" class="un-available">hết sách</p>
       </div>
       <!-- <button class="borow-btn">Mượn ngay</button> -->
-      <button class="follow-btn" *ngIf="!isFollow" (click)="handleFollowClick()">theo dõi</button>
-      <button class="un-follow-btn" *ngIf="isFollow" (click)="handleFollowClick()">bỏ theo dõi</button>
+      <button
+        class="follow-btn"
+        *ngIf="!isFollow"
+        (click)="handleFollowClick()"
+      >
+        theo dõi
+      </button>
+      <button
+        class="un-follow-btn"
+        *ngIf="isFollow"
+        (click)="handleFollowClick()"
+      >
+        bỏ theo dõi
+      </button>
     </div>
   </div>
-    <!-- end of detail -->
+  <!-- end of detail -->
   <div class="container-main detail">
     <p class="comment-title">Chi tiết</p>
     <div class="containter-detail-text">
@@ -50,12 +64,16 @@
   <div class="container-main comment">
     <p class="comment-title">Đánh giá</p>
     <div class="comment-form">
-      <form  (ngSubmit)="handleAddComment()">
+      <form (ngSubmit)="handleAddComment()">
         <p class="add-comment-p">thêm đánh giá của bạn ở đây</p>
-        <textarea class="comment-add-box" [(ngModel)]="commentText"[ngModelOptions]="{ standalone: true }"></textarea>
-        <button  type="submit" class="borow-btn">add comment</button>
+        <textarea
+          class="comment-add-box"
+          [(ngModel)]="commentText"
+          [ngModelOptions]="{ standalone: true }"
+        ></textarea>
+        <button type="submit" class="borow-btn">add comment</button>
       </form>
-     
+
       <!-- <mat-icon class="star-icon">star</mat-icon> -->
       <!-- addd comment section -->
       <!-- <mat-icon class="star-icon">star_border</mat-icon> -->
@@ -78,7 +96,7 @@
 
     <div class="container-all-comment" *ngIf="comment.length > 0">
       <p>Đánh giá chung</p>
-      <div class="containter-star" >
+      <div class="containter-star">
         <div *ngFor="let i of itemsToRepeat; let index = index">
           <mat-icon
             *ngIf="
@@ -98,11 +116,10 @@
           >
         </div>
       </div>
-
       <div class="container-single-comment" *ngFor="let item of comment">
         <div class="container-user-comment">
-          <img [src]="getSafeImageUrl(item.image)||imguserurl" alt="" />
-          <p>{{item.user}}</p>
+          <img [src]="getSafeImageUrl(item.image) || imguserurl" alt="" />
+          <p>{{ item.user }}</p>
         </div>
         <div class="containter-star">
           <div *ngFor="let i of itemsToRepeat; let index = index">

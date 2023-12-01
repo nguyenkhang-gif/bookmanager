@@ -30,6 +30,8 @@ import { AlluserComponent } from './pages/alluser/alluser.component';
 import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.component';
 import { AllcheckoutComponent } from './pages/allcheckout/allcheckout.component';
 import { AllrequestComponent } from './pages/allrequest/allrequest.component';
+import { RequestdetailComponent } from './pages/requestdetail/requestdetail.component';
+import { AddProductComponent } from './pages/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { AllrequestComponent } from './pages/allrequest/allrequest.component';
     ProfileAdminComponent,
     AllcheckoutComponent,
     AllrequestComponent,
+    RequestdetailComponent,
+    AddProductComponent,
   ],
   imports: [
     BrowserModule,

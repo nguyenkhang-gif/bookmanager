@@ -40,6 +40,7 @@
 
 //====================USER INFO STUFF==============
 .img-holder {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -241,4 +242,15 @@
   justify-content: center;
   align-items: center;
 }
+
+.form p{
+  margin-top: 15px;
+}
 //================START OF FORM===============
+
+
+
+
+.example-form-field{
+  margin-right: 20px;
+}

@@ -38,9 +38,11 @@ export class AllproductsComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.value);
-    this.router.navigate(['admin/search'], {
-      queryParams: { q: this.value },
-    });
+    this.query=this.value;
+    this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
+    // this.router.navigate(['admin/search'], {
+    //   queryParams: { q: this.value },
+    // });
   }
 
   getListCat() {

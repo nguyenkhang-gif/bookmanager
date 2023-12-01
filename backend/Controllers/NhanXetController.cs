@@ -29,41 +29,77 @@ namespace backend.Controllers
         }
         // nhận xét
         [HttpGet("[action]/{id}")]
-        public async Task<NhanXet> getSinglewithId([FromRoute] int id){
-            return await context.NhanXets.getSingleAsync(item=>item.Sachid==id);
+        public async Task<NhanXet> getSinglewithId([FromRoute] int id)
+        {
+            return await context.NhanXets.getSingleAsync(item => item.Sachid == id);
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<IEnumerable<NhanXet>> getAllwithId([FromRoute]int id){
-            return await context.NhanXets.GetAsync(item=>item.Sachid==id);
+        public async Task<IEnumerable<NhanXet>> getAllwithId([FromRoute] int id)
+        {
+            return await context.NhanXets.GetAsync(item => item.Sachid == id);
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<IEnumerable<NhanXet>> getAllwithUserId([FromRoute]int id){
-            
-            return await context.NhanXets.GetAsync(item=>item.Userid==id);
+        public async Task<IEnumerable<NhanXet>> getAllwithUserId([FromRoute] int id)
+        {
+
+            return await context.NhanXets.GetAsync(item => item.Userid == id);
         }
 
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Insert([FromBody]NhanXet item){
-            try{
+        public async Task<IActionResult> Insert([FromBody] NhanXet item)
+        {
+            try
+            {
                 context.NhanXets?.InsertAsync(item);
                 await context.SaveChangesAsync();
                 return Ok("add thành công");
-            }catch(Exception e){
+            }
+            catch (Exception e)
+            {
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
             }
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> Update([FromBody]NhanXet item){
-            try{
+        public async Task<IActionResult> Update([FromBody] NhanXet item)
+        {
+            try
+            {
                 context.NhanXets.Update(item);
                 await context.SaveChangesAsync();
-                return Ok("add thành công");
-            }catch(Exception e){
+                return Ok("update thành công");
+            }
+            catch (Exception e)
+            {
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
             }
+        }
+
+
+        [HttpGet("[action]/{pageIndex}/{pageSize}")]
+        public async Task<IEnumerable<NhanXet>> getWithPageIndexAndPageItem(
+            [FromRoute] int pageIndex,
+            [FromRoute] int pageSize,
+            [FromQuery] string? content,
+            [FromQuery] int? bookid,
+            [FromQuery] int? rating,
+            [FromQuery] int? userid,
+            [FromQuery] bool? lowToHighSort = true,
+            [FromQuery] bool? lowToHighSortDate = true
+            )
+        {
+            return await context.NhanXets.GetAsync(pageIndex, pageSize,
+            item =>
+            (!bookid.HasValue || item.Sachid == bookid) &&
+            (!userid.HasValue || item.Userid == userid) &&
+            (!rating.HasValue || item.rating <= rating) &&
+            (content == null || item.Tieude.Contains(content))
+            ,
+            lowToHighSort.HasValue && lowToHighSort == true ? item => item.rating : null,
+            lowToHighSort.HasValue && lowToHighSort == false ? item => item.rating : null
+            );
         }
 
 
@@ -73,7 +109,6 @@ namespace backend.Controllers
         {
             try
             {
-                
                 await context.NhanXets.DeleteAsync(id);
                 await context.SaveChangesAsync();
                 return Ok("delete thành công");

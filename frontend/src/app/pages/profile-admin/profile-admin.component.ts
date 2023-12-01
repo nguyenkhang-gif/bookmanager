@@ -133,14 +133,13 @@ export class ProfileAdminComponent implements OnInit {
           .subscribe({
             next: (item) => {
               //return token
-              this.isLoading=false
+              this.isLoading = false;
               console.log(item);
               if (
                 item != 'edit thành công không thay đổi pass' &&
                 item != 'error'
               ) {
                 localStorage.setItem('authToken', item);
-                
               }
             },
             error: (e) => {
@@ -151,11 +150,11 @@ export class ProfileAdminComponent implements OnInit {
         this.userService.editInfo(this.userInfo).subscribe({
           next: (item) => {
             console.log(item);
-            this.isLoading=false
+            this.isLoading = false;
           },
           error: (e) => {
             console.log('error: ', e);
-            this.isLoading=false
+            this.isLoading = false;
           },
         });
       }
@@ -207,6 +206,7 @@ export class ProfileAdminComponent implements OnInit {
   receiveDataFromChild(data: string) {
     console.log('Dữ liệu nhận được từ component con:', data);
     this.popupWindowOpen = false;
+    this.router.navigate(['admin/alluser']);
   }
 
   ngOnInit(): void {

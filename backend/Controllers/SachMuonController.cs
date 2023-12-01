@@ -48,11 +48,18 @@ namespace backend.Controllers
             }
         }
 
-        
+
+        [HttpGet("[action]/{bookid}")]
+
+        public async Task<IEnumerable<SachMuon>>getWithBookId([FromRoute] int bookid){
+            return await context.SachMuons.GetAsync(item=>item.Sachid==bookid);
+        }
+
 
         [HttpGet("[action]/{checkoutid}")]
-        public async Task<IEnumerable<SachMuon>> getWithCheckoutId([FromRoute] int checkoutid){
-            return await context.SachMuons.GetAsync(item=>item.Phieumuonid==checkoutid);
+        public async Task<IEnumerable<SachMuon>> getWithCheckoutId([FromRoute] int checkoutid)
+        {
+            return await context.SachMuons.GetAsync(item => item.Phieumuonid == checkoutid);
         }
         [HttpGet("[action]/{id}")]
 
@@ -83,7 +90,35 @@ namespace backend.Controllers
         }
 
 
+        [HttpDelete("[action]/{id}")]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                await context.SachMuons.DeleteAsync(id);
+                await context.SaveChangesAsync();
+                return Ok("xóa thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
 
+        [HttpDelete("[action]")]
+        public async Task<ActionResult> DeleteIds([FromQuery] int checkoutid)
+        {
+            try
+            {
+                await context.SachMuons.DeleteAsync(item => item.Phieumuonid == checkoutid);
+                await context.SaveChangesAsync();
+                return Ok("xóa thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
     }
 }
 // CREATE TABLE [dbo].[PhieuMuon] (

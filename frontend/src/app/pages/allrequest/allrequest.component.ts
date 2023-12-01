@@ -29,6 +29,8 @@ export class AllrequestComponent implements OnInit {
   // ================DATA===============
   listCheckout: any[] = [];
   value = '';
+
+  isDone?: any;
   pageNum: number = 1;
   pageIndex: number = 1;
   itemInPage: number = 8;
@@ -38,6 +40,7 @@ export class AllrequestComponent implements OnInit {
     this.checkoutService.getAllCheckout().subscribe((allcheckout) => {
       console.log(allcheckout);
       //0 là đang sử lý
+      // this.listCheckout.length
       //1 là trả đúng hạng
       //2 là trễ
       this.listCheckout = allcheckout;
@@ -53,23 +56,36 @@ export class AllrequestComponent implements OnInit {
   //=============================HandleSearch================
   onSubmit() {
     console.log(this.value);
-    console.log(this.dateForm.get('startDate')?.value.toString());
+    // console.log(this.dateForm.get('startDate')?.value.toString()=='');
+    // let startDate =this.imageService.convertDateString(
+    //   this.dateForm.get('startDate')?.value.toString()
+    // )
     // this.dateForm.get('startDate')?.value.toString()
     this.checkoutService
       .getUserWithPageIndexPageSizeContent(
-        1,
-        4,
-        '',//content
+        this.pageIndex,
+        this.itemInPage,
+        this.value, //content
         this.imageService.convertDateString(
           this.dateForm.get('startDate')?.value.toString()
         ),
         this.imageService.convertDateString(
           this.dateForm.get('endDate')?.value.toString()
-        )
+        ),
+        // isDone
+        this.isDone!=3? this.isDone : null
       )
       .subscribe({
         next: (data) => {
           console.log(data);
+          this.listCheckout = data;
+          console.log(this.listCheckout);
+          this.listCheckout.forEach((item) => {
+            this.userService.getUser(item.userid).subscribe((user) => {
+              console.log('user', user.firstName);
+              item.user = user;
+            });
+          });
         },
         error: (e) => {
           console.log(e);
@@ -77,33 +93,63 @@ export class AllrequestComponent implements OnInit {
       });
   }
 
-  setDataWithPageIndex(pageIndex: number, pageSize: number) {
-    this.checkoutService
-      .getUserWithPageIndexPageSizeContent(1, 4, '', '', '2023-11-24T21:27:25')
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-        error: (e) => {
-          console.log(e);
-        },
-      });
-  }
   //=============================END OF HandleSearch================
+  // ===========================HANDLE DELETE================
+  handleDelete(id: any) {
+    console.log('handle delete', id);
+    this.checkoutService.deleteRequest(id).subscribe({
+      next: (item) => {
+        console.log(item);
+        this.checkoutService.deleteCheckout(id).subscribe((data) => {
+          console.log(data);
+          this.onSubmit();
+        });
+      },
+      error: (e) => {
+        this.checkoutService.deleteCheckout(id).subscribe({
+          next: (data) => {
+            console.log(data);
+            this.onSubmit();
+          },
+          error: (e) => {
+            console.log(e);
+            this.onSubmit();
+          },
+        });
+        console.log(e);
+      },
+    });
+  }
+
+  // ===========================end of HANDLE DELETE================
+
   // ===========================HANDLE PAGENITE
 
   handleNextBefore(method: string) {
     if (method == '+' && this.listCheckout.length) {
       this.pageIndex++;
-      this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
+      this.onSubmit();
+      // this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
     }
     if (method == '-' && this.pageIndex > 1) {
       this.pageIndex--;
-      this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
+      // this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
+      this.onSubmit();
     }
   }
 
   // ===========================END OF HANDLE PAGENITE
+
+  //=======================HANDLE DATE STUFF=======================
+  convertDateFormat(dateTimeString: any): string {
+    const date = new Date(dateTimeString);
+    const month = date.getMonth() + 1; // Tháng bắt đầu từ 0
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    return `${month}/${day}/${year}`;
+  }
+  //=======================END OF HANDLE DATE STUFF=======================
 
   //=============================BOOKID STUFF=========================
   convertToPaddedString(number: any) {
@@ -123,7 +169,16 @@ export class AllrequestComponent implements OnInit {
   }
   //=============================END OF BOOKID STUFF=========================
 
+  // ==========================HANDLE CHANGE CAT=====================
+
+  handleChangeIsDone(data:any){
+    this.isDone=data
+  }
+
+  // ==========================END OF HANDLE CHANGE CAT===============
+
   ngOnInit(): void {
-    this.loadData();
+    // this.loadData();
+    this.onSubmit();
   }
 }

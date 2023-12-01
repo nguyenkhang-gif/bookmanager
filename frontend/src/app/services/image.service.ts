@@ -67,6 +67,25 @@ export class ImageService {
     // Tạo chuỗi ngày tháng mới
     const newDateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   
+    if(inputDateString==''||inputDateString==null){
+      return ''
+    }
     return newDateString;
+  }
+
+  convertToPaddedString(number:any) {
+    // Chuyển số nguyên thành chuỗi
+    let strNumber = number.toString();
+  
+    // Tính số lượng số 0 cần bù
+    let zeroCount = 8 - strNumber.length;
+  
+    // Bù số 0 nếu cần
+    while (zeroCount > 0) {
+      strNumber = '0' + strNumber;
+      zeroCount--;
+    }
+  
+    return strNumber;
   }
 }

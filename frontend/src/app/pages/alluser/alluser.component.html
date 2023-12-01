@@ -1,3 +1,4 @@
+<p class="title">Tất cả User</p>
 <div class="container-search">
   <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
     <mat-label>Search</mat-label>
@@ -7,22 +8,10 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <button mat-button [matMenuTriggerFor]="menu">
-    sắp xếp theo 
-  </button>
+  <button mat-button [matMenuTriggerFor]="menu">sắp xếp theo</button>
   <mat-menu #menu="matMenu">
-    <button
-      mat-menu-item
-    >
-      Tên
-    </button>
-    <button
-     
-   
-      mat-menu-item
-    >
-      Tuổi
-    </button>
+    <button mat-menu-item>Tên</button>
+    <button mat-menu-item>Tuổi</button>
   </mat-menu>
 
   <button class="button-3" role="button" (click)="onSubmit()">Search</button>
@@ -32,6 +21,7 @@
     <table class="styled-table">
       <thead>
         <tr>
+          <th>STT</th>
           <th>Mã</th>
           <th>Ảnh</th>
           <th>FirtName</th>
@@ -44,8 +34,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of listUser">
-          <td>{{convertToPaddedString(item.id)}}</td>
+        <tr *ngFor="let item of listUser; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ convertToPaddedString(item.id) }}</td>
           <td>
             <img
               *ngIf="item.imageData"

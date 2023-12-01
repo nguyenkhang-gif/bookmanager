@@ -1,0 +1,119 @@
+.example-form {
+    // min-width: 150px;
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+td {
+    padding-right: 8px;
+}
+
+.title{
+    font-weight: 900;
+    font-size: 30px;
+    margin-top: 20px;
+}
+.container {
+   
+    margin-top: 100px;
+    // background-color:#13aa52;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // margin-bottom: 200px;
+}
+
+.outer {
+    // background-color: aqua;
+    margin-bottom: 30px;
+    margin-bottom: 200px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    border-radius: 30px;
+    padding-bottom: 100px;
+}
+
+.img-con {
+    margin-top: 30px;
+}
+
+.img-con img {
+    max-width: 300px;
+}
+
+.cat-container {
+    flex: 1;
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+}
+
+.cat-container p {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.menu {
+    background-color: aqua;
+    // margin: auto;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.outer-cat-author-container {
+    display: flex;
+    // background-color: #298e46;
+    align-items: center;
+}
+
+.input-with-unit {
+    display: flex;
+}
+
+.unit {
+    margin-left: 5px;
+    /* Khoảng cách giữa input và đơn vị */
+    align-self: center;
+    /* Canh lề theo chiều dọc để đảm bảo đơn vị ở giữa */
+}
+
+
+/* CSS */
+.button-37 {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-37:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .button-37 {
+        padding: 10px 30px;
+    }
+}

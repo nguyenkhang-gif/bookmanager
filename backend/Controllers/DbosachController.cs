@@ -150,10 +150,13 @@ namespace backend.Controllers
             return await context.Dbosaches.GetAsync(pageIndex, pageSize);
         }
         [HttpGet("[action]/{pageIndex}/{pageSize}")]
-        public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid, [FromQuery] string content)
+        public async Task<IEnumerable<Dbosach>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, [FromQuery] int? catid, [FromQuery] string? content, [FromQuery] bool? nameSort)
         {
+
             return await context.Dbosaches.GetAsync(pageIndex, pageSize, item =>
-                (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content)||item.Id.ToString().Contains(content))
+                (!catid.HasValue || item.Chudeid == catid) && (string.IsNullOrEmpty(content) || item.Tensach.Contains(content) || item.Id.ToString().Contains(content))
+            ,
+            nameSort.HasValue?item=>item.Tensach:item=>item.Tensach
             );
         }
         [HttpGet("[action]/{pageIndex}/{pageSize}")]

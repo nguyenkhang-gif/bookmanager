@@ -1,0 +1,146 @@
+<div class="container" *ngIf="allDataDone">
+  <p class="title">Phiếu mượn {{ getIdcode(checkoutInfo.id) }}</p>
+</div>
+
+<div class="user-container" *ngIf="allDataDone">
+  <p class="userinfo-title">Thông tin người mượn</p>
+  <div class="image">
+    <img [src]="getSafeImageUrl(checkoutInfo.user.imageData)" alt="" />
+  </div>
+  <div class="info-container">
+    <p class="userid">Mã: {{ getIdcode(checkoutInfo.user.id) }}</p>
+    <p>
+      Tên : {{ checkoutInfo.user.lastName }} {{ checkoutInfo.user.firstName }}
+    </p>
+    <p class="userid">
+      {{ checkoutInfo.user.quyen == 0 ? "Admin" : "Người đọc" }}
+    </p>
+  </div>
+</div>
+
+<!-- hiện tình trạng ngày mượn ngày trả v à cho phép edit -->
+<mat-spinner *ngIf="!allDataDone"></mat-spinner>
+<div class="container-main" *ngIf="allDataDone">
+  <form action="" [formGroup]="dateForm">
+    <div class="form-container">
+      <p>Ngày mượn</p>
+      <mat-form-field class="child">
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          placeholder="Ngày mượn"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <p>Ngày trả</p>
+      <mat-form-field class="child">
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          placeholder="Ngày trả"
+          formControlName="endDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="container-auto-fill">
+      <button class="button-3 center" (click)="getcurentDate()">
+        Tự động điền
+      </button>
+    </div>
+    <section class="example-section" *ngIf="checkoutInfo.isDone != null">
+      <label class="example-margin" style="font-weight: 700; font-size: 16px"
+        >Role:</label
+      >
+      <mat-radio-group [value]="selectedValue">
+        <mat-radio-button class="example-margin" value="0" (click)="handleChangeStatus(0)"
+          >Đang xử lý</mat-radio-button
+        >
+        <mat-radio-button class="example-margin" value="1" (click)="handleChangeStatus(1)"
+          >Trễ</mat-radio-button
+        >
+        <mat-radio-button class="example-margin" value="2" (click)="handleChangeStatus(2)"
+          >Đúng Hạn</mat-radio-button
+        >
+      </mat-radio-group>
+    </section>
+  </form>
+  <!-- CARD START -->
+  <div class="inner-container-main">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã Sách</th>
+          <th>Ảnh</th>
+          <th>Tên Sách</th>
+
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of booklist; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ getIdcode(item.sachid) || "Không có" }}</td>
+          <td><img [src]="getSafeImageUrl(item.sach.imageData)" alt="" /></td>
+          <td>{{ item.sach.tensach || "Không có" }}</td>
+
+          <td>
+            <button
+              class="button-3"
+              [routerLink]="['/admin/detail', item.sach.id]"
+              role="button"
+            >
+              Chi tiết
+            </button>
+            <button
+              class="button-3 red"
+              role="button"
+              (click)="handleDelete(item.id)"
+            >
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="container">
+  <button class="button-3 blue" role="button" (click)="handleSaveAll()">
+    Lưu thay đổi
+  </button>
+</div>
+
+<!-- confirmwindow -->
+
+<div class="outer-container" *ngIf="openConfirm"></div>
+<div class="container-confirm" *ngIf="openConfirm">
+  <p>Xóa hoàn toàn?</p>
+  <button class="button-3" role="button" (click)="confirmDelete()">Có</button>
+  <button class="button-3 red" role="button" (click)="cancelDelete()">
+    Hủy
+  </button>
+</div>
+
+<!-- handle chọn status -->
+
+<!-- handle loading  -->
+
+<app-popup-window
+  *ngIf="popupWindowOpen"
+  [isDone]="!isLoading"
+  (sendDataToParent)="receiveDataFromChild($event)"
+></app-popup-window>
+
+<!-- end of handle loading  -->

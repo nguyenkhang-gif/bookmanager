@@ -19,16 +19,12 @@
           <p>Được viết bởi {{ item.tensach }}</p>
         </div>
         <div class="">
-         <p class="status" *ngIf="item.duocMuon==1">Còn sách</p>
-         <p class="status red" *ngIf="item.duocMuon==0">Hết sách</p>
-
+          <p class="status" *ngIf="item.duocMuon == 1">Còn sách</p>
+          <p class="status red" *ngIf="item.duocMuon == 0">Hết sách</p>
         </div>
 
         <!-- HTML !-->
-        <div class="">
-          <button class="button-3" role="button" (click)="handleBorrow()">
-            Mượn ngay
-          </button>
+        <div class="">  
           <button
             class="button-3 red"
             role="button"

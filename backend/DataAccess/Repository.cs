@@ -43,10 +43,34 @@ namespace backend.DataAccess
         {
             return await dbcontext
                 .Set<T>()
+
                 .Where(filter)
+
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+        public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>>? orderBy = null, Expression<Func<T, object>>? orderByDescending = null)
+        {
+            if (orderBy != null)
+            {
+                return await dbcontext
+                .Set<T>()
+                .Where(filter)
+                .OrderBy(orderBy)
+
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            }
+            return await dbcontext
+            .Set<T>()
+            .Where(filter)
+            .OrderByDescending(orderByDescending)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
         }
 
 
@@ -75,5 +99,17 @@ namespace backend.DataAccess
             var entity = await getSingleAsync(id);
             dbcontext.Set<T>().Remove(entity);
         }
+        public async Task DeleteAsync(Expression<Func<T, bool>> predecate)
+        {
+            var entitiesToDelete = await GetAsync(predecate);
+
+            foreach (var entity in entitiesToDelete)
+            {
+                dbcontext.Set<T>().Remove(entity);
+            }
+
+            await dbcontext.SaveChangesAsync();
+        }
+
     }
 }

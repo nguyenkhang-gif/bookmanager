@@ -1,6 +1,7 @@
 <div class="container outer">
+  <p class="title">Thêm Sách</p>
   <div class="container img-con">
-    <img [src]="getSafeImageUrl(bookInfo?.imageData)" alt="" />
+    <img [src]="getSafeImageUrl(imageData)" alt="" />
     <input type="file" (change)="onFileSelected($event)" />
     <!-- Profile picture upload button-->
     <button class="btn btn-primary" (click)="onSubmit()" type="button">
@@ -23,7 +24,7 @@
       <div class="cat-container">
         <p>Thể Loại:</p>
         <button mat-button [matMenuTriggerFor]="menu" class="menu">
-          {{ category.tenchude || "không có" }}
+          {{ category?.tenchude || "Chọn" }}
         </button>
         <mat-menu #menu="matMenu" matInput>
           <button
@@ -38,7 +39,7 @@
       <div class="cat-container">
         <p>Tác giả:</p>
         <button mat-button [matMenuTriggerFor]="menu_2" class="menu">
-          {{ author.tentacgia || "không có" }}
+          {{ author?.tentacgia || "Chọn" }}
         </button>
         <mat-menu #menu_2="matMenu" matInput>
           <button
@@ -55,7 +56,7 @@
       <div class="cat-container">
         <p>Nhà xuất bản:</p>
         <button mat-button [matMenuTriggerFor]="menu_3" class="menu">
-          {{ producerInfo.tennhaxuatban || "không có" }}
+          {{ producerInfo?.tennhaxuatban || "chọn" }}
         </button>
         <mat-menu #menu_3="matMenu" matInput>
           <button
@@ -80,7 +81,7 @@
               style="font-weight: 700; font-size: 16px"
               >Được mượn:</label
             >
-            <mat-radio-group style="display: flex">
+            <mat-radio-group>
               <mat-radio-button
                 class="example-margin"
                 value="after"
@@ -106,7 +107,7 @@
           <mat-form-field class="example-full-width">
             <mat-label>Chiều dài</mat-label>
             <div class="input-with-unit">
-              <input matInput formControlName="chieudai" />
+              <input matInput type="number" formControlName="chieudai" />
               <span class="unit">cm</span>
             </div>
           </mat-form-field>
@@ -115,25 +116,22 @@
           <mat-form-field class="example-full-width">
             <mat-label>Chiều rộng</mat-label>
             <div class="input-with-unit">
-              <input matInput formControlName="chieurong" />
+              <input matInput type="number" formControlName="chieurong" />
               <span class="unit">cm</span>
             </div>
           </mat-form-field>
         </td>
-        <td style="display: flex; align-items: center; justify-self: center">
+        <td>
           <mat-form-field class="example-full-width">
             <mat-label>Lượt mượn</mat-label>
             <div class="input-with-unit">
-              <input matInput formControlName="borrowCount" />
+              <input matInput type="number" formControlName="borrowCount" />
+              <span class="unit">cm</span>
             </div>
+            <button class="button-37" (click)="handleAutoFillBorrowCount()">
+              tự động cập nhật
+            </button>
           </mat-form-field>
-          <button
-            class="button-37"
-            style="margin-bottom: 20px"
-            (click)="handleAutoFillBorrowCount()"
-          >
-            tự động cập nhật
-          </button>
         </td>
       </tr>
       <tr>
@@ -141,7 +139,7 @@
           <mat-form-field class="example-full-width">
             <mat-label>Số lượng</mat-label>
             <div class="input-with-unit">
-              <input matInput formControlName="soluong" />
+              <input matInput type="number" formControlName="soluong" />
               <span class="unit">quyển</span>
             </div>
           </mat-form-field>
@@ -150,7 +148,7 @@
           <mat-form-field class="example-full-width">
             <mat-label>Số Trang</mat-label>
             <div class="input-with-unit">
-              <input matInput formControlName="sotrang" />
+              <input matInput type="number" formControlName="sotrang" />
               <span class="unit">trang</span>
             </div>
           </mat-form-field>
@@ -164,7 +162,7 @@
   </form>
 
   <!-- =========================START OF SUBMIT======================== -->
-  <button class="button-37" (click)="saveAllForm()">Lưu thông tin</button>
+  <button class="button-37" (click)="saveAllForm()">Thêm</button>
   <app-popup-window
     *ngIf="popupWindowOpen"
     [isDone]="!isLoading"

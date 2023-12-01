@@ -1,3 +1,4 @@
+<p class="title">Tất cả sách</p>
 <div class="container-search">
   <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
     <mat-label>Search</mat-label>
@@ -27,6 +28,7 @@
     <table class="styled-table">
       <thead>
         <tr>
+          <th>STT</th>
           <th>Mã sách</th>
           <th>Ảnh</th>
           <th>Tên Sách</th>
@@ -39,9 +41,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of listbook">
+        <tr *ngFor="let item of listbook; let i = index">
           <!-- <td><img src="../../../assets/books/{{ item.hinhanh }}" alt="" /></td> -->
-          <td>{{convertToPaddedString(item.id)}}</td>
+          <td>{{ i + 1 }}</td>
+          <td>{{ convertToPaddedString(item.id) }}</td>
           <td>
             <img
               *ngIf="item.imageData"
@@ -66,7 +69,14 @@
               Sửa
             </button>
             <button class="button-3 red" role="button">Xóa</button>
-            <button class="button-3 blue" role="button" *ngIf="item.duocMuon == 1" (click)="addToCard(item.id)">Thêm</button>
+            <button
+              class="button-3 blue"
+              role="button"
+              *ngIf="item.duocMuon == 1"
+              (click)="addToCard(item.id)"
+            >
+              Thêm
+            </button>
           </td>
         </tr>
 

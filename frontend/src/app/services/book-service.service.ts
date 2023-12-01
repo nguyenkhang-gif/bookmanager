@@ -18,6 +18,8 @@ export class BookServiceService {
   getBooks() {
     return this.httpClient.get<Book[]>('http://localhost:5280/Dbosach/get');
   }
+
+
   getHighestReview() {
     return this.httpClient.get<number>(
       'http://localhost:5280/Dbosach/GetHighestReview'
@@ -185,5 +187,9 @@ export class BookServiceService {
   // }
 
 
- 
+//  =============================INSERT BOOK==========
+  insertBook(item:any){
+    return this.httpClient.post(`http://localhost:5280/Dbosach/Insert`,item)
+  }
+//  =============================END OF INSERT BOOK==========
 }

@@ -1,8 +1,6 @@
-
-
 /* CSS */
 .button-1 {
-    margin-right: 10px;
+  margin-right: 10px;
   background-color: #EA4C89;
   border-radius: 8px;
   border-style: none;
@@ -16,7 +14,7 @@
   height: 40px;
   line-height: 20px;
   list-style: none;
-//   margin: 0;
+  //   margin: 0;
   outline: none;
   padding: 10px 16px;
   position: relative;
@@ -39,7 +37,7 @@
 
 /* CSS */
 .button-3 {
-    margin-top: 27px;
+  margin-top: 27px;
   appearance: none;
   background-color: #2ea44f;
   border: 1px solid rgba(27, 31, 35, .15);
@@ -49,7 +47,7 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -91,24 +89,168 @@
 }
 
 
-.logout{
+.logout {
   margin-left: 10px;
 }
 
-.container-top{
+.container-top {
   background-color: #298e46;
 }
 
 
 
-.img-account-profile-2{
+.img-account-profile-2 {
   max-width: 300px;
   height: 300px;
   border-radius: 50%;
   overflow: hidden;
   margin: auto;
 }
-.img-account-profile-2 img{
+
+.img-account-profile-2 img {
   width: 300px;
   // max-width: 900px;
+}
+
+
+.container-star p {
+  font-size: 16px;
+  margin-right: 10px;
+  margin-top: 3px;
+  font-weight: 800;
+}
+
+.container-star {
+  display: flex;
+
+}
+
+
+.container-user-comment p {
+  font-weight: 900;
+}
+
+.container-user-comment {
+
+  display: flex;
+  align-items: center;
+}
+
+.container-user-comment img {
+
+  width: 40px;
+  margin-right: 20px;
+}
+
+.container-single-comment {
+  position: relative;
+
+  display: flex;
+  min-height: 100px;
+
+  // flex-wrap: wrap;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+.upload-date {
+  position: absolute;
+  right: 5px;
+  top: 16px;
+}
+
+
+
+
+
+.pagination-btn {
+
+  max-height: 50px;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 10px;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.pagination-btn:hover,.active,
+.pagination-btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.pagination-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+
+.outer-cat-author-container {
+  display: flex;
+  background-color: #298e46;
+}
+
+.blue {
+  background-color: #054A91;
+}
+
+
+.edit-comment-container{
+  position: relative;
+  min-width: 200px;
+  // min-height: 400px;
+  width: 50vw;
+  // min-height: 50vh;
+  background-color: #F0F0F1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  border-radius: 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: space-around;
+}
+
+.title{
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.edit-comment-container img{
+  width: 100px;
 }

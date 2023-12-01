@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { Book } from 'src/app/models/Book';
 import { BookServiceService } from 'src/app/services/book-service.service';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-bundle-section',
@@ -15,10 +16,18 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
   transtlate = -940;
   currentIndex = 2;
   averateRate = 0;
-  constructor(private service: BookServiceService) {}
+  constructor(
+    private service: BookServiceService,
+    private imageService: ImageService
+  ) {}
   // private intervalSubscription: Subscription;
 
+  getSafeImageUrl(data:any){
+    return this.imageService.getSafeImageUrl(data)
+  }
+
   clicktest() {
+ 
     console.log(this.mostCommentRateView);
   }
   nextSlide() {
@@ -31,17 +40,16 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
       (this.currentIndex - 1 + this.mostCommentRateView!.length) %
       this.mostCommentRateView!.length;
   }
-  
 
   ngOnInit(): void {
     // interval(2000).subscribe(() => {
     //   this.nextSlide()
     //   // Đây là nơi bạn đặt code cần thực thi mỗi giây
     // });
-    this.service.getThreeStuff((templist: Book[],averateRate) => {
+    this.service.getThreeStuff((templist: Book[], averateRate) => {
       templist.forEach((item) => {
         console.log(item);
-        this.averateRate=averateRate        
+        this.averateRate = averateRate;
         item.hinhanh = `../../../assets/books/${item.hinhanh}`;
       });
       // lo
@@ -56,6 +64,4 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
     //   this.intervalSubscription.unsubscribe();
     // }
   }
-
-
 }

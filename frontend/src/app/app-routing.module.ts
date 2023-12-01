@@ -16,6 +16,8 @@ import { AlluserComponent } from './pages/alluser/alluser.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.component';
 import { AllrequestComponent } from './pages/allrequest/allrequest.component';
+import { RequestdetailComponent } from './pages/requestdetail/requestdetail.component';
+import { AddProductComponent } from './pages/add-product/add-product.component';
 
 const routes: Routes = [
   {
@@ -97,6 +99,14 @@ const routes: Routes = [
       {
         path:"detail/:id",
         component:AdminProductDetailsComponent
+      },
+      {
+        path:"addproduct",
+        component:AddProductComponent
+      },
+      {
+        path:"requestdetail/:id",
+        component:RequestdetailComponent
       }
     ]
   },

@@ -7,6 +7,9 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/image.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { CommentService } from 'src/app/services/comment.service';
+import { BookServiceService } from 'src/app/services/book-service.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -19,15 +22,17 @@ export class ProfileComponent implements OnInit {
   isChangePassword = false;
   selectedFile: File | null = null;
   imageData: string | null = null;
+  allComment: any[] = [];
+  isAllDataDone = false;
   constructor(
-    private snackBarService:SnackbarService,
+    private snackBarService: SnackbarService,
+    private bookService: BookServiceService,
     private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private imageService:ImageService
-    // private sanitizer: DomSanitizer,
-
+    private imageService: ImageService,
+    private commentSerivce: CommentService // private sanitizer: DomSanitizer,
   ) {
     this.userForm = this.formBuilder.group({
       id: [null], // You can set initial values or use null
@@ -47,7 +52,7 @@ export class ProfileComponent implements OnInit {
 
   // =============HANDLE IMAGE=======================
   getSafeImageUrl(base64: any) {
-   return this.imageService.getSafeImageUrl(base64);
+    return this.imageService.getSafeImageUrl(base64);
   }
   // =============END OF HANDLE IMAGE=====================
 
@@ -60,35 +65,16 @@ export class ProfileComponent implements OnInit {
         if (this.userInfo && this.userInfo.imageData) {
           this.userInfo.imageData = base64String;
           console.log(this.userInfo.imageData);
-          
-      }
-      // Ở đây, bạn có thể thực hiện các hành động khác với base64String
+        }
+        // Ở đây, bạn có thể thực hiện các hành động khác với base64String
       });
     }
   }
 
-  getImage(userid: any): void {
-    this.userService.getImage(userid).subscribe(
-      (data: Blob) => {
-        const blobArray: Blob[] = [data];
-        console.log(blobArray);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          // reader.result chứa dữ liệu ảnh dưới dạng base64
-          this.imageData = reader.result as string;
-        };
-        reader.readAsDataURL(data);
-      },
-      (error) => {
-        console.error('Error getting image', error);
-      }
-    );
-  }
   onSubmit() {
     if (!this.selectedFile) {
       console.error('No file selected.');
-      this.snackBarService.showSuccess("chưa chọn file")
+      this.snackBarService.showSuccess('chưa chọn file');
       return;
     }
 
@@ -177,6 +163,38 @@ export class ProfileComponent implements OnInit {
     this.userService.Logout();
   }
 
+  // =====HANDLE COMMENT STUFF========
+  loadComment() {
+    this.commentSerivce
+      .getComments(this.pageIndex, 4, null, null, this.userInfo?.id,this.rating,false)
+      .subscribe({
+        next: (data) => {
+          this.allComment = data;
+          console.log(this.allComment);
+
+          const observables = this.allComment.map((book) =>
+            this.bookService.getBookWithId(book.sachid)
+          );
+
+          forkJoin(observables).subscribe({
+            next: (dataArray) => {
+              dataArray.forEach((data, index) => {
+                this.allComment[index].sach = data;
+              });
+              this.isAllDataDone = true;
+            },
+            error: (e) => {
+              console.log(e);
+            },
+          });
+        },
+        error: (e) => {
+          console.log(e);
+        },
+      });
+  }
+  // =====END OF HANDLE COMMENT STUFF
+
   getUser(userId: any) {
     console.log('loading?');
 
@@ -184,8 +202,8 @@ export class ProfileComponent implements OnInit {
       console.log(item);
 
       this.userInfo = item;
-      console.log('done?');
-
+      console.log(this.userInfo);
+      this.loadComment();
       //handle loading screen
       this.userForm.patchValue({
         id: item.id,
@@ -214,14 +232,122 @@ export class ProfileComponent implements OnInit {
   }
 
   //================handle loading stuff==============
+
+  // ==================HANDLE PAGENITED=============
+  itemsToRepeat = new Array(5);
+  pageIndex = 1;
+  handleNextBefore(method: string) {
+    this.editComment=this.allComment[0]
+    console.log(this.editComment.ngaydang);
+    
+        
+    if (method == '+' && this.allComment.length) {
+      this.pageIndex++;
+      this.loadComment();
+    }
+    if (method == '-' && this.pageIndex > 1) {
+      this.pageIndex--;
+      this.loadComment();
+    }
+  }
+
+  // ==================END OF HANDLE PAGENITED===========
+
+  // ========================HANDLE EDIT COMMENT=================
+  editComment: any;
+  isHandleEditCommentOpen = false;
+  openFullscreen = false;
+  value = '';
+
+  handleCloseAll() {
+    this.isHandleEditCommentOpen = false;
+    this.openFullscreen = false;
+  }
+
+  handleUdateRating(Newrate: number) {
+    this.editComment.rating = Newrate + 1;
+  }
+
+  startEditComment(comment: any) {
+    console.log(comment);
+    this.editComment = comment;
+    this.isHandleEditCommentOpen = true;
+    this.openFullscreen = true;
+  }
+
+  HandleEditComment() {
+    this.editComment.sach = null;
+    const currentDate = new Date();
+    console.log(this.imageService.convertDateString(currentDate));
+    this.editComment.ngaydang=this.imageService.convertDateString(currentDate)
+    this.commentSerivce.edit(this.editComment).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackBarService.showSuccess('edit thành công');
+        this.loadComment()
+      },
+    });
+  }
+
+  // ========================END OF HANDLE EDIT COMMENT===========
+  // ========================HANDLE DELLETE COMMENT==========
+
+  deleteComment: any;
+  openDeleteWindow = false;
+
+  startDelete(item: any) {
+    console.log(item);
+    this.deleteComment = item;
+    this.deleteComment.sach = null;
+    this.openDeleteWindow = true;
+  }
+  handleDeleteComment() {
+    console.log(this);
+
+    this.commentSerivce.delete(this.deleteComment.id).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.openDeleteWindow = false;
+        this.loadComment();
+        this.snackBarService.showSuccess('xóa thành công');
+      },
+    });
+  }
+  closeDeleteWin() {
+    this.openDeleteWindow = false;
+  }
+
+  // ========================END OF HANDLE DELLETE COMMENT==========
+  // ==================HANDLE SEARCH COMMENT========
+  rating = 5;
+  handleUdateRatingWithSearch(index: any) {
+    this.rating = index + 1;
+    this.pageIndex=1
+    this.loadComment()
+  }
+
+  // ==================END OF HANDLE SEARCH COMMENT========
+
+  // =============POPUP WINDOWS=======
   popupWindowOpen = false;
   isLoading = true;
   receiveDataFromChild(data: string) {
     console.log('Dữ liệu nhận được từ component con:', data);
     this.popupWindowOpen = false;
   }
+  // =============END OF POPUP WINDOWS=======
+  //==============HANDLE SHOW ALL USER COMMENT==================
+
+  //==============END OF HANDLE SHOW ALL USER COMMENT==================
 
   ngOnInit(): void {
     this.getUserInfo();
+ 
   }
 }

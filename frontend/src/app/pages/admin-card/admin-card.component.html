@@ -6,6 +6,7 @@
     <table class="styled-table">
       <thead>
         <tr>
+          <th>STT</th>
           <th>Ảnh</th>
           <th>Tên Sách</th>
           <th>Đồng Giá</th>
@@ -17,8 +18,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of listbook">
+        <tr *ngFor="let item of listbook;let i = index">
           <!-- <td><img src="../../../assets/books/{{ item.hinhanh }}" alt="" /></td> -->
+          <td>{{i+1}}</td>
           <td>
             <img
               *ngIf="item.imageData"

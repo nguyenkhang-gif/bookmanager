@@ -11,7 +11,7 @@
           <p>900</p>
         </div>
         <img
-          [src]="slide.hinhanh"
+          [src]="getSafeImageUrl(slide.imageData)"
           alt=""
           [routerLink]="['/detail', slide.id]"
         />

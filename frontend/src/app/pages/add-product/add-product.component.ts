@@ -15,11 +15,11 @@ import { checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
 
 @Component({
-  selector: 'app-admin-product-details',
-  templateUrl: './admin-product-details.component.html',
-  styleUrls: ['./admin-product-details.component.scss'],
+  selector: 'app-add-product',
+  templateUrl: './add-product.component.html',
+  styleUrls: ['./add-product.component.scss'],
 })
-export class AdminProductDetailsComponent implements OnInit {
+export class AddProductComponent implements OnInit {
   constructor(
     private authorService: AuthorService,
     private userService: UserService,
@@ -52,7 +52,7 @@ export class AdminProductDetailsComponent implements OnInit {
   // CÁC BIÊN`
   bookInfo?: Book;
   imgurl?: any;
-  category?: any;
+  category?: any = null;
   catList: any[] = []; //list
   author?: any;
   authorList: any[] = []; //list
@@ -64,21 +64,21 @@ export class AdminProductDetailsComponent implements OnInit {
 
   // END OF CÁC BIÊN`
   loadBookData(book: any): void {
-    this.bookForm.patchValue({
-      chieudai: book.chieudai,
-      chieurong: book.chieurong,
-      chudeid: book.chudeid,
-      borrowCount: book.borrowCount,
-      dinhdang: book.dinhdang,
-      dongia: book.dongia,
-      hinhanh: book.hinhanh,
-      nhaxuatbanid: book.nhaxuatbanid,
-      soluong: book.soluong,
-      sotrang: book.sotrang,
-      tacgiaid: book.tacgiaid,
-      tensach: book.tensach,
-      duocMuon: book.duocMuon,
-    });
+    // this.bookForm.patchValue({
+    //   chieudai: book.chieudai,
+    //   chieurong: book.chieurong,
+    //   chudeid: book.chudeid,
+    //   borrowCount: book.borrowCount,
+    //   dinhdang: book.dinhdang,
+    //   dongia: book.dongia,
+    //   hinhanh: book.hinhanh,
+    //   nhaxuatbanid: book.nhaxuatbanid,
+    //   soluong: book.soluong,
+    //   sotrang: book.sotrang,
+    //   tacgiaid: book.tacgiaid,
+    //   tensach: book.tensach,
+    //   duocMuon: book.duocMuon,
+    // });
   }
 
   // =======HANDLE TỰ ĐỘNG CẬP NHẬT LƯỢT MƯỢN===========
@@ -171,7 +171,6 @@ export class AdminProductDetailsComponent implements OnInit {
   receiveDataFromChild(data: string) {
     console.log('Dữ liệu nhận được từ component con:', data);
     this.popupWindowOpen = false;
-    this.route.navigate(["admin/allproduct"])
   }
 
   //=======================end of handle pop up window======================
@@ -199,6 +198,8 @@ export class AdminProductDetailsComponent implements OnInit {
     if (this.selectedFile) {
       this.imageService.convertToBase64(this.selectedFile, (base64String) => {
         console.log(base64String);
+        console.log(this.bookInfo == null);
+        this.imageData = base64String;
         if (this.bookInfo) {
           this.bookInfo.imageData = base64String;
           console.log(this.bookInfo?.imageData);
@@ -278,45 +279,88 @@ export class AdminProductDetailsComponent implements OnInit {
     //   duocMuon: this.isBorrow == true ? 1 : 0,
     //   imageData: this.bookInfo?.imageData,
     // });
-    this.popupWindowOpen = true;
-    this.isLoading = true;
+    // this.popupWindowOpen = true;
+    // this.isLoading = true;
 
-    this.bookService
-      .updateBook({
-        id: this.bookInfo?.id,
-        chieudai: this.bookForm.get('chieudai')?.value,
-        chieurong: this.bookForm.get('chieurong')?.value,
-        chudeid: this.category?.id,
-        borrowCount: this.bookForm.get('borrowCount')?.value,
-        dinhdang: this.bookInfo?.dinhdang,
-        dongia: this.bookInfo?.dongia,
-        hinhanh: this.bookInfo?.hinhanh,
-        nhaxuatbanid: this.producerInfo?.id,
-        soluong: this.bookForm.get('soluong')?.value,
-        sotrang: this.bookForm.get('sotrang')?.value,
-        tacgiaid: this.author?.id,
-        tensach: this.bookForm.get('tensach')?.value,
-        duocMuon: this.isBorrow == true ? 1 : 0,
-        imageData: this.bookInfo?.imageData,
-      })
-      .subscribe({
-        next: (e) => {
-          console.log(e);
-          // interval(3000).subscribe(() => {
-          // this.nextSlide()
-          // console.log("done!!");
-          this.isLoading = false;
+    console.log({
+      chieudai: this.bookForm.get('chieudai')?.value,
+      chieurong: this.bookForm.get('chieurong')?.value,
+      chudeid: this.category?.id,
+      borrowCount: this.bookForm.get('borrowCount')?.value,
+      dinhdang: 'PDF',
+      dongia: 100,
+      // borrowCount:0,
+      hinhanh: 'sach 1.jeg',
+      nhaxuatbanid: this.producerInfo?.id,
+      soluong: this.bookForm.get('soluong')?.value,
+      sotrang: this.bookForm.get('sotrang')?.value,
+      tacgiaid: this.author?.id,
+      tensach: this.bookForm.get('tensach')?.value,
+      duocMuon: this.isBorrow == true ? 1 : 0,
+      imageData: this.imageData,
+    });
 
-          // this.sendEventToChild()
-          // Đây là nơi bạn đặt code cần thực thi mỗi giây
-          // });
-        },
-        error: (e) => {
-          console.log(e);
-        },
-      });
+    this.bookService.insertBook({
+      chieudai: this.bookForm.get('chieudai')?.value,
+      chieurong: this.bookForm.get('chieurong')?.value,
+      chudeid: this.category?.id,
+      borrowCount: this.bookForm.get('borrowCount')?.value,
+      dinhdang: 'PDF',
+      dongia: 100,
+      hinhanh: 'sach 1.jeg',
+      nhaxuatbanid: this.producerInfo?.id,
+      soluong: this.bookForm.get('soluong')?.value,
+      sotrang: this.bookForm.get('sotrang')?.value,
+      tacgiaid: this.author?.id,
+      tensach: this.bookForm.get('tensach')?.value,
+      duocMuon: this.isBorrow == true ? 1 : 0,
+      imageData: this.imageData
+    }).subscribe({
+      next:(data)=>{
+        console.log(data);
+        
+      },
+      error:(e)=>{
+        console.log(e);
+        
+      }
+    })
+    // this.bookService
+    //   .updateBook({
+    //     // id: this.bookInfo?.id,
+    //     chieudai: this.bookForm.get('chieudai')?.value,
+    //     chieurong: this.bookForm.get('chieurong')?.value,
+    //     chudeid: this.category?.id,
+    //     borrowCount: this.bookForm.get('borrowCount')?.value,
+    //     dinhdang: this.bookInfo?.dinhdang,
+    //     dongia: this.bookInfo?.dongia,
+    //     hinhanh: "sach 1.jeg",
+    //     nhaxuatbanid: this.producerInfo?.id,
+    //     soluong: this.bookForm.get('soluong')?.value,
+    //     sotrang: this.bookForm.get('sotrang')?.value,
+    //     tacgiaid: this.author?.id,
+    //     tensach: this.bookForm.get('tensach')?.value,
+    //     duocMuon: this.isBorrow == true ? 1 : 0,
+    //     imageData: this.imageData,
+    //   })
+    //   .subscribe({
+    //     next: (e) => {
+    //       console.log(e);
+    //       // interval(3000).subscribe(() => {
+    //       // this.nextSlide()
+    //       // console.log("done!!");
+    //       this.isLoading = false;
 
-    console.log(this.bookInfo);
+    //       // this.sendEventToChild()
+    //       // Đây là nơi bạn đặt code cần thực thi mỗi giây
+    //       // });
+    //     },
+    //     error: (e) => {
+    //       console.log(e);
+    //     },
+    //   });
+
+    // console.log(this.bookInfo);
   }
   // ============================== END OF HANDLE SUBMIT ALL=====================
   getSafeImageUrl(base64: any): SafeUrl {
@@ -329,6 +373,7 @@ export class AdminProductDetailsComponent implements OnInit {
     this.bookService.getAllCatgory().subscribe((list) => {
       console.log(list);
       this.catList = list;
+      console.log(this.catList);
     });
     // this.loadImge();
     // this.getImage(this.route.url.split('/')[3]);
