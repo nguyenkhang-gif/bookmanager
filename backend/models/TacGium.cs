@@ -5,7 +5,7 @@ namespace backend;
 
 public partial class TacGium
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public string? Tentacgia { get; set; }
 

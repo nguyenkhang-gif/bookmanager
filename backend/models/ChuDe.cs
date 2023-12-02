@@ -7,7 +7,7 @@ namespace backend;
 [Table("ChuDe")]
 public partial class ChuDe
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public string? Tenchude { get; set; }
 

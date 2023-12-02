@@ -13,6 +13,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/image.service';
 import { checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-add-product',
@@ -29,7 +30,8 @@ export class AddProductComponent implements OnInit {
     private http: HttpClient,
     private sanitizer: DomSanitizer,
     private imageService: ImageService,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private snackbarService: SnackbarService
   ) {}
   // bookForm: FormGroup;
   bookForm = this.formBuilder.group({
@@ -336,6 +338,16 @@ export class AddProductComponent implements OnInit {
   authorToAdd: any = '';
   handleAddAuthor() {
     console.log(this.authorToAdd);
+    this.authorService.insert({ tentacgia: this.authorToAdd }).subscribe({
+      next: (data) => {
+        this.snackbarService.showSuccess('add thành công 2 ????');
+        console.log(data);
+      },
+      error: (e) => {
+        this.snackbarService.showSuccess('add thành công ????');
+        console.log(e);
+      },
+    });
   }
 
   // ============================END OF HANDLE ADD AUTHOR
