@@ -261,104 +261,49 @@ export class AddProductComponent implements OnInit {
 
   // ==============================HANDLE SUBMIT ALL============================
   saveAllForm() {
-    // console.log(this.isBorrow == true ? 1 : 0);
     // console.log({
-    //   id: this.bookInfo?.id,
     //   chieudai: this.bookForm.get('chieudai')?.value,
     //   chieurong: this.bookForm.get('chieurong')?.value,
     //   chudeid: this.category?.id,
     //   borrowCount: this.bookForm.get('borrowCount')?.value,
-    //   dinhdang: this.bookInfo?.dinhdang,
-    //   dongia: this.bookInfo?.dongia,
-    //   hinhanh: this.bookInfo?.hinhanh,
+    //   dinhdang: 'PDF',
+    //   dongia: 100,
+    //   // borrowCount:0,
+    //   hinhanh: 'sach 1.jeg',
     //   nhaxuatbanid: this.producerInfo?.id,
     //   soluong: this.bookForm.get('soluong')?.value,
     //   sotrang: this.bookForm.get('sotrang')?.value,
     //   tacgiaid: this.author?.id,
     //   tensach: this.bookForm.get('tensach')?.value,
     //   duocMuon: this.isBorrow == true ? 1 : 0,
-    //   imageData: this.bookInfo?.imageData,
+    //   imageData: this.imageData,
     // });
-    // this.popupWindowOpen = true;
-    // this.isLoading = true;
 
-    console.log({
-      chieudai: this.bookForm.get('chieudai')?.value,
-      chieurong: this.bookForm.get('chieurong')?.value,
-      chudeid: this.category?.id,
-      borrowCount: this.bookForm.get('borrowCount')?.value,
-      dinhdang: 'PDF',
-      dongia: 100,
-      // borrowCount:0,
-      hinhanh: 'sach 1.jeg',
-      nhaxuatbanid: this.producerInfo?.id,
-      soluong: this.bookForm.get('soluong')?.value,
-      sotrang: this.bookForm.get('sotrang')?.value,
-      tacgiaid: this.author?.id,
-      tensach: this.bookForm.get('tensach')?.value,
-      duocMuon: this.isBorrow == true ? 1 : 0,
-      imageData: this.imageData,
-    });
-
-    this.bookService.insertBook({
-      chieudai: this.bookForm.get('chieudai')?.value,
-      chieurong: this.bookForm.get('chieurong')?.value,
-      chudeid: this.category?.id,
-      borrowCount: this.bookForm.get('borrowCount')?.value,
-      dinhdang: 'PDF',
-      dongia: 100,
-      hinhanh: 'sach 1.jeg',
-      nhaxuatbanid: this.producerInfo?.id,
-      soluong: this.bookForm.get('soluong')?.value,
-      sotrang: this.bookForm.get('sotrang')?.value,
-      tacgiaid: this.author?.id,
-      tensach: this.bookForm.get('tensach')?.value,
-      duocMuon: this.isBorrow == true ? 1 : 0,
-      imageData: this.imageData
-    }).subscribe({
-      next:(data)=>{
-        console.log(data);
-        
-      },
-      error:(e)=>{
-        console.log(e);
-        
-      }
-    })
-    // this.bookService
-    //   .updateBook({
-    //     // id: this.bookInfo?.id,
-    //     chieudai: this.bookForm.get('chieudai')?.value,
-    //     chieurong: this.bookForm.get('chieurong')?.value,
-    //     chudeid: this.category?.id,
-    //     borrowCount: this.bookForm.get('borrowCount')?.value,
-    //     dinhdang: this.bookInfo?.dinhdang,
-    //     dongia: this.bookInfo?.dongia,
-    //     hinhanh: "sach 1.jeg",
-    //     nhaxuatbanid: this.producerInfo?.id,
-    //     soluong: this.bookForm.get('soluong')?.value,
-    //     sotrang: this.bookForm.get('sotrang')?.value,
-    //     tacgiaid: this.author?.id,
-    //     tensach: this.bookForm.get('tensach')?.value,
-    //     duocMuon: this.isBorrow == true ? 1 : 0,
-    //     imageData: this.imageData,
-    //   })
-    //   .subscribe({
-    //     next: (e) => {
-    //       console.log(e);
-    //       // interval(3000).subscribe(() => {
-    //       // this.nextSlide()
-    //       // console.log("done!!");
-    //       this.isLoading = false;
-
-    //       // this.sendEventToChild()
-    //       // Đây là nơi bạn đặt code cần thực thi mỗi giây
-    //       // });
-    //     },
-    //     error: (e) => {
-    //       console.log(e);
-    //     },
-    //   });
+    this.bookService
+      .insertBook({
+        chieudai: this.bookForm.get('chieudai')?.value,
+        chieurong: this.bookForm.get('chieurong')?.value,
+        chudeid: this.category?.id,
+        borrowCount: this.bookForm.get('borrowCount')?.value,
+        dinhdang: 'PDF',
+        dongia: 100,
+        hinhanh: 'sach 1.jeg',
+        nhaxuatbanid: this.producerInfo?.id,
+        soluong: this.bookForm.get('soluong')?.value,
+        sotrang: this.bookForm.get('sotrang')?.value,
+        tacgiaid: this.author?.id,
+        tensach: this.bookForm.get('tensach')?.value,
+        duocMuon: this.isBorrow == true ? 1 : 0,
+        imageData: this.imageData,
+      })
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+        error: (e) => {
+          console.log(e);
+        },
+      });
 
     // console.log(this.bookInfo);
   }
@@ -386,6 +331,21 @@ export class AddProductComponent implements OnInit {
       this.producerInfoList = list;
     });
   }
+
+  // ============================HANDLE ADD AUTHOR
+  authorToAdd: any = '';
+  handleAddAuthor() {
+    console.log(this.authorToAdd);
+  }
+
+  // ============================END OF HANDLE ADD AUTHOR
+  // ============================HANDLE ADD cat
+  catToAdd: any = '';
+  handleAddCat() {
+    console.log(this.catToAdd);
+  }
+
+  // ============================END OF HANDLE ADD AUTHOR
 
   ngOnInit(): void {
     this.loadAllData();

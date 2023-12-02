@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   query: string = '';
   catid?: number = 0;
   notFound = false;
-  tempimageurl='../../../assets/books/sach 1.jpg'
+  tempimageurl = '../../../assets/books/sach 1.jpg';
 
   constructor(
     private service: BookServiceService,
@@ -71,79 +71,94 @@ export class HomeComponent implements OnInit, OnDestroy {
   setDataWithPageIndex(pageIndex: number, pageSize: number) {
     console.log(this.catid);
     console.log(this.query);
-    
-    if (
-      (this.query == null || this.query == '') &&
-      this.catid != 0 &&
-      this.catid != null
-    ) {
-      // console.log('handle only catid:', this.catid);
-      this.service
-        .getBookWithPageIndexPageSizeCatId(pageIndex, pageSize, this.catid)
-        .subscribe({
-          next: (list) => {
-            // console.log(list);
-            this.list = list;
-          },
-        });
-    } else if (this.query != null &&this.query!='' && (this.catid == 0 || this.catid == null)) {
-      console.log('handle query only:', this.query);
-      this.service
-        .getBookWithPageIndexPageSizeCatIdContent(
-          pageIndex,
-          pageSize,
-          0,
-          this.query
-        )
-        .subscribe({
-          next: (list) => {
-            // console.log('search with query: ', list);
+    this.service
+      .getBookWithPageIndexPageSizeCatIdContent(
+        pageIndex,
+        pageSize,
+        this.catid,
+        this.query,
+        null
+      )
+      .subscribe({
+        next: (data) => {
+          this.list = data;
+        },
+        error: (e) => {
+          console.log(e);
+        },
+      });
 
-            this.list = list;
-            this.checkifnotfound();
-          },
-        });
-    } else if (
-      this.query != null &&
-      this.query != '' &&
-      this.catid != 0 &&
-      this.catid != null
-    ) {
-      this.service
-        .getBookWithPageIndexPageSizeCatIdContent(
-          pageIndex,
-          pageSize,
-          this.catid,
-          this.query
-        )
-        .subscribe({
-          next: (list) => {
-            // console.log(list);
-            this.list = list;
-            this.checkifnotfound();
-          },
-          error: (e) => {
-            // console.log(e);
-          },
-        });
-    } else {
-      console.log("called");
-      
-      this.service
-        .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
-        .subscribe({
-          next: (list) => {
-            console.log(list);
-            this.list = list;
-            this.checkifnotfound();
-          },
-          error: () => {
-            this.checkifnotfound();
-          },
-        });
-    }
-    console.log('query:', this.query == '');
-    console.log('cat:', this.catid == null);
+    // if (
+    //   (this.query == null || this.query == '') &&
+    //   this.catid != 0 &&
+    //   this.catid != null
+    // ) {
+    //   // console.log('handle only catid:', this.catid);
+    //   this.service
+    //     .getBookWithPageIndexPageSizeCatId(pageIndex, pageSize, this.catid)
+    //     .subscribe({
+    //       next: (list) => {
+    //         // console.log(list);
+    //         this.list = list;
+    //       },
+    //     });
+    // } else if (this.query != null &&this.query!='' && (this.catid == 0 || this.catid == null)) {
+    //   console.log('handle query only:', this.query);
+    //   this.service
+    //     .getBookWithPageIndexPageSizeCatIdContent(
+    //       pageIndex,
+    //       pageSize,
+    //       this.catid,
+    //       this.query
+    //     )
+    //     .subscribe({
+    //       next: (list) => {
+    //         console.log('search with query: ', list);
+
+    //         this.list = list;
+    //         this.checkifnotfound();
+    //       },
+    //     });
+    // } else if (
+    //   this.query != null &&
+    //   this.query != '' &&
+    //   this.catid != 0 &&
+    //   this.catid != null
+    // ) {
+    //   this.service
+    //     .getBookWithPageIndexPageSizeCatIdContent(
+    //       pageIndex,
+    //       pageSize,
+    //       this.catid,
+    //       this.query
+    //     )
+    //     .subscribe({
+    //       next: (list) => {
+    //         // console.log(list);
+    //         this.list = list;
+    //         this.checkifnotfound();
+    //       },
+    //       error: (e) => {
+    //         // console.log(e);
+    //       },
+    //     });
+    // } else {
+    //   console.log("called");
+
+    //   this.service
+    //     .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
+    //     .subscribe({
+    //       next: (list) => {
+    //         console.log(list);
+    //         this.list = list;
+    //         this.checkifnotfound();
+    //       },
+    //       error: () => {
+    //         this.checkifnotfound();
+    //       },
+    //     });
+    // }
+   
   }
 
   ngOnInit(): void {
@@ -155,7 +170,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // this.pageIndex=1
     //get the fk query
     this.route.queryParams.subscribe((queryParams) => {
-      console.log("this is route for query");
+      console.log('this is route for query');
       this.query = queryParams['q'];
       this.catid = queryParams['cat'];
 

@@ -171,3 +171,46 @@
 
   <!-- =========================END OF SUBMIT======================== -->
 </div>
+
+<div class="container outer">
+  <p class="title">Thêm tác giả và chủ đề</p>
+  <!-- handle add tác giả  -->
+  <div class="container lightouter">
+    <p class="title">Tác giả</p>
+    <mat-form-field
+      class="example-full-width"
+      style="width: 40%; margin-top: 20px"
+      type="SUBMIT"
+    >
+      <mat-label>Tên tác giả</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="authorToAdd"
+        placeholder="Ex. It makes me feel..."
+        style="min-height: 50px"
+      ></textarea>
+    </mat-form-field>
+    <button class="btn btn-primary" (click)="handleAddAuthor()">Thêm</button>
+  </div>
+  <div class="container lightouter">
+    <p class="title">Chủ đề</p>
+    <mat-form-field
+      class="example-full-width"
+      style="width: 40%; margin-top: 20px"
+      type="SUBMIT"
+    >
+      <mat-label>Tên chủ đề</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="catToAdd"
+        placeholder="Ex. It makes me feel..."
+        style="min-height: 50px"
+      ></textarea>
+    </mat-form-field>
+    <button class="btn btn-primary" (click)="handleAddCat()">Thêm</button>
+  </div>
+  <!-- ned of handle add tác giả  -->
+  <!-- handle add chủ đề  -->
+  
+  <!-- end of handle add chủ đề  -->
+</div>

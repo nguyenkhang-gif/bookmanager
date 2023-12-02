@@ -1,6 +1,7 @@
 <div>
   <mat-toolbar color="primary" class="nav">
     <button
+      [routerLink]="['/profile']"
       mat-icon-button
       class="example-icon"
       aria-label="Example icon-button with menu icon"
@@ -14,19 +15,18 @@
       [routerLink]="['/admin/allproduct']"
       aria-label="Example icon-button with heart icon"
     >
-      Home
-    </button>
-    <button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-    >
       All Product
     </button>
+
     <button class="example-icon" [routerLink]="['/admin/alluser']">
       All User
     </button>
-    <button class="example-icon" [routerLink]="['/admin/allrequest']">All Request</button>
+    <button class="example-icon" [routerLink]="['/admin/allrequest']">
+      All Request
+    </button>
     <button class="example-icon" [routerLink]="['/admin/card']">Card</button>
-    <button class="example-icon" [routerLink]="['/admin/addproduct']">Addproduct</button>
+    <button class="example-icon" [routerLink]="['/admin/addproduct']">
+      Addproduct
+    </button>
   </mat-toolbar>
 </div>

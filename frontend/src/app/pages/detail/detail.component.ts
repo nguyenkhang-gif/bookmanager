@@ -18,6 +18,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { ImageService } from 'src/app/services/image.service';
 import { AuthorService } from 'src/app/services/author.service';
 import * as THREE from 'three';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-detail',
@@ -35,85 +36,18 @@ export class DetailComponent implements OnInit {
     private titleService: TitleService,
     private snackbarService: SnackbarService,
     private imageService: ImageService,
-    private elementRef: ElementRef
-  ) {
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera();
-    this.renderer = new THREE.WebGLRenderer();
-    this.animate();
-  }
+    private elementRef: ElementRef,
+    private commentSerivce: CommentService
+  ) {}
   // =========================HANDLE 3D STUFF==========
-  scene: THREE.Scene;
-  cube: any;
-  camera: THREE.PerspectiveCamera;
-  renderer: THREE.WebGLRenderer;
 
-  init(): void {
-    const containerElement =
-      this.elementRef.nativeElement.querySelector('.container-test');
-    console.log(containerElement);
-    // Create camera
-    this.scene.background = new THREE.Color();
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-
-    // cube
-    const geometry = new THREE.BoxGeometry(1, 2, 1);
-    const imageUrl = "../../../assets/149071.png";
-
-    // Convert SafeUrl to string
-    const imageUrlString: string = imageUrl.toString();
-    console.log(imageUrlString);
-
-    var materials = [
-      new THREE.MeshBasicMaterial({ color: 0xff0000 }), // Mặt trước (màu đỏ)
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(imageUrlString),
-      }), // Mặt sau (màu xanh lá cây)
-      new THREE.MeshBasicMaterial({ color: 0x0000ff }), // Mặt trên (màu xanh dương)
-      new THREE.MeshBasicMaterial({ color: 0xffff00 }), // Mặt dưới (màu vàng)
-      new THREE.MeshBasicMaterial({ color: 0x00ffff }), // Mặt bên phải (màu cyan)
-      new THREE.MeshBasicMaterial({ color: 0xff00ff }), // Mặt bên trái (màu magenta)
-    ];
-
-    const material = new THREE.MeshBasicMaterial({
-      map: new THREE.TextureLoader().load('./image.jpg'),
-    });
-    // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    this.cube = new THREE.Mesh(geometry, materials);
-    this.scene.add(this.cube);
-
-    this.camera.position.z = 10;
-
-    // Create renderer
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(500, 500);
-
-    containerElement.appendChild(this.renderer.domElement);
-
-    // Add other initialization code here
-  }
-
-  public animate(): void {
-    requestAnimationFrame(() => this.animate());
-    // Add animation code here
-    // console.log("animation");
-    if (this.cube) {
-      this.cube.rotation.x = 80 / 180;
-      this.cube.rotation.y += 0.01;
-    }
-    this.renderer.render(this.scene, this.camera);
-  }
   // =========================END OF HANDLE 3D STUFF========
 
   imgurl: string = '';
   imguserurl: string = '../../../assets/149071.png';
 
-  rating: number = 1;
+  rating: number = 5;
+  filterRating = 5;
   RoundFunc(item: number) {
     return Math.ceil(item); //Returns 5(item)
   }
@@ -213,7 +147,7 @@ export class DetailComponent implements OnInit {
         console.log('book:', book);
         // this.imgurl = `../../../assets/books/${book.hinhanh}`;
         this.fetchComments(book.id);
-
+        this.loadComment();
         this.service.getCatgory(book.chudeid).subscribe({
           next: (cat) => {
             // lấy chủ đề
@@ -259,7 +193,7 @@ export class DetailComponent implements OnInit {
         });
         this.averateRate /= comments.length;
 
-        this.comment = comments;
+        // this.comment = comments;
       },
     });
   }
@@ -301,6 +235,57 @@ export class DetailComponent implements OnInit {
       },
     });
   }
+
+  // =========================HANDLE PAGENITE
+
+  pageIndex = 1;
+  loadComment() {
+    this.commentSerivce
+      .getComments(
+        this.pageIndex,
+        8,
+        null,
+        this.route.url.split('/')[2],
+        null,
+        this.filterRating,
+        false
+      )
+      .subscribe({
+        next: (data) => {
+          this.comment = data;
+          console.log(this.comment);
+
+          this.comment.forEach((s_comment) => {
+            console.log(s_comment);
+            this.serviceUser.getUser(s_comment.userid).subscribe({
+              next: (data) => {
+                console.log(data);
+                s_comment.user = data;
+              },
+            });
+          });
+          // console.log(this.allComment);
+        },
+        error: (e) => {
+          console.log(e);
+        },
+      });
+  }
+  handleNextBefore(method: string) {
+    // this.editComment = this.allComment[0];
+    // console.log(this.editComment.ngaydang);
+
+    if (method == '+' && this.comment.length) {
+      this.pageIndex++;
+      this.loadComment();
+    }
+    if (method == '-' && this.pageIndex > 1) {
+      this.pageIndex--;
+      this.loadComment();
+    }
+  }
+
+  // =========================END OF HANDLE PAGENITE
 
   ngOnInit(): void {
     this.handleFollow();

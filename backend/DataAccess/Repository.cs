@@ -52,25 +52,26 @@ namespace backend.DataAccess
         }
         public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>>? orderBy = null, Expression<Func<T, object>>? orderByDescending = null)
         {
+            IQueryable<T> query = dbcontext.Set<T>().Where(filter);
+
             if (orderBy != null)
             {
-                return await dbcontext
-                .Set<T>()
-                .Where(filter)
-                .OrderBy(orderBy)
+                query = query.OrderBy(orderBy);
+            }
+            else if (orderByDescending != null)
+            {
+                query = query.OrderByDescending(orderByDescending);
+            }
+            else
+            {
+                // If neither orderBy nor orderByDescending is provided, add random ordering
+                query = query.OrderBy(_ => Guid.NewGuid());
+            }
 
+            return await query
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-            }
-            return await dbcontext
-            .Set<T>()
-            .Where(filter)
-            .OrderByDescending(orderByDescending)
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-
         }
 
 

@@ -8,9 +8,13 @@ import { author } from '../models/authtor';
 export class AuthorService {
   constructor(private httpClient: HttpClient) {}
   getAllAuthtor() {
-    return this.httpClient.get<author[]>('http://localhost:5280/tacGium/get');
+    return this.httpClient.get<any[]>('http://localhost:5280/tacGium/get');
   }
   getAuthorWithBookId(id: any) {
-    return this.httpClient.get<author>(`http://localhost:5280/tacGium/getById/${id}`);
+    return this.httpClient.get<any>(
+      `http://localhost:5280/tacGium/getById/${id}`
+    );
   }
+
+  
 }

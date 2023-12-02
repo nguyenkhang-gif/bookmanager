@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Book } from '../models/Book';
 import { Review } from '../models/Review';
@@ -6,6 +6,7 @@ import { Category } from '../models/Category';
 import { Publisher } from '../models/Publisher';
 import { Observable, switchMap, forkJoin, tap, catchError } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,6 @@ export class BookServiceService {
   getBooks() {
     return this.httpClient.get<Book[]>('http://localhost:5280/Dbosach/get');
   }
-
 
   getHighestReview() {
     return this.httpClient.get<number>(
@@ -98,14 +98,23 @@ export class BookServiceService {
   getBookWithPageIndexPageSizeCatIdContent(
     pageIndex: number,
     pageSize: number,
-    catid?: number,
-    content?: string
+    catid?: any,
+    content?: any,
+    tacgiaid?: any
   ) {
-    let url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?catid=${catid}&content=${content}`;
-    if (catid == 0)
-      url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?content=${content}`;
-    console.log(url);
-    return this.httpClient.get<Book[]>(url);
+    let query = new HttpParams();
+
+    if (catid != null) query = query.set('catid', catid);
+    if (content != null) query = query.set('content', content);
+
+    // let url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?catid=${catid}&content=${content}`;
+    // if (catid == 0)
+    //   url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?content=${content}`;
+    // console.log(url);
+    return this.httpClient.get<Book[]>(
+      `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}`,
+      { params: query }
+    );
   }
   getBookWithPageIndexPageSizeCatId(
     pageIndex: number,
@@ -164,10 +173,7 @@ export class BookServiceService {
   }
   //  update book
   updateBook(book: any) {
-    return this.httpClient.post(
-      `http://localhost:5280/Dbosach/Update`,
-      book
-    );
+    return this.httpClient.post(`http://localhost:5280/Dbosach/Update`, book);
   }
   getImage(userId: number): Observable<Blob> {
     const url = `http://localhost:5280/Dbosach/GetImage/${userId}`;
@@ -186,10 +192,9 @@ export class BookServiceService {
   //   return this.httpClient.get<Blob[]>(url, { responseType: 'blob' as 'json' });
   // }
 
-
-//  =============================INSERT BOOK==========
-  insertBook(item:any){
-    return this.httpClient.post(`http://localhost:5280/Dbosach/Insert`,item)
+  //  =============================INSERT BOOK==========
+  insertBook(item: any) {
+    return this.httpClient.post(`http://localhost:5280/Dbosach/Insert`, item);
   }
-//  =============================END OF INSERT BOOK==========
+  //  =============================END OF INSERT BOOK==========
 }

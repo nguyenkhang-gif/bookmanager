@@ -60,6 +60,11 @@
       <p>{{ producerInfo?.tennhaxuatban }}</p>
     </div>
   </div>
+  <!-- SÁCH CÙNG THỂ LOẠI -->
+  <div class="container-main">
+    <p>Sách cùng thể loại</p>
+  </div>
+  <!-- SÁCH CÙNG THỂ LOẠI -->
 
   <div class="container-main comment">
     <p class="comment-title">Đánh giá</p>
@@ -118,8 +123,8 @@
       </div>
       <div class="container-single-comment" *ngFor="let item of comment">
         <div class="container-user-comment">
-          <img [src]="getSafeImageUrl(item.image) || imguserurl" alt="" />
-          <p>{{ item.user }}</p>
+          <img [src]="getSafeImageUrl(item.user.imageData) || null" alt="" />
+          <p>{{ item.user.username }}</p>
         </div>
         <div class="containter-star">
           <div *ngFor="let i of itemsToRepeat; let index = index">
@@ -129,6 +134,17 @@
           <p>{{ item.rating }}</p>
         </div>
         <p class="comment-content">{{ item.tieude }}</p>
+      </div>
+      <div class="container-pagination">
+        <div class="container-main-pagination">
+          <button class="pagination-btn" (click)="handleNextBefore('-')">
+            before
+          </button>
+          <button class="pagination-btn">{{ pageIndex }}</button>
+          <button class="pagination-btn" (click)="handleNextBefore('+')">
+            next
+          </button>
+        </div>
       </div>
     </div>
   </div>

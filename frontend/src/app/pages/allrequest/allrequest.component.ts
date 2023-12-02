@@ -17,8 +17,8 @@ export class AllrequestComponent implements OnInit {
     private checkoutService: CheckoutService
   ) {
     this.dateForm = this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      startDate: [''],
+      endDate: [''],
     });
   }
   getSafeImageUrl(input: any) {
@@ -56,7 +56,14 @@ export class AllrequestComponent implements OnInit {
   //=============================HandleSearch================
   onSubmit() {
     console.log(this.value);
-    // console.log(this.dateForm.get('startDate')?.value.toString()=='');
+    console.log(this.dateForm.get('startDate')?.value == '');
+    console.log(this.dateForm.get('startDate')?.value == null);
+
+    // console.log(
+    //   this.imageService.convertDateString(
+    //     this.dateForm.get('startDate')?.value.toString()
+    //   )
+    // );
     // let startDate =this.imageService.convertDateString(
     //   this.dateForm.get('startDate')?.value.toString()
     // )
@@ -66,14 +73,19 @@ export class AllrequestComponent implements OnInit {
         this.pageIndex,
         this.itemInPage,
         this.value, //content
-        this.imageService.convertDateString(
-          this.dateForm.get('startDate')?.value.toString()
-        ),
-        this.imageService.convertDateString(
-          this.dateForm.get('endDate')?.value.toString()
-        ),
+
+        this.dateForm.get('startDate')?.value != null
+          ? this.imageService.convertDateString(
+              this.dateForm.get('startDate')?.value.toString()
+            )
+          : null,
+        this.dateForm.get('endDate')?.value != null
+          ? this.imageService.convertDateString(
+              this.dateForm.get('endDate')?.value.toString()
+            )
+          : null,
         // isDone
-        this.isDone!=3? this.isDone : null
+        this.isDone != 3 ? this.isDone : null
       )
       .subscribe({
         next: (data) => {
@@ -171,8 +183,8 @@ export class AllrequestComponent implements OnInit {
 
   // ==========================HANDLE CHANGE CAT=====================
 
-  handleChangeIsDone(data:any){
-    this.isDone=data
+  handleChangeIsDone(data: any) {
+    this.isDone = data;
   }
 
   // ==========================END OF HANDLE CHANGE CAT===============

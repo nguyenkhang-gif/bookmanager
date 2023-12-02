@@ -46,6 +46,7 @@
 .catergory-1 {
   margin-right: 10px;
 }
+
 .catergory {
   font-weight: 500;
   cursor: pointer;
@@ -62,6 +63,7 @@
 .available-1 {
   margin-right: 10px;
 }
+
 .available {
   font-weight: 500;
   // cursor: pointer;
@@ -163,9 +165,9 @@
   vertical-align: baseline;
   width: auto;
 }
+
 // .follow-btn:focus,
-.follow-btn:hover
- {
+.follow-btn:hover {
   background-color: #fb8332;
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
@@ -179,6 +181,7 @@
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   transform: translateY(0);
 }
+
 //=====================================unfollow
 .un-follow-btn {
   align-items: center;
@@ -209,9 +212,9 @@
   vertical-align: baseline;
   width: auto;
 }
+
 // .follow-btn:focus,
-.follow-btnun-follow-btn:hover
- {
+.follow-btnun-follow-btn:hover {
   background-color: #fb8332;
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
@@ -275,14 +278,17 @@
   border-radius: 50%;
   max-height: 40px;
 }
+
 .containter-star {
   margin-left: 30px;
   display: flex;
 }
+
 .comment-content {
   margin-left: 30px;
   font-size: 20px;
 }
+
 .container-single-comment {
   margin-top: 30px;
   max-width: 90%;
@@ -309,6 +315,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .container-main.detail {
   font-size: 14px;
 }
@@ -338,7 +345,7 @@
 
 
 // =========================================THIS IS THE CONTAINER SHOWING THE SEARCH RESULT CONTENT=============
-.container-handle-search{
+.container-handle-search {
   background-color: blue;
   width: 100%;
   display: flex;
@@ -348,11 +355,71 @@
 
 
 .success-snackbar {
-  background-color: #4CAF50; /* Green background color */
-  color: white; /* White text color */
+  background-color: #4CAF50;
+  /* Green background color */
+  color: white;
+  /* White text color */
 }
 
 .error-snackbar {
-  background-color: #f44336; /* Red background color */
-  color: white; /* White text color */
+  background-color: #f44336;
+  /* Red background color */
+  color: white;
+  /* White text color */
+}
+
+
+
+// ============paginate stufff
+
+
+
+.pagination-btn {
+
+  max-height: 50px;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 10px;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.pagination-btn:hover,
+.active,
+.pagination-btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.pagination-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
 }

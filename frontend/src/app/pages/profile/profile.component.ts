@@ -166,7 +166,15 @@ export class ProfileComponent implements OnInit {
   // =====HANDLE COMMENT STUFF========
   loadComment() {
     this.commentSerivce
-      .getComments(this.pageIndex, 4, null, null, this.userInfo?.id,this.rating,false)
+      .getComments(
+        this.pageIndex,
+        4,
+        null,
+        null,
+        this.userInfo?.id,
+        this.rating,
+        false
+      )
       .subscribe({
         next: (data) => {
           this.allComment = data;
@@ -237,10 +245,9 @@ export class ProfileComponent implements OnInit {
   itemsToRepeat = new Array(5);
   pageIndex = 1;
   handleNextBefore(method: string) {
-    this.editComment=this.allComment[0]
+    this.editComment = this.allComment[0];
     console.log(this.editComment.ngaydang);
-    
-        
+
     if (method == '+' && this.allComment.length) {
       this.pageIndex++;
       this.loadComment();
@@ -279,7 +286,8 @@ export class ProfileComponent implements OnInit {
     this.editComment.sach = null;
     const currentDate = new Date();
     console.log(this.imageService.convertDateString(currentDate));
-    this.editComment.ngaydang=this.imageService.convertDateString(currentDate)
+    this.editComment.ngaydang =
+      this.imageService.convertDateString(currentDate);
     this.commentSerivce.edit(this.editComment).subscribe({
       next: (data) => {
         console.log(data);
@@ -287,7 +295,7 @@ export class ProfileComponent implements OnInit {
       error: (e) => {
         console.log(e);
         this.snackBarService.showSuccess('edit thành công');
-        this.loadComment()
+        this.loadComment();
       },
     });
   }
@@ -328,8 +336,8 @@ export class ProfileComponent implements OnInit {
   rating = 5;
   handleUdateRatingWithSearch(index: any) {
     this.rating = index + 1;
-    this.pageIndex=1
-    this.loadComment()
+    this.pageIndex = 1;
+    this.loadComment();
   }
 
   // ==================END OF HANDLE SEARCH COMMENT========
@@ -348,6 +356,5 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserInfo();
- 
   }
 }

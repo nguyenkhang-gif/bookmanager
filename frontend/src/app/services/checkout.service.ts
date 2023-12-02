@@ -22,8 +22,10 @@ export class CheckoutService {
     );
   }
 
-  getwithBookId(bookid:any){
-    return this.httpClient.get<any[]>(`http://localhost:5280/SachMuon/getWithBookId/${bookid}`)
+  getwithBookId(bookid: any) {
+    return this.httpClient.get<any[]>(
+      `http://localhost:5280/SachMuon/getWithBookId/${bookid}`
+    );
   }
   getWithId(id: any) {
     return this.httpClient.get(`http://localhost:5280/PhieuMuon/getById/${id}`);
@@ -44,23 +46,27 @@ export class CheckoutService {
   getUserWithPageIndexPageSizeContent(
     pageIndex: number,
     pageSize: number,
-    content?: string,
+    content?: any,
     startDate?: any,
     endDate?: any,
     isDone?: any
   ) {
     let url = `http://localhost:5280/PhieuMuon/GetAllWithSizeAndIndexAndContent`;
     let params = new HttpParams();
+    console.log(startDate);
+    console.log(endDate);
+    
     if (content) params = params.set('content', content);
-    if (startDate) {
+    if (startDate != '' && startDate) {
       params = params.set('startDate', startDate);
     }
-    if (endDate) {
+    if (endDate != '' && endDate) {
       params = params.set('endDate', endDate);
     }
     console.log(isDone);
-    
-    if (isDone==0||isDone==3||isDone==1||isDone==2) params = params.set('isDone', isDone);
+
+    if (isDone == 0 || isDone == 3 || isDone == 1 || isDone == 2)
+      params = params.set('isDone', isDone);
 
     return this.httpClient.get<any[]>(url + `/${pageIndex}/${pageSize}`, {
       params,

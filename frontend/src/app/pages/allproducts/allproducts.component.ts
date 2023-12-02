@@ -25,26 +25,34 @@ export class AllproductsComponent implements OnInit {
   pageIndex: number = 1;
   itemInPage: number = 8;
   query: string = '';
-  catid?: number = 0;
+  catid?: any = 0;
+
   CategoryList: any[] = [];
   toBookDetail(id: any) {
     this.router.navigate([`admin/detail/${id}`]);
   }
 
-  setCat(index: number) {
+  setCat(index: null) {
+    this.catid = index;
     this.router.navigate(['admin/search'], {
       queryParams: { q: this.value, cat: index },
     });
   }
   onSubmit() {
     console.log(this.value);
-    this.query=this.value;
+    this.query = this.value;
     this.setDataWithPageIndex(this.pageIndex, this.itemInPage);
     // this.router.navigate(['admin/search'], {
     //   queryParams: { q: this.value },
     // });
   }
 
+  getCatName(id: any) {
+    this.CategoryList.forEach((item) => {
+      if (item.id == id) return item.tenchude;
+      console.log(item);
+    });
+  }
   getListCat() {
     this.bookService.getAllCatgory().subscribe({
       next: (list) => {
@@ -56,7 +64,7 @@ export class AllproductsComponent implements OnInit {
   }
   loadData() {
     this.bookService
-      .getBookWithIndexPageAndPageSize(this.pageIndex, this.itemInPage)
+      .getBookWithPageIndexPageSizeCatIdContent(this.pageIndex, this.itemInPage)
       .subscribe((item) => {
         console.log(item[0].imageData);
 
@@ -65,66 +73,78 @@ export class AllproductsComponent implements OnInit {
       });
   }
   setDataWithPageIndex(pageIndex: number, pageSize: number) {
-    if (
-      (this.query == null || this.query == '') &&
-      this.catid != 0 &&
-      this.catid != null
-    ) {
-      // console.log('handle only catid:', this.catid);
-      this.bookService
-        .getBookWithPageIndexPageSizeCatId(pageIndex, pageSize, this.catid)
-        .subscribe({
-          next: (list) => {
-            // console.log(list);
-            this.listbook = list;
-          },
-        });
-    } else if (this.query != null && this.query != '' && (this.catid == 0 || this.catid == null)) {
-      // console.log('handle query only:', this.query);
-      this.bookService
-        .getBookWithPageIndexPageSizeCatIdContent(
-          pageIndex,
-          pageSize,
-          0,
-          this.query
-        )
-        .subscribe({
-          next: (list) => {
-            this.listbook = list;
-          },
-        });
-    } else if (
-      this.query != null &&
-      this.query != '' &&
-      this.catid != 0 &&
-      this.catid != null
-    ) {
-      this.bookService
-        .getBookWithPageIndexPageSizeCatIdContent(
-          pageIndex,
-          pageSize,
-          this.catid,
-          this.query
-        )
-        .subscribe({
-          next: (list) => {
-            // console.log(list);
-            this.listbook = list;
-            // this.checkifnotfound();
-          },
-          error: (e) => {
-            // console.log(e);
-          },
-        });
-    } else {
-      this.bookService
-        .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
-        .subscribe({
-          next: (list) => {
-            this.listbook = list;
-          },
-        });
-    }
+    this.bookService
+      .getBookWithPageIndexPageSizeCatIdContent(
+        pageIndex,
+        pageSize,
+        this.catid,
+        this.query,
+        null
+      )
+      .subscribe((data) => {
+        this.listbook = data;
+      });
+
+    // if (
+    //   (this.query == null || this.query == '') &&
+    //   this.catid != 0 &&
+    //   this.catid != null
+    // ) {
+    //   // console.log('handle only catid:', this.catid);
+    //   this.bookService
+    //     .getBookWithPageIndexPageSizeCatId(pageIndex, pageSize, this.catid)
+    //     .subscribe({
+    //       next: (list) => {
+    //         // console.log(list);
+    //         this.listbook = list;
+    //       },
+    //     });
+    // } else if (this.query != null && this.query != '' && (this.catid == 0 || this.catid == null)) {
+    //   // console.log('handle query only:', this.query);
+    //   this.bookService
+    //     .getBookWithPageIndexPageSizeCatIdContent(
+    //       pageIndex,
+    //       pageSize,
+    //       0,
+    //       this.query
+    //     )
+    //     .subscribe({
+    //       next: (list) => {
+    //         this.listbook = list;
+    //       },
+    //     });
+    // } else if (
+    //   this.query != null &&
+    //   this.query != '' &&
+    //   this.catid != 0 &&
+    //   this.catid != null
+    // ) {
+    //   this.bookService
+    //     .getBookWithPageIndexPageSizeCatIdContent(
+    //       pageIndex,
+    //       pageSize,
+    //       this.catid,
+    //       this.query
+    //     )
+    //     .subscribe({
+    //       next: (list) => {
+    //         // console.log(list);
+    //         this.listbook = list;
+    //         // this.checkifnotfound();
+    //       },
+    //       error: (e) => {
+    //         // console.log(e);
+    //       },
+    //     });
+    // } else {
+    //   this.bookService
+    //     .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
+    //     .subscribe({
+    //       next: (list) => {
+    //         this.listbook = list;
+    //       },
+    //     });
+    // }
   }
   //========================HANDLE IMAG STUFF=================================
   getSafeImageUrl(base64: any): SafeUrl {
@@ -189,8 +209,8 @@ export class AllproductsComponent implements OnInit {
     this.loadData();
     this.getListCat();
     this.route.queryParams.subscribe((queryParams) => {
-      console.log("called");
-      
+      console.log('called');
+
       this.query = queryParams['q'];
       this.catid = queryParams['cat'];
       this.setDataWithPageIndex(this.pageIndex, this.itemInPage);

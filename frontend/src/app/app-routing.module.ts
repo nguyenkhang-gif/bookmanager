@@ -57,7 +57,7 @@ const routes: Routes = [
     children:[
       {
         path:"",
-        component:HomeAdminComponentComponent,
+        component:AllproductsComponent,
         pathMatch:"full",
         // title:"Home"
       },
