@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using backend.DataAccess;
@@ -53,18 +54,29 @@ namespace backend.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult> Update([FromBody] TacGium item)
         {
-            // byte[] encodedBytes = Encoding.UTF8.GetBytes(item.Tentacgia);
 
-            // // Chuyển mảng byte thành chuỗi dạng Base64 (hoặc một phương thức mã hóa khác tùy chọn)
-            // string encodedString = Convert.ToBase64String(encodedBytes);
-
-            // // Lưu vào cơ sở dữ liệu
-            // item.Tentacgia = encodedString;
             try
             {
                 context.TacGia.Update(item);
                 await context.SaveChangesAsync();
-                return Ok();
+                return Ok("edit thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
+
+
+        [HttpDelete("[action]/{id}")]
+
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                await context.TacGia.DeleteAsync(id);
+                await context.SaveChangesAsync();
+                return Ok("delete thành công");
             }
             catch (Exception e)
             {

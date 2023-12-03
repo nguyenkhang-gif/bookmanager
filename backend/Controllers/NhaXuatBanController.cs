@@ -24,7 +24,8 @@ namespace backend.Controllers
 
 
         [HttpGet("[action]")]
-        public async Task<IEnumerable<NhaXuatBan>> get(){
+        public async Task<IEnumerable<NhaXuatBan>> get()
+        {
             return await context.NhaXuatBans.GetAsync();
         }
 
@@ -32,6 +33,51 @@ namespace backend.Controllers
         public Task<NhaXuatBan> getWithId([FromRoute] int id)
         {
             return context.NhaXuatBans.getSingleAsync(id);
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Insert([FromBody] NhaXuatBan item)
+        {
+            try
+            {
+                context.NhaXuatBans.InsertAsync(item);
+                await context.SaveChangesAsync();
+                return Ok("add thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Update([FromBody] NhaXuatBan item)
+        {
+            try
+            {
+                context.NhaXuatBans.Update(item);
+                await context.SaveChangesAsync();
+                return Ok("update thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                await context.NhaXuatBans.DeleteAsync(id);
+                await context.SaveChangesAsync();
+                return Ok("update thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
         }
 
     }
