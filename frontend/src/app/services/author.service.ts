@@ -17,7 +17,12 @@ export class AuthorService {
   }
 
   insert(item: any) {
-    console.log();
     return this.httpClient.post(`http://localhost:5280/tacGium/Insert`, item);
+  }
+  update(item: any) {
+    return this.httpClient.post(`http://localhost:5280/tacGium/Update`, item);
+  }
+  delete(id: any) {
+    return this.httpClient.delete(`http://localhost:5280/tacGium/Delete/${id}`);
   }
 }

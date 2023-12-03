@@ -14,6 +14,8 @@ import { ImageService } from 'src/app/services/image.service';
 import { checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { PublisherService } from 'src/app/services/publisher.service';
 
 @Component({
   selector: 'app-add-product',
@@ -31,7 +33,9 @@ export class AddProductComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private imageService: ImageService,
     private checkoutService: CheckoutService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private catService: CategoryService,
+    private publisherService: PublisherService
   ) {}
   // bookForm: FormGroup;
   bookForm = this.formBuilder.group({
@@ -65,23 +69,6 @@ export class AddProductComponent implements OnInit {
   isLoading = true;
 
   // END OF CÁC BIÊN`
-  loadBookData(book: any): void {
-    // this.bookForm.patchValue({
-    //   chieudai: book.chieudai,
-    //   chieurong: book.chieurong,
-    //   chudeid: book.chudeid,
-    //   borrowCount: book.borrowCount,
-    //   dinhdang: book.dinhdang,
-    //   dongia: book.dongia,
-    //   hinhanh: book.hinhanh,
-    //   nhaxuatbanid: book.nhaxuatbanid,
-    //   soluong: book.soluong,
-    //   sotrang: book.sotrang,
-    //   tacgiaid: book.tacgiaid,
-    //   tensach: book.tensach,
-    //   duocMuon: book.duocMuon,
-    // });
-  }
 
   // =======HANDLE TỰ ĐỘNG CẬP NHẬT LƯỢT MƯỢN===========
   handleAutoFillBorrowCount() {
@@ -100,7 +87,7 @@ export class AddProductComponent implements OnInit {
       next: (book) => {
         // this.bookInfo = book;
         console.log('book:', book);
-        this.loadBookData(book);
+
         if (book.duocMuon == 1) {
           this.isBorrow = true;
         } else {
@@ -317,30 +304,29 @@ export class AddProductComponent implements OnInit {
 
   loadAllData() {
     this.loaddata(this.route.url.split('/')[3]);
-    this.bookService.getAllCatgory().subscribe((list) => {
-      console.log(list);
-      this.catList = list;
-      console.log(this.catList);
-    });
+    this.loadAllCat();
+    this.loadAllPub();
     // this.loadImge();
     // this.getImage(this.route.url.split('/')[3]);
     this.authorService.getAllAuthtor().subscribe((item) => {
       console.log(item);
       this.authorList = item;
     });
-    this.bookService.getAllProducer().subscribe((list) => {
-      console.log(list);
-      this.producerInfoList = list;
-    });
   }
 
   // ============================HANDLE ADD AUTHOR
   authorToAdd: any = '';
+  auhtorToEdit: any;
   handleAddAuthor() {
     console.log(this.authorToAdd);
     this.authorService.insert({ tentacgia: this.authorToAdd }).subscribe({
       next: (data) => {
         this.snackbarService.showSuccess('add thành công 2 ????');
+        this.authorService.getAllAuthtor().subscribe((item) => {
+          console.log(item);
+          this.authorList = item;
+        });
+        this.authorToAdd = '';
         console.log(data);
       },
       error: (e) => {
@@ -353,12 +339,202 @@ export class AddProductComponent implements OnInit {
   // ============================END OF HANDLE ADD AUTHOR
   // ============================HANDLE ADD cat
   catToAdd: any = '';
+  catToEdit: any;
   handleAddCat() {
     console.log(this.catToAdd);
+
+    this.catService.insert({ tenchude: this.catToAdd }).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('add thành công');
+        this.loadAllCat();
+      },
+    });
+  }
+  startEditCat(item: any) {
+    this.popupWindowTitle = 'Edit chủ đề';
+    this.popupWindowLabel = 'Tên chủ đề';
+    this.editType = 'cat';
+    this.catToEdit = item;
+    this.editContent = item.tenchude;
+    this.openFullscreen = true;
+    this.openPopupWinDow = true;
   }
 
-  // ============================END OF HANDLE ADD AUTHOR
+  editCat(item: any) {
+    item.tenchude = this.editContent;
+    this.catService.update(item).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.snackbarService.showSuccess('edit thành CÔng!!!');
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('edit thành CÔng!!!');
+        // this.editContent=''
+      },
+    });
+    // chưa có service rỏ ráng cho cat
+  }
+  handleDeleteCat(item: any) {
+    this.catService.delete(item.id).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('Xóa thành công');
+        this.loadAllCat();
+      },
+    });
+  }
 
+  // ============================END OF HANDLE ADD cat
+
+  // =============HANDLE mở popu winddow
+  openFullscreen = false;
+  openPopupWinDow = false;
+  popupWindowTitle = 'Edit';
+  popupWindowLabel = 'Edit';
+  editContent = 'Something';
+  editType = '';
+
+  closePopupWin() {
+    this.popupWindowTitle = 'Edit';
+    this.popupWindowLabel = 'Edit';
+    this.editContent = 'Something';
+    this.openFullscreen = false;
+    this.openPopupWinDow = false;
+  }
+
+  // =============end of HANDLE mở popu winddow
+
+  // ============edit and delete auhtor=============
+
+  startEditAuthor(item: any) {
+    this.popupWindowTitle = 'Edit Tác Giả';
+    this.popupWindowLabel = 'Tên Tác Giả';
+    this.editType = 'author';
+    this.auhtorToEdit = item;
+    this.editContent = item.tentacgia;
+    this.openFullscreen = true;
+    this.openPopupWinDow = true;
+  }
+
+  editAuthor(item: any) {
+    console.log(item);
+    item.tentacgia = this.editContent;
+    this.authorService.update(item).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.snackbarService.showSuccess('edit thành CÔng!!!');
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('edit thành CÔng!!!');
+      },
+    });
+  }
+  handleDeleteAuthor(item: any) {
+    this.authorService.delete(item.id).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('Xóa thành công');
+        this.authorService.getAllAuthtor().subscribe((item) => {
+          console.log(item);
+          this.authorList = item;
+        });
+      },
+    });
+  }
+  // ============end of edit and delete auhtor=============
+
+  // =====================Publisher
+  pubToAdd = '';
+  pubToEdit: any;
+  startEditPub(item: any) {
+    this.popupWindowTitle = 'Edit Nhà Xuất Bản';
+    this.popupWindowLabel = 'Tên Nhà Xuất Bản';
+    this.editType = 'publisher';
+    this.pubToEdit = item;
+    this.editContent = item.tennhaxuatban;
+    this.openFullscreen = true;
+    this.openPopupWinDow = true;
+  }
+
+  handleAddPub() {
+    console.log(this.pubToAdd);
+    this.publisherService.insert({ tennhaxuatban: this.pubToAdd }).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('add thành công');
+        this.loadAllPub();
+      },
+    });
+  }
+
+  editPub(item: any) {
+    item.tennhaxuatban = this.editContent;
+    this.publisherService.update(item).subscribe({
+      next: (data) => {
+        console.log(data);
+        // this.snackbarService.showSuccess('edit thành CÔng!!!');
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('edit thành CÔng!!!');
+        this.loadAllPub();
+      },
+    });
+  }
+  handleDeletePub(item: any) {
+    this.publisherService.delete(item.id).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        this.snackbarService.showSuccess('Xóa thành công');
+        this.loadAllPub();
+      },
+    });
+  }
+
+  // =====================end of Publisher
+
+  //=========save all edit
+
+  // ==================REFACTOR THE GET DATA FUNCTION
+  loadAllCat() {
+    this.bookService.getAllCatgory().subscribe((list) => {
+      console.log(list);
+      this.catList = list;
+      console.log(this.catList);
+    });
+  }
+
+  loadAllPub() {
+    this.bookService.getAllProducer().subscribe((list) => {
+      console.log(list);
+      this.producerInfoList = list;
+    });
+  }
+  // ==================END OF REFACTOR THE GET DATA FUNCTION
+  // =====handk
+  saveEdit() {
+    if (this.editType == 'author') this.editAuthor(this.auhtorToEdit);
+    if (this.editType == 'cat') this.editCat(this.catToEdit);
+    if (this.editType == 'publisher') this.editPub(this.pubToEdit);
+  }
   ngOnInit(): void {
     this.loadAllData();
 

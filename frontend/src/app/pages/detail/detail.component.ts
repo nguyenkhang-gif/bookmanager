@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ElementRef } from '@angular/core';
 import { BookServiceService } from 'src/app/services/book-service.service';
 import { NgFor, NgIf } from '@angular/common';
@@ -31,6 +31,7 @@ export class DetailComponent implements OnInit {
     private authorService: AuthorService,
     private serviceUser: UserService,
     private route: Router,
+    private router: ActivatedRoute,
     private service: BookServiceService,
     private FollowSer: FollowService,
     private titleService: TitleService,
@@ -147,7 +148,9 @@ export class DetailComponent implements OnInit {
         console.log('book:', book);
         // this.imgurl = `../../../assets/books/${book.hinhanh}`;
         this.fetchComments(book.id);
+        this.loadSameCatBook(book.chudeid);
         this.loadComment();
+        this.handleFollow();
         this.service.getCatgory(book.chudeid).subscribe({
           next: (cat) => {
             // lấy chủ đề
@@ -286,10 +289,28 @@ export class DetailComponent implements OnInit {
   }
 
   // =========================END OF HANDLE PAGENITE
+  // =========================HANDLE RECOMMEND BOOKS
+  toBook(id: any) {
+    this.route.navigate(['/detail', id]);
+    this.loaddata(id);
+    // this.handleFollow()
+  }
+  sameCatList: any[] = [];
+
+  loadSameCatBook(catID: any) {
+    // lấy 8 thôi or lấy ngẫu nhiên
+    this.service
+      .getBookWithPageIndexPageSizeCatIdContent(1, 8, catID)
+      .subscribe((data) => {
+        console.log(data);
+        this.sameCatList = data;
+      });
+  }
 
   ngOnInit(): void {
-    this.handleFollow();
+    // this.handleFollow();
     console.log('on route', this.route.url.split('/')[2]);
     this.loaddata(this.route.url.split('/')[2]);
+   
   }
 }

@@ -14,13 +14,14 @@ td {
     padding-right: 8px;
 }
 
-.title{
+.title {
     font-weight: 900;
     font-size: 30px;
     margin-top: 20px;
 }
+
 .container {
-   
+
     margin-top: 100px;
     // background-color:#13aa52;
     display: flex;
@@ -38,7 +39,8 @@ td {
     border-radius: 30px;
     padding-bottom: 100px;
 }
-.lightouter{
+
+.lightouter {
     width: 40%;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -122,4 +124,25 @@ td {
     .button-37 {
         padding: 10px 30px;
     }
+}
+
+
+.edit-comment-container {
+    position: relative;
+    min-width: 200px;
+    // min-height: 400px;
+    width: 50vw;
+    // min-height: 50vh;
+    background-color: #F0F0F1;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: space-around;
 }

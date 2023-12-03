@@ -175,45 +175,241 @@
 <div class="container outer">
   <p class="title">Thêm tác giả và chủ đề</p>
   <!-- handle add tác giả  -->
-  <div class="container lightouter">
-    <p class="title">Tác giả</p>
-    <mat-form-field
-      class="example-full-width"
-      style="width: 40%; margin-top: 20px"
-      type="SUBMIT"
+  <div class="" style="display: flex; align-items: center">
+    <div class="container lightouter" style="width: 300px">
+      <p class="title">Tác giả</p>
+      <mat-form-field
+        class="example-full-width"
+        style="width: 80%; margin-top: 20px"
+        type="SUBMIT"
+      >
+        <mat-label>Tên tác giả</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="authorToAdd"
+          placeholder="Ex. It makes me feel..."
+          style="min-height: 50px"
+        ></textarea>
+      </mat-form-field>
+      <button class="btn btn-primary" (click)="handleAddAuthor()">Thêm</button>
+    </div>
+    <div
+      class="container-item"
+      style="
+        width: 500px;
+        display: flex;
+        flex-wrap: wrap;
+        height: 250px;
+        margin: 50px;
+        margin-top: 150px;
+        overflow: scroll;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+          rgb(51, 51, 51) 0px 0px 0px 3px;
+        padding: 20px;
+        border-radius: 20px;
+        scroll-behavior: auto;
+      "
     >
-      <mat-label>Tên tác giả</mat-label>
-      <textarea
-        matInput
-        [(ngModel)]="authorToAdd"
-        placeholder="Ex. It makes me feel..."
-        style="min-height: 50px"
-      ></textarea>
-    </mat-form-field>
-    <button class="btn btn-primary" (click)="handleAddAuthor()">Thêm</button>
+      <div
+        class="item-info"
+        *ngFor="let item of authorList"
+        style="
+          padding: 5px;
+          box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+            rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+            rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+          border-radius: 10px;
+          margin: 10px;
+        "
+      >
+        {{ item.tentacgia }}
+        <button class="btn btn-primary" (click)="startEditAuthor(item)">
+          edit
+        </button>
+        <button class="btn btn-danger" (click)="handleDeleteAuthor(item)">
+          xóa
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="container lightouter">
-    <p class="title">Chủ đề</p>
-    <mat-form-field
-      class="example-full-width"
-      style="width: 40%; margin-top: 20px"
-      type="SUBMIT"
+  <div class="" style="display: flex; align-items: center">
+    <div class="container lightouter" style="width: 300px">
+      <p class="title">Chủ đề</p>
+      <mat-form-field
+        class="example-full-width"
+        style="width: 80%; margin-top: 20px"
+        type="SUBMIT"
+      >
+        <mat-label>Tên chủ đề</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="catToAdd"
+          placeholder="Ex. It makes me feel..."
+          style="min-height: 50px"
+        ></textarea>
+      </mat-form-field>
+      <button class="btn btn-primary" (click)="handleAddCat()">Thêm</button>
+    </div>
+    <div
+      class="container-item"
+      style="
+        width: 500px;
+        display: flex;
+        flex-wrap: wrap;
+        height: 250px;
+        margin: 50px;
+        margin-top: 150px;
+        overflow: scroll;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+          rgb(51, 51, 51) 0px 0px 0px 3px;
+        padding: 20px;
+        border-radius: 20px;
+        scroll-behavior: auto;
+      "
     >
-      <mat-label>Tên chủ đề</mat-label>
-      <textarea
-        matInput
-        [(ngModel)]="catToAdd"
-        placeholder="Ex. It makes me feel..."
-        style="min-height: 50px"
-      ></textarea>
-    </mat-form-field>
-    <button class="btn btn-primary" (click)="handleAddCat()">Thêm</button>
+      <div
+        class="item-info"
+        *ngFor="let item of catList"
+        style="
+          padding: 5px;
+          box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+            rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+            rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+          border-radius: 10px;
+          margin: 10px;
+        "
+      >
+        {{ item.tenchude }}
+        <button class="btn btn-primary" (click)="startEditCat(item)">
+          edit
+        </button>
+        <button class="btn btn-danger" (click)="handleDeleteCat(item)">
+          xóa
+        </button>
+      </div>
+    </div>
   </div>
   <!-- ned of handle add tác giả  -->
   <!-- handle add chủ đề  -->
-  
+  <!-- Nhà Xuất Bản  -->
+  <div class="" style="display: flex; align-items: center">
+    <div class="container lightouter" style="width: 300px">
+      <p class="title">Nhà xuất bản</p>
+      <mat-form-field
+        class="example-full-width"
+        style="width: 80%; margin-top: 20px"
+        type="SUBMIT"
+      >
+        <mat-label>Tên Nhà xuất bản</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="pubToAdd"
+          placeholder="Ex. It makes me feel..."
+          style="min-height: 50px"
+        ></textarea>
+      </mat-form-field>
+      <button class="btn btn-primary" (click)="handleAddPub()">Thêm</button>
+    </div>
+    <div
+      class="container-item"
+      style="
+        width: 500px;
+        display: flex;
+        flex-wrap: wrap;
+        height: 250px;
+        margin: 50px;
+        margin-top: 150px;
+        overflow: scroll;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+          rgb(51, 51, 51) 0px 0px 0px 3px;
+        padding: 20px;
+        border-radius: 20px;
+        scroll-behavior: auto;
+      "
+    >
+      <div
+        class="item-info"
+        *ngFor="let item of producerInfoList"
+        style="
+          padding: 5px;
+          box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+            rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+            rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+          border-radius: 10px;
+          margin: 10px;
+        "
+      >
+        {{ item.tennhaxuatban }}
+        <button class="btn btn-primary" (click)="startEditPub(item)">
+          edit
+        </button>
+        <button class="btn btn-danger" (click)="handleDeletePub(item)">
+          xóa
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- end of Nhà Xuất Bản  -->
+
   <!-- end of handle add chủ đề  -->
 </div>
 
+<!-- pop out window để xác nhận  -->
+<!-- full screen -->
+<div
+  *ngIf="openFullscreen"
+  class="full-screen-container"
+  style="
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    opacity: 0.3;
+    top: 0;
+    left: 0;
+  "
+></div>
+<!-- end of fullscreen  -->
+<div class="edit-comment-container" *ngIf="openPopupWinDow">
+  <mat-icon
+    style="
+      position: absolute;
+      cursor: pointer;
+      right: 20px;
+      top: 20px;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+        rgb(51, 51, 51) 0px 0px 0px 3px;
+      border-radius: 50%;
+    "
+    (click)="closePopupWin()"
+    >close</mat-icon
+  >
 
+  <p class="title">{{ popupWindowTitle }}</p>
 
+  <mat-form-field
+    class="example-full-width"
+    style="width: 80%; min-height: 200px; margin-top: 20px"
+  >
+    <mat-label>{{ popupWindowLabel }}</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="editContent"
+      placeholder="Ex. It makes me feel..."
+      style="min-height: 200px"
+    ></textarea>
+  </mat-form-field>
+  <button
+    class="btn btn-primary"
+    style="margin-bottom: 20px; padding: 10px 40px"
+    (click)="saveEdit()"
+  >
+    Lưu
+  </button>
+</div>
+
+<!-- pop out window để xác nhận  -->
+
+<!-- popup window để confrim xóa -->

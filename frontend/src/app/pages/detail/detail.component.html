@@ -61,8 +61,30 @@
     </div>
   </div>
   <!-- SÁCH CÙNG THỂ LOẠI -->
-  <div class="container-main">
-    <p>Sách cùng thể loại</p>
+  <div class="container-main" style="position: relative">
+    <p style="position: absolute; top: 5; left: 15;font-size: 20px;font-weight: 700;">Sách cùng thể loại</p>
+    <div class="container-slide-outer" style="overflow: scroll">
+      <div
+        class="container-inner"
+        style="width: 2000px; display: flex; padding: 20px"
+      >
+        <div
+          class="one-book-item"
+          *ngFor="let item of sameCatList"
+          style="
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            align-items: center;
+          "
+          (click)="toBook(item.id)"
+        >
+          <img [src]="getSafeImageUrl(item.imageData)" alt="" />
+          <p style="font-size: 20px; font-weight: 800">{{ item.tensach }}</p>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- SÁCH CÙNG THỂ LOẠI -->
 
