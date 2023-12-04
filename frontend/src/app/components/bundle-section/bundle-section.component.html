@@ -5,9 +5,8 @@
       class="mySlides"
       [style.transform]="'translateX(' + currentIndex * transtlate + 'px)'"
     >
-     
       <div class="container-main">
-        <div class="averate-Rate" *ngIf="averateRate != 0 &&i==0">
+        <div class="averate-Rate" *ngIf="averateRate != 0 && i == 0">
           <p>900</p>
         </div>
         <img
@@ -17,7 +16,9 @@
         />
         <div class="container-book-info">
           <p class="book-name">{{ slide.tensach }}</p>
-          <p class="author-name">tác giả : {{ slide.tensach }}</p>
+          <p class="author-name">
+            tác giả : {{ slide.tacgia.tentacgia || "không có" }}
+          </p>
         </div>
       </div>
     </div>

@@ -21,12 +21,11 @@ export class CommentService {
     if (bookid) querys = querys.set('bookid', bookid);
     if (userid) querys = querys.set('userid', userid);
     if (rating) querys = querys.set('rating', rating);
-     querys = querys.set('lowToHighSort', lowToHighSort);
+    querys = querys.set('lowToHighSort', lowToHighSort);
     // console.log(lowToHighSort==true?"true":"false");
-    
 
     console.log(querys);
-    
+
     return this.httpClient.get<any[]>(
       `http://localhost:5280/NhanXet/getWithPageIndexAndPageItem/${pageIndex}/${pageSize}`,
       { params: querys }
@@ -39,5 +38,11 @@ export class CommentService {
 
   delete(id: any) {
     return this.httpClient.delete(`http://localhost:5280/NhanXet/Delete/${id}`);
+  }
+
+  deleteWithBookId(bookid: any) {
+    return this.httpClient.delete(
+      `http://localhost:5280/NhanXet/DeleteWithBookId/${bookid}`
+    );
   }
 }

@@ -140,6 +140,7 @@ export class ProfileAdminComponent implements OnInit {
                 item != 'error'
               ) {
                 localStorage.setItem('authToken', item);
+                this.snackBarService.showSuccess('thay đổi thành công ');
               }
             },
             error: (e) => {

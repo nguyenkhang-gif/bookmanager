@@ -210,7 +210,7 @@
         <!-- end of search delete comment -->
         <div class="comment-container">
           <div class="container-single-comment" *ngFor="let item of allComment">
-            <div class="container-user-comment">
+            <div class="container-user-comment" style="cursor: pointer;" [routerLink]="['/detail',item.sachid]">
               <img [src]="getSafeImageUrl(item.sach.imageData)" alt="" />
             </div>
             <div class="outer-comment">

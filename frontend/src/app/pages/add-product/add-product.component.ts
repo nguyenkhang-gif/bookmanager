@@ -288,6 +288,7 @@ export class AddProductComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log(data);
+          this.snackbarService.showSuccess('add thành công ');
         },
         error: (e) => {
           console.log(e);

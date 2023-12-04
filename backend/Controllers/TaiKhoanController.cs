@@ -338,7 +338,7 @@ namespace backend.Controllers
         [HttpGet("[action]/{pageIndex}/{pageSize}")]
         public async Task<IEnumerable<TaiKhoan>> GetAllWithSizeAndIndexAndCateAndContent([FromRoute] int pageIndex, int pageSize, [FromQuery] string content)
         {
-            return await context.TaiKhoans.GetAsync(pageIndex, pageSize, item => string.IsNullOrEmpty(content) || item.FirstName.Contains(content) || item.LastName.Contains(content) || item.phone_number.Contains(content) || item.email.Contains(content)||item.Id.ToString().Contains(content));
+            return await context.TaiKhoans.GetAsync(pageIndex, pageSize, item => string.IsNullOrEmpty(content) || item.FirstName.Contains(content) || item.LastName.Contains(content) || item.phone_number.Contains(content) || item.email.Contains(content) || item.Id.ToString().Contains(content));
         }
 
         private string ConvertToPaddedString(int? number)

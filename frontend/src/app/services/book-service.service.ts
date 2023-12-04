@@ -106,6 +106,9 @@ export class BookServiceService {
 
     if (catid != null) query = query.set('catid', catid);
     if (content != null) query = query.set('content', content);
+    if (tacgiaid != null) query = query.set('authorid', tacgiaid);
+    console.log(tacgiaid);
+    
 
     // let url = `http://localhost:5280/Dbosach/GetAllWithSizeAndIndexAndCateAndContent/${pageIndex}/${pageSize}?catid=${catid}&content=${content}`;
     // if (catid == 0)
@@ -197,4 +200,8 @@ export class BookServiceService {
     return this.httpClient.post(`http://localhost:5280/Dbosach/Insert`, item);
   }
   //  =============================END OF INSERT BOOK==========
+
+  delete(id: any) {
+    return this.httpClient.delete(`http://localhost:5280/Dbosach/Delete/${id}`);
+  }
 }

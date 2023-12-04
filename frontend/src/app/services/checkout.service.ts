@@ -55,7 +55,7 @@ export class CheckoutService {
     let params = new HttpParams();
     console.log(startDate);
     console.log(endDate);
-    
+
     if (content) params = params.set('content', content);
     if (startDate != '' && startDate) {
       params = params.set('startDate', startDate);
@@ -76,6 +76,11 @@ export class CheckoutService {
   deleteRequestWithId(id: any) {
     return this.httpClient.delete(
       `http://localhost:5280/SachMuon/Delete/${id}`
+    );
+  }
+  deleteRequestWithBookId(bookid: any) {
+    return this.httpClient.delete(
+      `http://localhost:5280/SachMuon/DeleteWithBookId/${bookid}`
     );
   }
 

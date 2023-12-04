@@ -4,6 +4,9 @@ import { BookServiceService } from 'src/app/services/book-service.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Book } from 'src/app/models/Book';
 import { JsonPipe } from '@angular/common';
+import { CommentService } from 'src/app/services/comment.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { CheckoutService } from 'src/app/services/checkout.service';
 // import { LocalStorageService } from 'angular-webstorage-service';
 
 @Component({
@@ -17,7 +20,10 @@ export class AllproductsComponent implements OnInit {
     private bookService: BookServiceService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer // private localStorage: LocalStorageService
+    private sanitizer: DomSanitizer,
+    private commentService: CommentService,
+    private snackBarService: SnackbarService,
+    private checkoutService: CheckoutService
   ) {}
   listbook: Book[] = [];
   value = '';
@@ -84,67 +90,6 @@ export class AllproductsComponent implements OnInit {
       .subscribe((data) => {
         this.listbook = data;
       });
-
-    // if (
-    //   (this.query == null || this.query == '') &&
-    //   this.catid != 0 &&
-    //   this.catid != null
-    // ) {
-    //   // console.log('handle only catid:', this.catid);
-    //   this.bookService
-    //     .getBookWithPageIndexPageSizeCatId(pageIndex, pageSize, this.catid)
-    //     .subscribe({
-    //       next: (list) => {
-    //         // console.log(list);
-    //         this.listbook = list;
-    //       },
-    //     });
-    // } else if (this.query != null && this.query != '' && (this.catid == 0 || this.catid == null)) {
-    //   // console.log('handle query only:', this.query);
-    //   this.bookService
-    //     .getBookWithPageIndexPageSizeCatIdContent(
-    //       pageIndex,
-    //       pageSize,
-    //       0,
-    //       this.query
-    //     )
-    //     .subscribe({
-    //       next: (list) => {
-    //         this.listbook = list;
-    //       },
-    //     });
-    // } else if (
-    //   this.query != null &&
-    //   this.query != '' &&
-    //   this.catid != 0 &&
-    //   this.catid != null
-    // ) {
-    //   this.bookService
-    //     .getBookWithPageIndexPageSizeCatIdContent(
-    //       pageIndex,
-    //       pageSize,
-    //       this.catid,
-    //       this.query
-    //     )
-    //     .subscribe({
-    //       next: (list) => {
-    //         // console.log(list);
-    //         this.listbook = list;
-    //         // this.checkifnotfound();
-    //       },
-    //       error: (e) => {
-    //         // console.log(e);
-    //       },
-    //     });
-    // } else {
-    //   this.bookService
-    //     .getBookWithIndexPageAndPageSize(pageIndex, pageSize)
-    //     .subscribe({
-    //       next: (list) => {
-    //         this.listbook = list;
-    //       },
-    //     });
-    // }
   }
   //========================HANDLE IMAG STUFF=================================
   getSafeImageUrl(base64: any): SafeUrl {
@@ -202,6 +147,71 @@ export class AllproductsComponent implements OnInit {
   }
 
   ///================Card handle====================
+  // ===================handle delete book
+  isConfirmWindowOpen = false;
+  loading = false;
+  deleteDone = false;
+  bookToDelete: any;
+  handleCloseAll() {
+    if (!this.loading) {
+      this.isConfirmWindowOpen = false;
+      this.bookToDelete = null;
+    }
+  }
+  startDelete(item: any) {
+    this.isConfirmWindowOpen = true;
+    this.bookToDelete = item;
+    console.log(item);
+  }
+  spinDisk = false;
+  handleDelete() {
+    this.loading = true;
+    this.spinDisk = true;
+    console.log(this.bookToDelete.id);
+
+    this.commentService.deleteWithBookId(this.bookToDelete.id).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => {
+        console.log(e);
+        if (e.status == 200)
+          this.snackBarService.showSuccess('Xóa Thành công comment');
+        this.checkoutService
+          .deleteRequestWithBookId(this.bookToDelete.id)
+          .subscribe({
+            next: (data) => {
+              console.log(data);
+            },
+            error: (e) => {
+              console.log(e);
+              if (e.status == 200)
+                this.snackBarService.showSuccess('Xóa Thành công phiếu');
+              this.bookService.delete(this.bookToDelete.id).subscribe({
+                next: (data) => {
+                  console.log(data);
+                  this.deleteDone = true;
+                  this.loading=false;
+                  this.snackBarService.showSuccess('xóa hoàn tất');
+                  this.loadData();
+                },
+                error: (e) => {
+                  console.log(e);
+
+                  if (e.status == 200) {
+                    this.deleteDone = true;
+                    this.snackBarService.showSuccess('xóa hoàn tất');
+                    this.loadData();
+                  }
+                },
+              });
+            },
+          });
+      },
+    });
+  }
+
+  // ======================end of handle delete book
 
   ngOnInit(): void {
     this.cardList = this.getData('card');

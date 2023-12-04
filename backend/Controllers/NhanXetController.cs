@@ -119,5 +119,20 @@ namespace backend.Controllers
             }
         }
 
+        [HttpDelete("[action]/{bookid}")]
+        public async Task<IActionResult> DeleteWithBookId([FromRoute] int bookid)
+        {
+            try
+            {
+                await context.NhanXets.DeleteAsync(item => item.Sachid == bookid);
+                await context.SaveChangesAsync();
+                return Ok("Xóa thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
+
     }
 }

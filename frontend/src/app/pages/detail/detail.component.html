@@ -62,7 +62,17 @@
   </div>
   <!-- SÁCH CÙNG THỂ LOẠI -->
   <div class="container-main" style="position: relative">
-    <p style="position: absolute; top: 5; left: 15;font-size: 20px;font-weight: 700;">Sách cùng thể loại</p>
+    <p
+      style="
+        position: absolute;
+        top: 5;
+        left: 15;
+        font-size: 20px;
+        font-weight: 700;
+      "
+    >
+      Sách cùng thể loại
+    </p>
     <div class="container-slide-outer" style="overflow: scroll">
       <div
         class="container-inner"
@@ -86,19 +96,55 @@
       </div>
     </div>
   </div>
+  <div class="container-main" style="position: relative">
+    <p
+      style="
+        position: absolute;
+        top: 5;
+        left: 15;
+        font-size: 20px;
+        font-weight: 700;
+      "
+    >
+      Sách cùng tác giả {{author}}
+    </p>
+    <div class="container-slide-outer" style="overflow: scroll">
+      <div
+        class="container-inner"
+        style="width: 2000px; display: flex; padding: 20px"
+      >
+        <div
+          class="one-book-item"
+          *ngFor="let item of sameAuthorList"
+          style="
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            align-items: center;
+          "
+          (click)="toBook(item.id)"
+        >
+          <img [src]="getSafeImageUrl(item.imageData)" alt="" />
+          <p style="font-size: 20px; font-weight: 800">{{ item.tensach }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- SÁCH CÙNG THỂ LOẠI -->
 
   <div class="container-main comment">
     <p class="comment-title">Đánh giá</p>
-    <div class="comment-form">
-      <form (ngSubmit)="handleAddComment()">
+    <div class="comment-form" style="position: relative;">
+      <form (ngSubmit)="handleAddComment()" >
         <p class="add-comment-p">thêm đánh giá của bạn ở đây</p>
         <textarea
           class="comment-add-box"
+          style="min-height: 50px;"
           [(ngModel)]="commentText"
           [ngModelOptions]="{ standalone: true }"
         ></textarea>
-        <button type="submit" class="borow-btn">add comment</button>
+        <button type="submit" class="borow-btn" style="position: absolute; top: 50%;transform: translate(0,-50%);" >add comment</button>
       </form>
 
       <!-- <mat-icon class="star-icon">star</mat-icon> -->

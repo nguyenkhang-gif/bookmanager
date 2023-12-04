@@ -51,8 +51,9 @@ namespace backend.Controllers
 
         [HttpGet("[action]/{bookid}")]
 
-        public async Task<IEnumerable<SachMuon>>getWithBookId([FromRoute] int bookid){
-            return await context.SachMuons.GetAsync(item=>item.Sachid==bookid);
+        public async Task<IEnumerable<SachMuon>> getWithBookId([FromRoute] int bookid)
+        {
+            return await context.SachMuons.GetAsync(item => item.Sachid == bookid);
         }
 
 
@@ -113,6 +114,22 @@ namespace backend.Controllers
                 await context.SachMuons.DeleteAsync(item => item.Phieumuonid == checkoutid);
                 await context.SaveChangesAsync();
                 return Ok("xóa thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
+
+
+        [HttpDelete("[action]/{bookid}")]
+        public async Task<IActionResult> DeleteWithBookId([FromRoute] int bookid)
+        {
+            try
+            {
+                await context.SachMuons.DeleteAsync(item => item.Sachid == bookid);
+                await context.SaveChangesAsync();
+                return Ok("Xóa thành công");
             }
             catch (Exception e)
             {

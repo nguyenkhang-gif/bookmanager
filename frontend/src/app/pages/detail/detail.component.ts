@@ -149,6 +149,7 @@ export class DetailComponent implements OnInit {
         // this.imgurl = `../../../assets/books/${book.hinhanh}`;
         this.fetchComments(book.id);
         this.loadSameCatBook(book.chudeid);
+        this.loadSameAuhtorBook(this.bookInfo.tacgiaid);
         this.loadComment();
         this.handleFollow();
         this.service.getCatgory(book.chudeid).subscribe({
@@ -307,10 +308,21 @@ export class DetailComponent implements OnInit {
       });
   }
 
+  sameAuthorList: any[] = [];
+
+  loadSameAuhtorBook(auhtorID: any) {
+    // lấy 8 thôi or lấy ngẫu nhiên
+    this.service
+      .getBookWithPageIndexPageSizeCatIdContent(1, 8, null, null, auhtorID)
+      .subscribe((data) => {
+        console.log(data);
+        this.sameAuthorList = data;
+      });
+  }
+
   ngOnInit(): void {
     // this.handleFollow();
     console.log('on route', this.route.url.split('/')[2]);
     this.loaddata(this.route.url.split('/')[2]);
-   
   }
 }

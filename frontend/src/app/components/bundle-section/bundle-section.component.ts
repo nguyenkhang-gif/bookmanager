@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { Book } from 'src/app/models/Book';
+import { BookCardService } from 'src/app/pages/services/book-card.service';
+import { AuthorService } from 'src/app/services/author.service';
 import { BookServiceService } from 'src/app/services/book-service.service';
 import { ImageService } from 'src/app/services/image.service';
 
@@ -18,16 +20,16 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
   averateRate = 0;
   constructor(
     private service: BookServiceService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private authService: AuthorService
   ) {}
   // private intervalSubscription: Subscription;
 
-  getSafeImageUrl(data:any){
-    return this.imageService.getSafeImageUrl(data)
+  getSafeImageUrl(data: any) {
+    return this.imageService.getSafeImageUrl(data);
   }
 
   clicktest() {
- 
     console.log(this.mostCommentRateView);
   }
   nextSlide() {
@@ -42,15 +44,22 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // interval(2000).subscribe(() => {
-    //   this.nextSlide()
-    //   // Đây là nơi bạn đặt code cần thực thi mỗi giây
-    // });
-    this.service.getThreeStuff((templist: Book[], averateRate) => {
+    this.service.getThreeStuff((templist: any[], averateRate) => {
       templist.forEach((item) => {
         console.log(item);
+        this.authService.getAuthorWithBookId(item.tacgiaid).subscribe({
+          next: (data) => {
+            item.tacgia = data;
+            console.log(item);
+            
+            console.log(data);
+          },
+          error: (e) => {
+            console.log(e);
+          },
+        });
         this.averateRate = averateRate;
-        item.hinhanh = `../../../assets/books/${item.hinhanh}`;
+        // item.hinhanh = `../../../assets/books/${item.hinhanh}`;
       });
       // lo
       this.mostCommentRateView = templist;
@@ -59,7 +68,6 @@ export class BundleSectionComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     // Hủy đăng ký subscription để tránh rò rỉ bộ nhớ khi component bị hủy
-    console.log('shit');
     // if (this.intervalSubscription) {
     //   this.intervalSubscription.unsubscribe();
     // }
