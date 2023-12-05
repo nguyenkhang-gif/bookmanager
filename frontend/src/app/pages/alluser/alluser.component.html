@@ -7,13 +7,7 @@
     <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
       <mat-icon>close</mat-icon>
     </button>
-  </mat-form-field>
-  <button mat-button [matMenuTriggerFor]="menu">sắp xếp theo</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>Tên</button>
-    <button mat-menu-item>Tuổi</button>
-  </mat-menu>
-
+  </mat-form-fie
   <button class="button-3" role="button" (click)="onSubmit()">Search</button>
 </div>
 <div class="container-main">
@@ -56,7 +50,14 @@
             >
               Chi tiết
             </button>
-            <button class="button-3 red" role="button">Xóa</button>
+            <!-- <button
+              class="button-3 red"
+              role="button"
+              (click)="startDelete(item)"
+            >
+              Xóa
+            </button> -->
+            <!-- need to work on the delete user -->
           </td>
         </tr>
       </tbody>
@@ -76,5 +77,92 @@
 
 <!-- handle popup comment delete -->
 
+<div
+  class="full-screen"
+  style="
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    position: fixed;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+  "
+  *ngIf="isConfirmWindowOpen"
+></div>
 
+<div
+  class="container-main"
+  style="
+    background-color: white;
+    min-width: 50vw;
+    min-height: 50vh;
+    padding: 50px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  "
+  @fadeIn
+  @fadeOut  
+  *ngIf="isConfirmWindowOpen"
+>
+  <mat-icon
+    style="
+      position: absolute;
+      cursor: pointer;
+      right: 20px;
+      top: 20px;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+        rgb(51, 51, 51) 0px 0px 0px 3px;
+      border-radius: 50%;
+    "
+    (click)="handleCloseAll()"
+    >close</mat-icon
+  >
+
+  <p style="font-size: 25px; font-weight: 900">Xóa User</p>
+  <p style="color: brown; font-weight: 500">
+    Toàn bộ các thông tin liên quan như <br />
+    nhận xét và các phiếu mượn sẽ bị xóa
+  </p>
+  <div
+    class="container-book"
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    "
+    *ngIf="!spinDisk"
+  >
+    <img [src]="getSafeImageUrl(userToDelete.imageData)" style="width: 50%;border-radius: 50%;" alt="?" />
+    <p class="title">{{ userToDelete.username }}</p>
+    
+  </div>
+
+  <div
+    class=""
+    style="
+      display: flex;
+      width: 50%;
+      align-items: center;
+      justify-content: space-around;
+    "
+    *ngIf="!spinDisk"
+  >
+    <button class="btn btn-primary" (click)="handleDelete()">Xóa</button>
+    <button class="btn btn-danger" (click)="handleCloseAll()">Hủy</button>
+  </div>
+  <mat-spinner *ngIf="spinDisk && !deleteDone"></mat-spinner>
+  <p *ngIf="deleteDone">Xóa Thành Công</p>
+</div>
 <!-- handle and popup comment delete -->

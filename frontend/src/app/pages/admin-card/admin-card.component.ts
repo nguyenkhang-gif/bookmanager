@@ -4,6 +4,7 @@ import { BookServiceService } from 'src/app/services/book-service.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Book } from 'src/app/models/Book';
 import { Router } from '@angular/router';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-admin-card',
@@ -13,8 +14,9 @@ import { Router } from '@angular/router';
 export class AdminCardComponent implements OnInit {
   constructor(
     private bookService: BookServiceService,
-    private sanitizer: DomSanitizer ,
-    private router:Router// private localStorage: LocalStorageService
+    private sanitizer: DomSanitizer,
+    private router: Router, // private localStorage: LocalStorageService
+    private titleService:TitleService
   ) {}
 
   ///================Card handle====================
@@ -58,12 +60,6 @@ export class AdminCardComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
 
-
-
-
-
-
-
   //====================CHECK URL
   isSpecificUrl(url: string): boolean {
     const currentUrl = this.router.url;
@@ -71,6 +67,7 @@ export class AdminCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("card")
     this.bookService.getBooksWithId(this.getData('card')).subscribe((list) => {
       console.log(list);
       this.listbook = list;

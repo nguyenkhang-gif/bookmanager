@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  importProvidersFrom,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { BookServiceService } from 'src/app/services/book-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,11 +22,21 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { PublisherService } from 'src/app/services/publisher.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate('0.2s ease-in', style({ opacity: 1 })),
+]);
+const fadeIn = trigger('fadeIn', [enterTransition]);
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
+  animations: [fadeIn],
 })
 export class AddProductComponent implements OnInit {
   constructor(

@@ -31,7 +31,7 @@ namespace backend.Controllers
         {
             return await context.YeuThiches.getSingleAsync(item => item.taikhoanid == id && item.Sachid == bookid);
         }
-       
+
 
 
         [HttpGet("[action]/{id}")]// chức năng có vẻ chưa sài hoặc gần như ko sài 
@@ -115,6 +115,22 @@ namespace backend.Controllers
             return BadRequest("Chưa xóa dc");
 
 
+        }
+
+
+        [HttpDelete("[action]/{userid}")]
+        public async Task<IActionResult> DeleteWithUserId([FromRoute] int userid)
+        {
+            try
+            {
+                await context.YeuThiches.DeleteAsync(item => item.taikhoanid == userid);
+                await context.SaveChangesAsync();
+                return Ok("Xóa thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
         }
 
     }

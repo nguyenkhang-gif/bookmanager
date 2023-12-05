@@ -153,7 +153,6 @@
         rgb(51, 51, 51) 0px 0px 0px 3px;
       border-radius: 50%;
     "
-    
     (click)="handleCloseAll()"
     >close</mat-icon
   >
@@ -187,9 +186,9 @@
     *ngIf="!spinDisk"
   >
     <button class="btn btn-primary" (click)="handleDelete()">Xóa</button>
-    <button class="btn btn-danger">Hủy</button>
+    <button class="btn btn-danger" (click)="handleCloseAll()">Hủy</button>
   </div>
-  <mat-spinner *ngIf="spinDisk&&!deleteDone"></mat-spinner>
+  <mat-spinner *ngIf="spinDisk && !deleteDone"></mat-spinner>
   <p *ngIf="deleteDone">Xóa Thành Công</p>
 </div>
 

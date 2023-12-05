@@ -95,6 +95,11 @@ export class CheckoutService {
       `http://localhost:5280/PhieuMuon/Delete/${id}`
     );
   }
+  deleteWithUserId(userId:any){
+    return this.httpClient.delete(
+      `http://localhost:5280/PhieuMuon/DeleteWithUserId/${userId}`
+    )
+  }
 
   update(item: any) {
     return this.httpClient.post(`http://localhost:5280/PhieuMuon/Update`, item);

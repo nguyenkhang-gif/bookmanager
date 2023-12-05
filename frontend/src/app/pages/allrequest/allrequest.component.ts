@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { ImageService } from 'src/app/services/image.service';
+import { TitleService } from 'src/app/services/title.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class AllrequestComponent implements OnInit {
     private userService: UserService,
     private imageService: ImageService,
     private fb: FormBuilder,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private titleService :TitleService
   ) {
     this.dateForm = this.fb.group({
       startDate: [''],
@@ -190,6 +192,7 @@ export class AllrequestComponent implements OnInit {
   // ==========================END OF HANDLE CHANGE CAT===============
 
   ngOnInit(): void {
+    this.titleService.setTitle("Al request")
     // this.loadData();
     this.onSubmit();
   }

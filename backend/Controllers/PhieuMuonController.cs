@@ -119,12 +119,7 @@ namespace backend.Controllers
             // search with userid
 
             );
-            //     DateTime temp=DateTime.Parse("2023-11-20T10:00:00");
-            //     Console.WriteLine(temp.ToString());
-            //     return await context.PhieuMuons.GetAsync(pageIndex, pageSize, item =>
-            //     (startDate == null || item.Ngaymuon.ToString().Contains(startDate))
-            //     && (endDate == null || item.Ngaytra.ToString().Contains(endDate))
-            //     && (content == null || item.Ngaymuon.ToString().Contains(content) || item.Ngaytra.ToString().Contains(content)));
+
         }
         //=======================END OF HANDLE SEARCH STUFF=============
 
@@ -154,7 +149,20 @@ namespace backend.Controllers
             }
         }
 
-
+        [HttpDelete("[action]/{userid}")]
+        public async Task<IActionResult> DeleteWithUserId([FromRoute] int userid)
+        {
+            try
+            {
+                await context.PhieuMuons.DeleteAsync(item => item.Userid == userid);
+                await context.SaveChangesAsync();
+                return Ok("Xóa thành công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
     }
 
 

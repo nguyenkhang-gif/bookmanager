@@ -378,5 +378,25 @@ namespace backend.Controllers
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
+
+
+
+
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                await context.TaiKhoans.DeleteAsync(id);
+                await context.SaveChangesAsync();
+                return Ok("xóa thành Công");
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.ToString());
+            }
+        }
     }
 }

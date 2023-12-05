@@ -93,6 +93,11 @@ export class UserService {
   }
 
 
+  delete(id:any){
+    this.httpClient.delete(`http://localhost:5280/TaiKhoan/Delete/${id}`)
+    
+  }
+
   resetPassword(userid:any){
     return this.httpClient.get(`http://localhost:5280/TaiKhoan/ResetPass/${userid}`)
   }

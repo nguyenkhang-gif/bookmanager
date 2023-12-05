@@ -45,4 +45,10 @@ export class CommentService {
       `http://localhost:5280/NhanXet/DeleteWithBookId/${bookid}`
     );
   }
+
+  deleteWithUserId(userId: any) {
+    return this.httpClient.delete(
+      `http://localhost:5280/NhanXet/DeleteWithUserId/${userId}`
+    );
+  }
 }

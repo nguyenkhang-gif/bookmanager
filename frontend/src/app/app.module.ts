@@ -10,7 +10,11 @@ import { TopNavbarComponent } from './component/top-navbar/top-navbar.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MaterialModule } from './material/material.module';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { RegisterComponent } from './pages/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -32,7 +36,7 @@ import { AllcheckoutComponent } from './pages/allcheckout/allcheckout.component'
 import { AllrequestComponent } from './pages/allrequest/allrequest.component';
 import { RequestdetailComponent } from './pages/requestdetail/requestdetail.component';
 import { AddProductComponent } from './pages/add-product/add-product.component';
-
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +70,7 @@ import { AddProductComponent } from './pages/add-product/add-product.component';
     HttpClientModule,
     ReactiveFormsModule,
     CommonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [
     {
@@ -74,10 +78,7 @@ import { AddProductComponent } from './pages/add-product/add-product.component';
       useClass: AuthInterceptor,
       multi: true,
     },
-
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  
-}
+export class AppModule {}

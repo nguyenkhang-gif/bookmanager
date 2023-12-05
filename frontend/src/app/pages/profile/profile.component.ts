@@ -10,11 +10,27 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { BookServiceService } from 'src/app/services/book-service.service';
 import { forkJoin } from 'rxjs';
+import { animate, style, transition, trigger } from '@angular/animations';
 
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate('0.2s ease-in', style({ opacity: 1 })),
+]);
+const fadeIn = trigger('fadeIn', [enterTransition]);
+const exitTransition = transition(':leave', [
+  style({
+    opacity: 1,
+  }),
+  animate('0.2s ease-out', style({ opacity: 0 })),
+]);
+const fadeOut = trigger('fadeOut', [exitTransition]);
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  animations: [fadeIn, fadeOut],
 })
 export class ProfileComponent implements OnInit {
   userInfo?: User;

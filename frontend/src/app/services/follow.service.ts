@@ -1,4 +1,4 @@
-  import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 // import { User } from '../models/User';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -38,6 +38,12 @@ export class FollowService {
     return this.httpClient.post<Favorite>(
       `http://localhost:5280/Follow/Insert`,
       item
+    );
+  }
+
+  deleteWithUserId(userId: any) {
+    return this.httpClient.delete(
+      `http://localhost:5280/Follow/DeleteWithUserId/${userId}`
     );
   }
 }
