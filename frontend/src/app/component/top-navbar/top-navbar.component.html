@@ -1,43 +1,36 @@
 <div class="header">
-  <div class="button-signin" *ngIf="!curentUser" >
+  <div class="button-signin" *ngIf="!curentUser">
     <a class="button-signup" routerLink="/register">Sign in/Log in</a>
   </div>
-  <div class="button-signin" *ngIf="curentUser!=null&&curentUser!=''" >
+  <div class="button-signin" *ngIf="curentUser != null && curentUser != ''">
     <a class="button-signup" routerLink="/profile">Cá Nhân</a>
   </div>
   <!-- <div class="button-signin" *ngIf="curentUser" >
     <a class="button-signup" routerLink="/register">Log out</a>
   </div> -->
   <div class="title" routerLink="/">
-    <p>
-      HCMUE
-    </p>
-    <p class="after">
-      BOOKS
-    </p>
+    <p>HCMUE</p>
+    <p class="after">BOOKS</p>
   </div>
   <div class="title-2">
-    <p >
-      READ
-    </p>
-    <p class="after">
-      WHATEVER
-    </p>
-    <p >
-      YOU 
-    </p>
-    <p class="after">
-      WANT
-    </p>
+    <p>READ</p>
+    <p class="after">WHATEVER</p>
+    <p>YOU</p>
+    <p class="after">WANT</p>
     !!!
   </div>
 </div>
 <div class="nav">
-
-
   <mat-toolbar>
     <span class="title" routerLink="/">#ReadingIsHard</span>
     <button class="button-hot" mat-button routerLink="/follow">Theo dõi</button>
+    <!-- <div class="" style="height: 100%;position: relative;">
+      <button class="button-hot" style="width: 100%;height: 100%;" mat-button routerLink="/follow">
+        Phiếu Mượn
+      </button>
+      <p style="position: absolute; top: 0; right: 0;background-color: aqua; width: 40px;height: 40px;text-align: center;border-radius: 50%;font-weight: 800;">100</p>
+    </div> -->
+
     <!-- <button class="button-hot" mat-button>HOT!!!!!!</button> -->
     <button class="button-menu" mat-button [matMenuTriggerFor]="menu">
       Thể loại
@@ -70,16 +63,19 @@
         <mat-icon>x</mat-icon>
       </button>
     </mat-form-field>
-    <!-- end of input -->
   </mat-toolbar>
 </div>
 <div class="container-outer-search-result">
   <div
     class="container-handle-search"
-    *ngIf="onSubmitString != '' && isSpecificUrl('search') && onSubmitString != null"
+    *ngIf="
+      onSubmitString != '' && isSpecificUrl('search') && onSubmitString != null
+    "
   >
     <!--  *ngIf="onSubmitString != '' && isSpecificUrl('search')" -->
-    <p *ngIf="onSubmitString != '' && onSubmitString != null" >kết quả tìm kiếm cho :</p>
+    <p *ngIf="onSubmitString != '' && onSubmitString != null">
+      kết quả tìm kiếm cho :
+    </p>
     <p class="content">
       {{ onSubmitString }}
       <!-- sthng cool -->
@@ -87,11 +83,16 @@
   </div>
   <div
     class="container-handle-search"
-    *ngIf="category != null && category !=0 && CategoryList.length && isSpecificUrl('search')"
+    *ngIf="
+      category != null &&
+      category != 0 &&
+      CategoryList.length &&
+      isSpecificUrl('search')
+    "
   >
     <p>thể loại:</p>
     <div class="content-cat">
-      <p >
+      <p>
         <!-- {{ onSubmitString }} -->
         {{ CategoryList[category - 1].tenchude }}
       </p>

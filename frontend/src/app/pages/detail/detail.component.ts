@@ -19,11 +19,29 @@ import { ImageService } from 'src/app/services/image.service';
 import { AuthorService } from 'src/app/services/author.service';
 import * as THREE from 'three';
 import { CommentService } from 'src/app/services/comment.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+    transform: 'translateX(100px)',
+  }),
+  animate('0.5s ease-in', style({ opacity: 1, transform: 'translateX(0)' })),
+]);
+const fadeIn = trigger('fadeIn', [enterTransition]);
+const exitTransition = transition(':leave', [
+  style({
+    opacity: 1,
+  }),
+  animate('0.2s ease-out', style({ opacity: 0 })),
+]);
+const fadeOut = trigger('fadeOut', [exitTransition]);
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
+  animations: [fadeIn, fadeOut],
 })
 export class DetailComponent implements OnInit {
   constructor(
@@ -204,34 +222,45 @@ export class DetailComponent implements OnInit {
   // =================START of add coment func
 
   //handle add comment
+  tempuser: any;
   handleAddComment() {
     this.serviceUser.getMe().subscribe({
       next: (item: string) => {
-        // console.log(item);
-        this.snackbarService.showSuccess('add thành công !!!');
-        // ==============START OF ADD COMMENT===============
-        this.service
-          .addReview({
-            sachid: parseInt(this.route.url.split('/')[2], 10),
-            tieude: this.commentText,
-            userid: item, // Đặt email, phone_number và address theo nhu cầu
-            rating: this.rating,
-            ngaydang: this.formattedDate, // Đặt ngày dự định theo nhu cầu
-          })
-          .subscribe({
-            next: (item) => {
-              console.log('add thành công', item);
-              // lấy lại comment
-              if (this.bookInfo) console.log('comments needs tobe add');
-            },
-            error: (e) => {
-              console.log('these and error', e.status);
-              if (e.status && this.bookInfo)
-                this.fetchComments(this.bookInfo.id);
-            },
-          });
-
-        // ==============END OF ADD COMMENT===============
+        console.log(item);
+        this.serviceUser.getUser(item).subscribe({
+          next: (item) => {
+            console.log(item);
+            this.tempuser = item;
+            if (this.tempuser.bikhoa == 0) {
+              this.snackbarService.showSuccess('add thành công !!!');
+              this.service
+                .addReview({
+                  sachid: parseInt(this.route.url.split('/')[2], 10),
+                  tieude: this.commentText,
+                  userid: item, // Đặt email, phone_number và address theo nhu cầu
+                  rating: this.rating,
+                  ngaydang: this.formattedDate, // Đặt ngày dự định theo nhu cầu
+                })
+                .subscribe({
+                  next: (item) => {
+                    console.log('add thành công', item);
+                    // lấy lại comment
+                    if (this.bookInfo) console.log('comments needs tobe add');
+                  },
+                  error: (e) => {
+                    console.log('these and error', e.status);
+                    if (e.status && this.bookInfo)
+                      this.fetchComments(this.bookInfo.id);
+                  },
+                });
+            } else {
+              this.snackbarService.showSuccess('add không thành công');
+            }
+          },
+          error: (e) => {
+            console.log(e);
+          },
+        });
       },
       error: (e) => {
         this.snackbarService.showSuccess('add không thành công !!!');
@@ -293,6 +322,8 @@ export class DetailComponent implements OnInit {
   // =========================HANDLE RECOMMEND BOOKS
   toBook(id: any) {
     this.route.navigate(['/detail', id]);
+    this.category = undefined;
+    this.bookInfo = undefined;
     this.loaddata(id);
     // this.handleFollow()
   }
@@ -322,6 +353,8 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     // this.handleFollow();
+    // console.log("init called");
+
     console.log('on route', this.route.url.split('/')[2]);
     this.loaddata(this.route.url.split('/')[2]);
   }

@@ -13,11 +13,28 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/image.service';
 import { checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate('0.2s ease-in', style({ opacity: 1 })),
+]);
+const fadeIn = trigger('fadeIn', [enterTransition]);
+const exitTransition = transition(':leave', [
+  style({
+    opacity: 1,
+  }),
+  animate('0.2s ease-out', style({ opacity: 0 })),
+]);
+const fadeOut = trigger('fadeOut', [exitTransition]);
 
 @Component({
   selector: 'app-admin-product-details',
   templateUrl: './admin-product-details.component.html',
   styleUrls: ['./admin-product-details.component.scss'],
+  animations:[fadeIn,fadeOut]
 })
 export class AdminProductDetailsComponent implements OnInit {
   constructor(
@@ -61,7 +78,7 @@ export class AdminProductDetailsComponent implements OnInit {
   isBorrow = false;
   popupWindowOpen = false;
   isLoading = true;
-
+  isAllDone = false;
   // END OF CÁC BIÊN`
   loadBookData(book: any): void {
     this.bookForm.patchValue({
@@ -94,6 +111,7 @@ export class AdminProductDetailsComponent implements OnInit {
   // =======END OF HANDLE TỰ ĐỘNG CẬP NHẬT LƯỢT MƯỢN==============
 
   loaddata(url: any) {
+    this.isAllDone = false;
     this.bookService.getBookWithId(url).subscribe({
       next: (book) => {
         // this.bookInfo = book;
@@ -128,11 +146,10 @@ export class AdminProductDetailsComponent implements OnInit {
 
         this.bookService.getProducer(book.nhaxuatbanid).subscribe({
           next: (producer) => {
-            console.log(producer);
-
             this.producerInfo = producer;
           },
         });
+        this.isAllDone=true
       },
     });
   }
@@ -171,7 +188,7 @@ export class AdminProductDetailsComponent implements OnInit {
   receiveDataFromChild(data: string) {
     console.log('Dữ liệu nhận được từ component con:', data);
     this.popupWindowOpen = false;
-    this.route.navigate(["admin/allproduct"])
+    this.route.navigate(['admin/allproduct']);
   }
 
   //=======================end of handle pop up window======================

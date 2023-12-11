@@ -8,7 +8,7 @@ export interface User {
   passwordHash: Uint8Array | null; // Use the appropriate data type for byte[]
   passwordSalt: Uint8Array | null;
   imageData: any|null; // Thêm cột imageData kiểu byte array
-
+  bikhoa:any;
   email: string;
   quyen: any;
   phone_number: string;

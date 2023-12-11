@@ -1,5 +1,5 @@
 <p class="title">Tất cả sách</p>
-<div class="container-search">
+<div class="container-search" @fadeIn>
   <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
     <mat-label>Search</mat-label>
     <input matInput type="text" [(ngModel)]="value" />
@@ -24,7 +24,7 @@
   <!-- HTML !-->
   <button class="button-3" role="button" (click)="onSubmit()">Search</button>
 </div>
-<div class="container-main">
+<div class="container-main" @fadeIn>
   <div class="inner-container-main" *ngIf="listbook.length > 0">
     <table class="styled-table">
       <thead>

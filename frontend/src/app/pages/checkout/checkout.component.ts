@@ -102,7 +102,7 @@ export class CheckoutComponent implements OnInit {
 
   //=============HANDLE SUBMIT ALL DỮ LIỆU LÊN DATA BASE==============
   handleSubmitFinal() {
-    this.popupWindowOpen=true
+    this.popupWindowOpen = true;
 
     this.checkoutService
       .insertSingleCheckout({
@@ -113,6 +113,7 @@ export class CheckoutComponent implements OnInit {
           this.dateForm.get('endDate')?.value.toString()
         ),
         userid: this.userid,
+        isDone: 0,
       })
       .subscribe({
         next: (item) => {
@@ -121,29 +122,34 @@ export class CheckoutComponent implements OnInit {
         error: (e) => {
           console.log(e);
           if (e.status == 200) {
-            this.checkoutService.getSingleCheckout({
-              ngaymuon: this.imageService.convertDateString(
-                this.dateForm.get('startDate')?.value.toString()
-              ),
-              ngaytra: this.imageService.convertDateString(
-                this.dateForm.get('endDate')?.value.toString()
-              ),
-              userid: this.userid,
-            }).subscribe(item_2=>{
-              console.log("item:",item_2);
-              this.checkoutService.insertBookBorrow(JSON.parse(localStorage.getItem("card")!),item_2.id).subscribe({
-                next:(data)=>{
-                  console.log(data);
-                  this.isLoading=false
-                },
-                error:(e)=>{
-                  console.log(e);
-                  this.isLoading=false
-                  
-                }
+            this.checkoutService
+              .getSingleCheckout({
+                ngaymuon: this.imageService.convertDateString(
+                  this.dateForm.get('startDate')?.value.toString()
+                ),
+                ngaytra: this.imageService.convertDateString(
+                  this.dateForm.get('endDate')?.value.toString()
+                ),
+                userid: this.userid,
               })
-              
-            })
+              .subscribe((item_2) => {
+                console.log('item:', item_2);
+                this.checkoutService
+                  .insertBookBorrow(
+                    JSON.parse(localStorage.getItem('card')!),
+                    item_2.id
+                  )
+                  .subscribe({
+                    next: (data) => {
+                      console.log(data);
+                      this.isLoading = false;
+                    },
+                    error: (e) => {
+                      console.log(e);
+                      this.isLoading = false;
+                    },
+                  });
+              });
           }
         },
       });
@@ -193,24 +199,15 @@ export class CheckoutComponent implements OnInit {
   }
   //==============================end of handle step 3=================
   //==============================HANDLE CHECKOUT STUFF==================
-  
-  
+
   //==============================END OF HANDLE CHECKOUT STUFF==================
-
-
-
-
-
-
-
-
-
 
   //===========================HANDLE LOADING STUFF=================
   popupWindowOpen = false;
   isLoading = true;
   receiveDataFromChild(data: string) {
     console.log('Dữ liệu nhận được từ component con:', data);
+    this.router.navigate(['/amdin']);
     this.popupWindowOpen = false;
   }
   //===========================END OF HANDLE LOADING STUFF=================
@@ -221,7 +218,7 @@ export class CheckoutComponent implements OnInit {
   // this.stepper.selectedIndex = 2;
 
   ngOnInit(): void {
-    console.log('void called',JSON.parse(localStorage.getItem("card")!));
+    console.log('void called', JSON.parse(localStorage.getItem('card')!));
 
     if (this.Steps[0]) {
       this.setDataWithPageIndex(this.pageIndex, this.itemInPage);

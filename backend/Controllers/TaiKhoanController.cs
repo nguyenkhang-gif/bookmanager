@@ -150,7 +150,9 @@ namespace backend.Controllers
             {
                 CreatePasswordHash(item.password, out byte[] passwordHash, out byte[] passwordSalt);
                 temp.Username = item.username;
+                temp.Gioitinh = true;
                 temp.Quyen = 2;
+                temp.Bikhoa = 0;
                 temp.FirstName = "user123";
                 temp.LastName = "user123";
                 temp.email = item.email;

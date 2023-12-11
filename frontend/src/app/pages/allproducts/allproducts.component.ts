@@ -7,13 +7,30 @@ import { JsonPipe } from '@angular/common';
 import { CommentService } from 'src/app/services/comment.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 // import { LocalStorageService } from 'angular-webstorage-service';
+
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate('0.2s ease-in', style({ opacity: 1 })),
+]);
+const fadeIn = trigger('fadeIn', [enterTransition]);
+const exitTransition = transition(':leave', [
+  style({
+    opacity: 1,
+  }),
+  animate('0.2s ease-out', style({ opacity: 0 })),
+]);
+const fadeOut = trigger('fadeOut', [exitTransition]);
 
 @Component({
   selector: 'app-allproducts',
   templateUrl: './allproducts.component.html',
   // standalone: true,
   styleUrls: ['./allproducts.component.scss'],
+  animations: [fadeIn, fadeOut],
 })
 export class AllproductsComponent implements OnInit {
   constructor(
@@ -191,7 +208,7 @@ export class AllproductsComponent implements OnInit {
                 next: (data) => {
                   console.log(data);
                   this.deleteDone = true;
-                  this.loading=false;
+                  this.loading = false;
                   this.snackBarService.showSuccess('xóa hoàn tất');
                   this.loadData();
                 },

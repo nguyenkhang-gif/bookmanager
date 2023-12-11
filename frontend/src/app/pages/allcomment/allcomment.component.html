@@ -1,0 +1,92 @@
+<p class="title">Tất cả Comment</p>
+<div class="container-search">
+  <mat-form-field class="example-form-field" (keyup.enter)="onSubmit()">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [(ngModel)]="content" />
+
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="content = null"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <button mat-button [matMenuTriggerFor]="menu">
+    {{ lowToHighSort == false ? "Mới nhất" : "Cũ nhất" }}
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="lowToHighSort = false">Mới Nhất</button>
+    <button mat-menu-item (click)="lowToHighSort = true">Cũ Nhất</button>
+  </mat-menu>
+
+  <button class="button-3" role="button" (click)="onSubmit()">Search</button>
+</div>
+
+<div class="container-main" style="min-height: 1000px">
+  <div class="inner-container-main" *ngIf="isDataDoneLoading" @fadeIn>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã</th>
+          <th>User</th>
+          <th>Sách</th>
+          <th>Nội Dung</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mainList; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.ngaydang }}</td>
+          <td>
+            <div
+              class=""
+              style="display: flex; align-items: center; cursor: pointer"
+              [routerLink]="['/admin/profile', item.user.id]"
+            >
+              <img
+                [src]="getSafeImageUrl(item.user.imageData)"
+                style="border-radius: 50%"
+                alt=""
+              />
+              <p style="margin-left: 20px; font-weight: 800">
+                {{ item.user.username }}
+              </p>
+            </div>
+          </td>
+          <td>
+            <div
+              class=""
+              style="display: flex; align-items: center; cursor: pointer"
+              [routerLink]="['/admin/detail', item.sach.id]"
+            >
+              <img [src]="getSafeImageUrl(item.sach.imageData)" alt="" />
+              <p style="margin-left: 20px; font-weight: 500">
+                {{ item.sach.tensach }}
+              </p>
+            </div>
+          </td>
+          <td>{{ item.tieude }}</td>
+
+          <td>
+            <button class="btn btn-primary" (click)="delete(item)">xóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <button class="btn-create-ticket button-26">Tạo phiếu mượn</button> -->
+</div>
+<div class="container-pagination">
+  <div class="container-main-pagination">
+    <button class="pagination-btn" (click)="handleNextBefore('-')">
+      before
+    </button>
+    <button class="pagination-btn">{{ pageIndex }}</button>
+    <button class="pagination-btn" (click)="handleNextBefore('+')">next</button>
+  </div>
+</div>

@@ -4,9 +4,9 @@
     <img [src]="getSafeImageUrl(imageData)" alt="" />
     <input type="file" (change)="onFileSelected($event)" />
     <!-- Profile picture upload button-->
-    <button class="btn btn-primary" (click)="onSubmit()" type="button">
+    <!-- <button class="btn btn-primary" (click)="onSubmit()" type="button">
       Upload new image
-    </button>
+    </button> -->
   </div>
   <form class="example-form" [formGroup]="bookForm">
     <table class="example-full-width" cellspacing="0">
@@ -126,11 +126,11 @@
             <mat-label>Lượt mượn</mat-label>
             <div class="input-with-unit">
               <input matInput type="number" formControlName="borrowCount" />
-              <span class="unit">cm</span>
+              <span class="unit">lần</span>
             </div>
-            <button class="button-37" (click)="handleAutoFillBorrowCount()">
+            <!-- <button class="button-37" (click)="handleAutoFillBorrowCount()">
               tự động cập nhật
-            </button>
+            </button> -->
           </mat-form-field>
         </td>
       </tr>

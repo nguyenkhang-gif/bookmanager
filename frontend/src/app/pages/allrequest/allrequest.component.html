@@ -9,24 +9,6 @@
     </button>
   </mat-form-field>
 
-  <button mat-button [matMenuTriggerFor]="menu">
-    {{
-      isDone == 0
-        ? "Đang xử lý"
-        : isDone == 1
-        ? "Trễ"
-        : isDone == 2
-        ? "Đúng hạn"
-        : "Tình trạng"
-    }}
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="handleChangeIsDone(3)">Không</button>
-    <button mat-menu-item (click)="handleChangeIsDone(0)">Đang xử lý</button>
-    <button mat-menu-item (click)="handleChangeIsDone(1)">Trễ</button>
-    <button mat-menu-item (click)="handleChangeIsDone(2)">Đúng hạn</button>
-  </mat-menu>
-
   <!-- <div class="form-container"> -->
   <form action="submit" class="form" type="submit" [formGroup]="dateForm">
     <p>Ngày mượn</p>
@@ -52,6 +34,23 @@
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
   </form>
+  <button mat-button [matMenuTriggerFor]="menu">
+    {{
+      isDone == 0
+        ? "Đang xử lý"
+        : isDone == 1
+        ? "Trễ"
+        : isDone == 2
+        ? "Đúng hạn"
+        : "Tình trạng"
+    }}
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="handleChangeIsDone(3)">Không</button>
+    <button mat-menu-item (click)="handleChangeIsDone(0)">Đang xử lý</button>
+    <button mat-menu-item (click)="handleChangeIsDone(1)">Trễ</button>
+    <button mat-menu-item (click)="handleChangeIsDone(2)">Đúng hạn</button>
+  </mat-menu>
   <!-- </div> -->
   <!-- HTML !-->
   <button class="button-3" role="button" (click)="onSubmit()">Search</button>

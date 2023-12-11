@@ -1,4 +1,4 @@
-<div class="container outer">
+<div class="container outer" @fadeIn *ngIf="isAllDone" >
   <div class="container img-con">
     <img [src]="getSafeImageUrl(bookInfo?.imageData)" alt="" />
     <input type="file" (change)="onFileSelected($event)" />
@@ -127,13 +127,13 @@
               <input matInput formControlName="borrowCount" />
             </div>
           </mat-form-field>
-          <button
+          <!-- <button
             class="button-37"
             style="margin-bottom: 20px"
             (click)="handleAutoFillBorrowCount()"
           >
             tự động cập nhật
-          </button>
+          </button> -->
         </td>
       </tr>
       <tr>

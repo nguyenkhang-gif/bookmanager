@@ -97,7 +97,13 @@ namespace backend.Controllers
             return await context.PhieuMuons.GetAsync(pageIndex, pageSize);
         }
         [HttpGet("[action]/{pageIndex}/{pageSize}")]
-        public async Task<IEnumerable<PhieuMuon>> GetAllWithSizeAndIndexAndContent([FromRoute] int pageIndex, [FromRoute] int pageSize, [FromQuery] string? content, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate, [FromQuery] int? isDone)
+        public async Task<IEnumerable<PhieuMuon>> GetAllWithSizeAndIndexAndContent(
+            [FromRoute] int pageIndex,
+            [FromRoute] int pageSize,
+            [FromQuery] string? content,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate,
+            [FromQuery] int? isDone)
         {
 
             return await context.PhieuMuons.GetAsync(pageIndex, pageSize, item =>

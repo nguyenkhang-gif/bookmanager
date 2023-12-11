@@ -7,11 +7,28 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/image.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate('0.2s ease-in', style({ opacity: 1 })),
+]);
+const fadeIn = trigger('fadeIn', [enterTransition]);
+const exitTransition = transition(':leave', [
+  style({
+    opacity: 1,
+  }),
+  animate('0.2s ease-out', style({ opacity: 0 })),
+]);
+const fadeOut = trigger('fadeOut', [exitTransition]);
 
 @Component({
   selector: 'app-profile-admin',
   templateUrl: './profile-admin.component.html',
   styleUrls: ['./profile-admin.component.scss'],
+  animations: [fadeIn, fadeOut],
 })
 export class ProfileAdminComponent implements OnInit {
   userInfo?: User;
@@ -202,6 +219,7 @@ export class ProfileAdminComponent implements OnInit {
   }
 
   //================handle loading stuff==============
+
   popupWindowOpen = false;
   isLoading = true;
   receiveDataFromChild(data: string) {
@@ -209,7 +227,10 @@ export class ProfileAdminComponent implements OnInit {
     this.popupWindowOpen = false;
     this.router.navigate(['admin/alluser']);
   }
-
+  // handle lock unlock user
+  changeLockUnLock(item: any) {
+    if (this.userInfo) this.userInfo.bikhoa = item;
+  }
   ngOnInit(): void {
     this.getUserInfo();
     console.log(this.router.url.split('/')[3]);

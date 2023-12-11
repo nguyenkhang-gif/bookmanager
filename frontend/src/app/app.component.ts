@@ -1,11 +1,16 @@
 import { Component, SimpleChanges } from '@angular/core';
 import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 import { ActivatedRoute, Router } from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {MatBadgeModule} from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  // standalone:true,
+  // imports: [MatBadgeModule, MatButtonModule, MatIconModule],
 })
 export class AppComponent {
   title = 'frontend';

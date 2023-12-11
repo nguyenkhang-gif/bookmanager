@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using backend.DataAccess;
@@ -95,10 +96,25 @@ namespace backend.Controllers
             (!bookid.HasValue || item.Sachid == bookid) &&
             (!userid.HasValue || item.Userid == userid) &&
             (!rating.HasValue || item.rating <= rating) &&
-            (content == null || item.Tieude.Contains(content))
+            (content == null || item.Tieude.Contains(content) || item.User.Username.Contains(content))
             ,
-            lowToHighSort.HasValue && lowToHighSort == true ? item => item.rating : null,
-            lowToHighSort.HasValue && lowToHighSort == false ? item => item.rating : null
+            lowToHighSort.HasValue && lowToHighSort == true ? item => item.Ngaydang : null,
+            lowToHighSort.HasValue && lowToHighSort == false ? item => item.Ngaydang : null
+            );
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<NhanXet>> getTest([FromQuery] string? username)
+        {
+            Expression<Func<NhanXet, bool>> filter = item => true;
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                filter = item => item.User.Username.Contains(username);
+            }
+
+            return await context.NhanXets.GetAsync(1, 8, filter
+            // includes: item => item.User
             );
         }
 
@@ -149,7 +165,7 @@ namespace backend.Controllers
         }
 
 
-        
+
 
     }
 }

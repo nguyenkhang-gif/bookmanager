@@ -18,112 +18,115 @@ import { ProfileAdminComponent } from './pages/profile-admin/profile-admin.compo
 import { AllrequestComponent } from './pages/allrequest/allrequest.component';
 import { RequestdetailComponent } from './pages/requestdetail/requestdetail.component';
 import { AddProductComponent } from './pages/add-product/add-product.component';
+import { AllcommentComponent } from './pages/allcomment/allcomment.component';
 
 const routes: Routes = [
   {
-    path:"",
-    component:HomeComponent,
-    pathMatch:"full",
+    path: '',
+    component: HomeComponent,
+    pathMatch: 'full',
     // title:"Home"
   },
   {
-    path:'search',
-    component:HomeComponent,
+    path: 'search',
+    component: HomeComponent,
     // canActivate:[authGuard]
   },
   {
-    path:"detail/:id",
-    component:DetailComponent,
+    path: 'detail/:id',
+    component: DetailComponent,
     // canActivate:[authAdminGuard]
   },
   {
-    path:"order",
-    component:OrderPagesComponent
-  },
-  
-  {
-    path:"profile",
-    component:ProfileComponent
+    path: 'order',
+    component: OrderPagesComponent,
   },
 
   {
-    path:"register",
-    component:RegisterComponent
+    path: 'profile',
+    component: ProfileComponent,
+  },
+
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
-    path:"admin",
+    path: 'admin',
     // component:AllproductsComponent,
-    canActivate:[authAdminGuard],
-    children:[
+    canActivate: [authAdminGuard],
+    children: [
       {
-        path:"",
-        component:AllproductsComponent,
-        pathMatch:"full",
+        path: '',
+        component: AllproductsComponent,
+        pathMatch: 'full',
         // title:"Home"
       },
       {
-        path:"allproduct",
-        component:AllproductsComponent
+        path: 'allproduct',
+        component: AllproductsComponent,
       },
       {
-        path:"alluser",
-        component:AlluserComponent
+        path: 'alluser',
+        component: AlluserComponent,
       },
       {
-        path:"card",
-        component:AdminCardComponent
+        path: 'card',
+        component: AdminCardComponent,
       },
       {
-        path:"checkout",
-        component:CheckoutComponent
+        path: 'checkout',
+        component: CheckoutComponent,
       },
-              
-      {
-        path:"search",
-        component:AllproductsComponent
-      },
-      
-      {
-        path:"searchuser",
-        component:AlluserComponent
-      },
-      
-      {
-        path:"profile/:id",
-        component:ProfileAdminComponent
-      },
-      {
-        path:'allrequest',
-        component:AllrequestComponent
-      },
-      {
-        path:"detail/:id",
-        component:AdminProductDetailsComponent
-      },
-      {
-        path:"addproduct",
-        component:AddProductComponent
-      },
-      {
-        path:"requestdetail/:id",
-        component:RequestdetailComponent
-      }
-    ]
-  },
-  {
-    path:"follow",
-    component:FollowComponent
-  },
-  {
-    path:"**",
-    component:NotfoundComponent
-  },
- 
 
+      {
+        path: 'search',
+        component: AllproductsComponent,
+      },
+
+      {
+        path: 'searchuser',
+        component: AlluserComponent,
+      },
+
+      {
+        path: 'profile/:id',
+        component: ProfileAdminComponent,
+      },
+      {
+        path: 'allrequest',
+        component: AllrequestComponent,
+      },
+      {
+        path: 'detail/:id',
+        component: AdminProductDetailsComponent,
+      },
+      {
+        path: 'addproduct',
+        component: AddProductComponent,
+      },
+      {
+        path: 'allcomment',
+        component: AllcommentComponent,
+      },
+      {
+        path: 'requestdetail/:id',
+        component: RequestdetailComponent,
+      },
+    ],
+  },
+  {
+    path: 'follow',
+    component: FollowComponent,
+  },
+  {
+    path: '**',
+    component: NotfoundComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

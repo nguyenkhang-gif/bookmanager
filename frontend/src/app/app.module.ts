@@ -36,6 +36,7 @@ import { AllcheckoutComponent } from './pages/allcheckout/allcheckout.component'
 import { AllrequestComponent } from './pages/allrequest/allrequest.component';
 import { RequestdetailComponent } from './pages/requestdetail/requestdetail.component';
 import { AddProductComponent } from './pages/add-product/add-product.component';
+import { AllcommentComponent } from './pages/allcomment/allcomment.component';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AddProductComponent } from './pages/add-product/add-product.component';
     AllrequestComponent,
     RequestdetailComponent,
     AddProductComponent,
+    AllcommentComponent,
   ],
   imports: [
     BrowserModule,

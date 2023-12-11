@@ -2,7 +2,7 @@
   <!-- Account page navigation-->
 
   <hr class="mt-0 mb-4" />
-  <div class="row">
+  <div class="row" @fadeIn>
     <div class="col-xl-4">
       <!-- Profile picture card-->
       <div class="card mb-4 mb-xl-0">
@@ -127,16 +127,41 @@
                     <mat-radio-button
                       class="example-margin"
                       value="after"
-                      [checked]="userInfo?.quyen==0"
+                      [checked]="userInfo?.quyen == 0"
                       (click)="toAdmin()"
                       >Admin</mat-radio-button
                     >
                     <mat-radio-button
                       class="example-margin"
                       value="before"
-                      [checked]="userInfo?.quyen==2"
+                      [checked]="userInfo?.quyen == 2"
                       (click)="toUser()"
                       >Người đọc</mat-radio-button
+                    >
+                  </mat-radio-group>
+                </section>
+              </div>
+              <div class="col-md-6">
+                <section class="example-section">
+                  <label
+                    class="example-margin"
+                    style="font-weight: 700; font-size: 16px"
+                    >status:</label
+                  >
+                  <mat-radio-group>
+                    <mat-radio-button
+                      class="example-margin"
+                      value="after"
+                      [checked]="userInfo?.bikhoa == 1"
+                      (click)="changeLockUnLock(1)"
+                      >bị khóa</mat-radio-button
+                    >
+                    <mat-radio-button
+                      class="example-margin"
+                      value="before"
+                      [checked]="userInfo?.bikhoa == 0"
+                      (click)="changeLockUnLock(0)"
+                      >bình thường</mat-radio-button
                     >
                   </mat-radio-group>
                 </section>
@@ -168,8 +193,7 @@
 </div>
 
 <app-popup-window
-    *ngIf="popupWindowOpen"
-   
-    [isDone]="!isLoading"
-    (sendDataToParent)="receiveDataFromChild($event)"
-  ></app-popup-window>
+  *ngIf="popupWindowOpen"
+  [isDone]="!isLoading"
+  (sendDataToParent)="receiveDataFromChild($event)"
+></app-popup-window>

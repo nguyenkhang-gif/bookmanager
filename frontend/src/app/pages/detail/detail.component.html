@@ -3,7 +3,7 @@
 <div *ngIf="!(bookInfo != null)" class="spinner-home">
   <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="bookInfo != null && category != null" class="container-item">
+<div *ngIf="bookInfo != null && category != null" class="container-item" @fadeIn>
   <!-- <div class="colorfill-1"></div>
     <div class="colorfill-2"></div> -->
   <!-- start of detail -->

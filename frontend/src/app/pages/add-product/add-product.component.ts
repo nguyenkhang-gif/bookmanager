@@ -233,57 +233,39 @@ export class AddProductComponent implements OnInit {
       }
     );
   }
-  onSubmit() {
-    if (!this.selectedFile) {
-      console.error('No file selected.');
-      return;
-    }
+    // onSubmit() {
+    //   if (!this.selectedFile) {
+    //     console.error('No file selected.');
+    //     return;
+    //   }
 
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
+    //   const formData = new FormData();
+    //   formData.append('file', this.selectedFile);
 
-    // Gọi API để lưu ảnh
-    this.http
-      .post(
-        `http://localhost:5280/Dbosach/UploadFile/${
-          this.route.url.split('/')[3]
-        }`,
-        formData
-      )
-      .subscribe({
-        next: (response) => {
-          console.log('Upload successful', response);
-          this.loadImge();
-          this.loadAllData();
-        },
-        error: (error) => {
-          console.error('Error uploading file', error);
-        },
-      });
-  }
+    //   // Gọi API để lưu ảnh
+    //   this.http
+    //     .post(
+    //       `http://localhost:5280/Dbosach/UploadFile/${
+    //         this.route.url.split('/')[3]
+    //       }`,
+    //       formData
+    //     )
+    //     .subscribe({
+    //       next: (response) => {
+    //         console.log('Upload successful', response);
+    //         this.loadImge();
+    //         this.loadAllData();
+    //       },
+    //       error: (error) => {
+    //         console.error('Error uploading file', error);
+    //       },
+    //     });
+    // }
 
   //======================START OF UPLOAD IMG================================
 
   // ==============================HANDLE SUBMIT ALL============================
   saveAllForm() {
-    // console.log({
-    //   chieudai: this.bookForm.get('chieudai')?.value,
-    //   chieurong: this.bookForm.get('chieurong')?.value,
-    //   chudeid: this.category?.id,
-    //   borrowCount: this.bookForm.get('borrowCount')?.value,
-    //   dinhdang: 'PDF',
-    //   dongia: 100,
-    //   // borrowCount:0,
-    //   hinhanh: 'sach 1.jeg',
-    //   nhaxuatbanid: this.producerInfo?.id,
-    //   soluong: this.bookForm.get('soluong')?.value,
-    //   sotrang: this.bookForm.get('sotrang')?.value,
-    //   tacgiaid: this.author?.id,
-    //   tensach: this.bookForm.get('tensach')?.value,
-    //   duocMuon: this.isBorrow == true ? 1 : 0,
-    //   imageData: this.imageData,
-    // });
-
     this.bookService
       .insertBook({
         chieudai: this.bookForm.get('chieudai')?.value,
@@ -323,12 +305,8 @@ export class AddProductComponent implements OnInit {
     this.loaddata(this.route.url.split('/')[3]);
     this.loadAllCat();
     this.loadAllPub();
+    this.loadAllAuthor();
     // this.loadImge();
-    // this.getImage(this.route.url.split('/')[3]);
-    this.authorService.getAllAuthtor().subscribe((item) => {
-      console.log(item);
-      this.authorList = item;
-    });
   }
 
   // ============================HANDLE ADD AUTHOR
@@ -403,7 +381,12 @@ export class AddProductComponent implements OnInit {
       },
       error: (e) => {
         console.log(e);
-        this.snackbarService.showSuccess('Xóa thành công');
+
+        if (e.status == 200) {
+          this.snackbarService.showSuccess('Xóa thành công');
+        } else {
+          this.snackbarService.showSuccess('xóa không thành công ');
+        }
         this.loadAllCat();
       },
     });
@@ -462,11 +445,13 @@ export class AddProductComponent implements OnInit {
       },
       error: (e) => {
         console.log(e);
-        this.snackbarService.showSuccess('Xóa thành công');
-        this.authorService.getAllAuthtor().subscribe((item) => {
-          console.log(item);
-          this.authorList = item;
-        });
+        if (e.status == 200) {
+          this.snackbarService.showSuccess('Xóa thành công');
+        } else {
+          this.snackbarService.showSuccess('Xóa không thành công');
+        }
+
+        this.loadAllAuthor();
       },
     });
   }
@@ -520,7 +505,11 @@ export class AddProductComponent implements OnInit {
       },
       error: (e) => {
         console.log(e);
-        this.snackbarService.showSuccess('Xóa thành công');
+        if (e.status == 200) {
+          this.snackbarService.showSuccess('Xóa thành công');
+        } else {
+          this.snackbarService.showSuccess('Xóa không thành công');
+        }
         this.loadAllPub();
       },
     });
@@ -543,6 +532,12 @@ export class AddProductComponent implements OnInit {
     this.bookService.getAllProducer().subscribe((list) => {
       console.log(list);
       this.producerInfoList = list;
+    });
+  }
+  loadAllAuthor() {
+    this.authorService.getAllAuthtor().subscribe((item) => {
+      console.log(item);
+      this.authorList = item;
     });
   }
   // ==================END OF REFACTOR THE GET DATA FUNCTION

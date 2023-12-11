@@ -12,8 +12,9 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 const enterTransition = transition(':enter', [
   style({
     opacity: 0,
+    tranform: 'translateX(-200px)',
   }),
-  animate('0.2s ease-in', style({ opacity: 1 })),
+  animate('0.2s ease-in', style({ opacity: 1, tranform: 'translateX(0)' })),
 ]);
 const fadeIn = trigger('fadeIn', [enterTransition]);
 const exitTransition = transition(':leave', [

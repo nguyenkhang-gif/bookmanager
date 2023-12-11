@@ -16,7 +16,7 @@ export class AllrequestComponent implements OnInit {
     private imageService: ImageService,
     private fb: FormBuilder,
     private checkoutService: CheckoutService,
-    private titleService :TitleService
+    private titleService: TitleService
   ) {
     this.dateForm = this.fb.group({
       startDate: [''],
@@ -70,6 +70,8 @@ export class AllrequestComponent implements OnInit {
     //   this.dateForm.get('startDate')?.value.toString()
     // )
     // this.dateForm.get('startDate')?.value.toString()
+    console.log(this.value);
+    
     this.checkoutService
       .getUserWithPageIndexPageSizeContent(
         this.pageIndex,
@@ -192,7 +194,7 @@ export class AllrequestComponent implements OnInit {
   // ==========================END OF HANDLE CHANGE CAT===============
 
   ngOnInit(): void {
-    this.titleService.setTitle("Al request")
+    this.titleService.setTitle('Al request');
     // this.loadData();
     this.onSubmit();
   }

@@ -7,7 +7,15 @@
     <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
       <mat-icon>close</mat-icon>
     </button>
-  </mat-form-fie
+  </mat-form-field>
+  <button mat-button [matMenuTriggerFor]="menu" >
+    status
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>bị khóa</button>
+    <button mat-menu-item>bình thường</button>
+    <button mat-menu-item>Không</button>
+  </mat-menu>
   <button class="button-3" role="button" (click)="onSubmit()">Search</button>
 </div>
 <div class="container-main">
@@ -110,7 +118,7 @@
     justify-content: center;
   "
   @fadeIn
-  @fadeOut  
+  @fadeOut
   *ngIf="isConfirmWindowOpen"
 >
   <mat-icon
@@ -144,9 +152,12 @@
     "
     *ngIf="!spinDisk"
   >
-    <img [src]="getSafeImageUrl(userToDelete.imageData)" style="width: 50%;border-radius: 50%;" alt="?" />
+    <img
+      [src]="getSafeImageUrl(userToDelete.imageData)"
+      style="width: 50%; border-radius: 50%"
+      alt="?"
+    />
     <p class="title">{{ userToDelete.username }}</p>
-    
   </div>
 
   <div

@@ -1,4 +1,4 @@
- import {
+import {
   Component,
   EventEmitter,
   Input,
@@ -18,12 +18,18 @@ import { MaterialModule } from '../../material/material.module';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/User';
 import { TitleService } from 'src/app/services/title.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-top-navbar',
   templateUrl: './top-navbar.component.html',
   styleUrls: ['./top-navbar.component.scss'],
+  // standalone: true,
+  // imports: [MaterialModule],
 })
+
 export class TopNavbarComponent implements OnInit {
   category?: number;
   value = '';

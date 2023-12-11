@@ -48,9 +48,50 @@ namespace backend.DataAccess
 
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
+
+
+
+
                 .ToListAsync();
         }
-        public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> filter = null, Expression<Func<T, object>>? orderBy = null, Expression<Func<T, object>>? orderByDescending = null)
+
+
+
+
+        public async Task<IEnumerable<T>> GetAsync(
+         int pageIndex,
+         int pageSize,
+         Expression<Func<T, bool>> filter = null,
+         params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbcontext.Set<T>().AsQueryable();
+
+            // Include related entities
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            // Apply filter if provided
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            // Perform pagination
+            var result = await query
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return result;
+        }
+
+      
+
+
+
+        public async Task<IEnumerable<T>> GetAsync(int pageIndex, int pageSize,
+            Expression<Func<T, bool>> filter = null,
+            Expression<Func<T, object>>? orderBy = null,
+            Expression<Func<T, object>>? orderByDescending = null)
         {
             IQueryable<T> query = dbcontext.Set<T>().Where(filter);
 
